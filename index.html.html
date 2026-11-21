@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="بوم چاش (boomchash.ir) | فروشگاه اینترنتی محصولات طبیعی، ارگانیک، عسل، آبلیمو، رب انار و کالاهای مصرفی" />
+  <title>بوم چاش | فروشگاه محصولات طبیعی و کالاهای مصرفی (boomchash.ir)</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS & VARIABLES
+       ========================================================================== */
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, 'Vazirmatn', 'Segoe UI', sans-serif; }
+    :root {
+      --bg-body: #ffffff;
+      --bg-surface: #f7f8fa;
+      --bg-card: #ffffff;
+      --text-primary: #222222;
+      --text-secondary: #666666;
+      --text-muted: #999999;
+      --accent-yellow: #fab528;
+      --accent-yellow-hover: #e5a017;
+      --accent-green: #26901b;
+      --accent-red: #f14705;
+      --border-light: #e5e7eb;
+      --border-card: #eeeeee;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+    }
+
+    body { background: var(--bg-body); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    button, input, select, textarea { font-family: inherit; }
+    .container { max-width: 1360px; margin: 0 auto; padding: 0 18px; }
+
+    /* ==========================================================================
+       2. HEADER (2-TIER ARCHITECTURE)
+       ========================================================================== */
+    .header-wrapper { border-bottom: 1px solid var(--border-light); background: #fff; position: sticky; top: 0; z-index: 90; }
+    .header-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 0; flex-wrap: wrap; }
+    
+    .brand-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .brand-icon { width: 44px; height: 44px; background: var(--accent-yellow); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #222; font-weight: bold; overflow: hidden; flex-shrink: 0; }
+    .brand-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-text h1 { font-size: 22px; font-weight: 800; color: #222; line-height: 1.1; }
+    .brand-text span { font-size: 11px; color: var(--text-muted); display: block; }
+
+    .search-bar { flex: 1; max-width: 560px; display: flex; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-sm); overflow: hidden; height: 44px; }
+    .search-bar select { border: none; background: transparent; padding: 0 12px; font-size: 12px; color: var(--text-primary); border-left: 1px solid var(--border-light); height: 60%; outline: none; cursor: pointer; }
+    html[dir="ltr"] .search-bar select { border-left: none; border-right: 1px solid var(--border-light); }
+    .search-bar input { flex: 1; border: none; background: transparent; padding: 0 14px; font-size: 13px; outline: none; color: var(--text-primary); }
+    .search-bar button { background: transparent; border: none; padding: 0 14px; cursor: pointer; font-size: 16px; color: var(--text-secondary); }
+
+    .header-utils { display: flex; align-items: center; gap: 18px; }
+    .support-info { text-align: end; display: none; }
+    @media (min-width: 1100px) { .support-info { display: block; } }
+    .support-info .phone { font-size: 15px; font-weight: bold; color: var(--text-primary); direction: ltr; display: block; }
+    .support-info .label { font-size: 11px; color: var(--text-muted); }
+
+    .lang-switcher { display: flex; border: 1px solid var(--border-light); border-radius: var(--radius-sm); overflow: hidden; }
+    .lang-btn { border: none; background: #fff; padding: 5px 8px; font-size: 11px; cursor: pointer; font-weight: bold; color: var(--text-secondary); }
+    .lang-btn.active { background: var(--accent-yellow); color: #222; }
+
+    .util-btn { position: relative; background: transparent; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; color: var(--text-primary); font-size: 20px; padding: 4px; }
+    .util-badge { position: absolute; top: -4px; right: -6px; background: var(--accent-yellow); color: #222; font-size: 10px; font-weight: bold; min-width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+    .cart-summary-text { text-align: start; font-size: 11px; }
+    .cart-summary-text span { display: block; color: var(--text-muted); }
+    .cart-summary-text strong { font-size: 12px; color: var(--text-primary); }
+
+    .header-bottom { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-top: 1px solid var(--border-light); gap: 14px; flex-wrap: wrap; }
+    .cat-dropdown-btn { background: var(--accent-yellow); color: #222; border: none; padding: 10px 18px; border-radius: var(--radius-sm); font-weight: bold; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+    .cat-dropdown-btn:hover { background: var(--accent-yellow-hover); }
+    .main-nav { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; font-size: 13px; font-weight: 600; }
+    .main-nav a, .main-nav button { background: none; border: none; cursor: pointer; color: var(--text-primary); font-size: 13px; font-weight: 600; transition: 0.2s; }
+    .main-nav a:hover, .main-nav button:hover { color: var(--accent-yellow-hover); }
+    .recent-btn { background: none; border: none; font-size: 12px; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: 5px; }
+
+    /* ==========================================================================
+       3. HERO SECTION
+       ========================================================================== */
+    .hero-section { padding: 24px 0 36px; background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); }
+    .hero-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+    .hero-main-card { background: #e8eff3; border-radius: var(--radius-md); padding: 36px 38px; display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 310px; position: relative; overflow: hidden; }
+    .hero-content { max-width: 390px; z-index: 2; }
+    .hero-tag { font-size: 12px; font-weight: bold; color: var(--accent-green); margin-bottom: 8px; display: inline-block; }
+    .hero-content h2 { font-size: 27px; font-weight: 800; color: #1e293b; line-height: 1.35; margin-bottom: 12px; }
+    .hero-content p { font-size: 13px; color: #475569; margin-bottom: 22px; }
+    .hero-cta { background: #ffffff; color: #222; border: none; padding: 10px 22px; border-radius: var(--radius-sm); font-weight: bold; font-size: 13px; cursor: pointer; box-shadow: var(--shadow-sm); transition: 0.2s; }
+    .hero-cta:hover { background: var(--accent-yellow); }
+    .hero-visual { width: 230px; height: 210px; display: flex; align-items: center; justify-content: center; font-size: 95px; border-radius: 12px; overflow: hidden; flex-shrink: 0; }
+    .hero-visual img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+    .hero-side-card { background: #f8b830; border-radius: var(--radius-md); padding: 30px 26px; display: flex; flex-direction: column; justify-content: space-between; min-height: 310px; position: relative; overflow: hidden; }
+    .hero-side-card h3 { font-size: 25px; font-weight: 800; color: #222; margin-bottom: 8px; }
+    .hero-side-card p { font-size: 13px; color: #333; margin-bottom: 16px; }
+    .hero-side-visual { width: 120px; height: 100px; align-self: flex-end; display: flex; align-items: center; justify-content: center; font-size: 72px; border-radius: 10px; overflow: hidden; }
+    .hero-side-visual img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+
+    /* ==========================================================================
+       4. SECTIONS, CATEGORIES & BRANDS
+       ========================================================================== */
+    .section-block { padding: 26px 0; }
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .section-title-group { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .section-title-group h3 { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+    .view-all-link { font-size: 12px; color: var(--text-secondary); cursor: pointer; background: none; border: none; }
+    .view-all-link:hover { color: var(--accent-yellow-hover); }
+
+    .countdown-pill { background: var(--accent-red); color: #fff; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+    .countdown-pill span.mono { font-family: monospace; direction: ltr; font-size: 13px; }
+
+    .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 14px; }
+    .cat-card { background: var(--bg-surface); border-radius: var(--radius-md); padding: 20px 12px; text-align: center; cursor: pointer; transition: 0.25s; border: 1px solid transparent; display: flex; flex-direction: column; align-items: center; }
+    .cat-card:hover, .cat-card.active { background: #fff; border-color: var(--border-light); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .cat-card .cat-icon { width: 54px; height: 54px; font-size: 36px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; border-radius: 10px; overflow: hidden; }
+    .cat-card .cat-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .cat-card .cat-name { font-size: 13px; font-weight: bold; color: var(--text-primary); }
+
+    .brands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+    .brand-card { background: #fff; border: 1px solid var(--border-card); border-radius: var(--radius-md); overflow: hidden; transition: 0.2s; cursor: pointer; }
+    .brand-card:hover { box-shadow: var(--shadow-md); }
+    .brand-banner { height: 145px; display: flex; align-items: center; justify-content: center; font-size: 56px; overflow: hidden; }
+    .brand-banner img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-meta { padding: 14px; }
+    .brand-meta small { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
+    .brand-meta h4 { font-size: 14px; font-weight: bold; color: var(--text-primary); }
+
+    /* ==========================================================================
+       5. PRODUCT CARDS
+       ========================================================================== */
+    .filter-tabs { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .filter-tab { background: none; border: none; font-size: 13px; color: var(--text-secondary); cursor: pointer; padding-bottom: 4px; border-bottom: 2px solid transparent; }
+    .filter-tab.active, .filter-tab:hover { color: var(--accent-yellow-hover); font-weight: bold; border-bottom-color: var(--accent-yellow); }
+
+    .saver-layout { display: grid; grid-template-columns: 4fr 1fr; gap: 18px; align-items: stretch; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+
+    .product-card { background: #fff; border: 1px solid var(--border-card); border-radius: var(--radius-sm); padding: 14px; position: relative; display: flex; flex-direction: column; justify-content: space-between; transition: 0.25s; }
+    .product-card:hover { border-color: #d1d5db; box-shadow: var(--shadow-md); z-index: 5; }
+    .discount-tag { position: absolute; top: 10px; right: 10px; background: var(--accent-red); color: #fff; font-size: 11px; font-weight: bold; padding: 2px 7px; border-radius: 3px; z-index: 2; }
+    html[dir="ltr"] .discount-tag { right: auto; left: 10px; }
+    .wish-btn { position: absolute; top: 10px; left: 10px; background: #fff; border: 1px solid var(--border-light); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; z-index: 2; }
+    html[dir="ltr"] .wish-btn { left: auto; right: 10px; }
+    .wish-btn.active { color: var(--accent-red); border-color: var(--accent-red); }
+
+    .product-thumb { height: 145px; display: flex; align-items: center; justify-content: center; font-size: 62px; margin-bottom: 10px; cursor: pointer; border-radius: var(--radius-sm); background: #fafafa; overflow: hidden; }
+    .vendor-label { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; }
+    .product-title { font-size: 13px; font-weight: bold; color: #0066c0; margin-bottom: 5px; cursor: pointer; line-height: 1.4; }
+    .product-title:hover { color: var(--accent-yellow-hover); }
+    .rating-row { font-size: 11px; color: #f59e0b; margin-bottom: 6px; }
+    .rating-row span { color: var(--text-muted); }
+    .price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+    .current-price { font-size: 15px; font-weight: 800; color: var(--accent-green); }
+    .current-price.discounted { color: var(--accent-red); }
+    .old-price { font-size: 12px; color: var(--text-muted); text-decoration: line-through; }
+
+    .stock-bar-wrap { margin-bottom: 10px; }
+    .stock-bar { height: 5px; background: #eee; border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
+    .stock-fill { height: 100%; background: var(--accent-yellow); }
+    .stock-text { font-size: 11px; color: var(--text-secondary); }
+
+    .card-actions { border-top: 1px solid #f3f4f6; padding-top: 10px; margin-top: 6px; }
+    .qty-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 12px; }
+    .qty-box { display: flex; align-items: center; border: 1px solid var(--border-light); border-radius: 4px; overflow: hidden; }
+    .qty-box button { width: 26px; height: 26px; border: none; background: #f9fafb; cursor: pointer; font-weight: bold; }
+    .qty-box span { padding: 0 10px; font-weight: bold; font-size: 12px; }
+    .add-cart-btn { width: 100%; background: var(--accent-yellow); color: #222; border: none; padding: 9px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer; transition: 0.2s; }
+    .add-cart-btn:hover { background: var(--accent-yellow-hover); }
+
+    .member-promo-box { background: #fdf6ec; border: 1px solid #f5e6cc; border-radius: var(--radius-md); padding: 24px 18px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+    .member-promo-box .off-title { font-size: 28px; font-weight: 800; color: var(--accent-red); margin-bottom: 6px; }
+    .member-promo-box p { font-size: 12px; color: var(--text-secondary); margin-bottom: 16px; }
+    .member-promo-box input { width: 100%; padding: 9px 12px; border: 1px solid #e5d5b7; border-radius: 4px; background: #fff; margin-bottom: 10px; font-size: 12px; outline: none; }
+    .member-promo-box button { width: 100%; padding: 10px; background: var(--accent-yellow); color: #222; border: none; border-radius: 4px; font-weight: bold; font-size: 13px; cursor: pointer; }
+
+    /* ==========================================================================
+       6. BANNERS, BLOG & TRUST STRIP
+       ========================================================================== */
+    .triple-banners { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; margin: 20px 0; }
+    .mini-banner { border-radius: var(--radius-md); padding: 24px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 155px; cursor: pointer; transition: 0.2s; overflow: hidden; }
+    .mini-banner:hover { transform: translateY(-2px); }
+    .mini-banner h4 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+    .mini-banner p { font-size: 12px; opacity: 0.85; }
+    .mini-banner .b-emoji { width: 84px; height: 84px; display: flex; align-items: center; justify-content: center; font-size: 52px; border-radius: 10px; overflow: hidden; flex-shrink: 0; }
+    .mini-banner .b-emoji img { width: 100%; height: 100%; object-fit: cover; }
+
+    .bottom-split { display: grid; grid-template-columns: 2fr 1fr; gap: 22px; margin-top: 20px; }
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+    .blog-card { border: 1px solid var(--border-card); border-radius: var(--radius-md); overflow: hidden; background: #fff; }
+    .blog-cover { height: 155px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 52px; overflow: hidden; }
+    .blog-cover img { width: 100%; height: 100%; object-fit: cover; }
+    .blog-body { padding: 16px; }
+    .blog-body small { font-size: 11px; color: var(--text-muted); }
+    .blog-body h5 { font-size: 14px; font-weight: bold; margin: 6px 0; }
+    .blog-body p { font-size: 12px; color: var(--text-secondary); }
+
+    .vendor-invite-box { background: #f3f6f9; border-radius: var(--radius-md); padding: 28px 22px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .vendor-invite-box .v-media { width: 72px; height: 72px; font-size: 44px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; border-radius: 12px; overflow: hidden; }
+    .vendor-invite-box .v-media img { width: 100%; height: 100%; object-fit: cover; }
+    .vendor-invite-box h4 { font-size: 19px; font-weight: 800; margin-bottom: 8px; }
+    .vendor-invite-box p { font-size: 12px; color: var(--text-secondary); margin-bottom: 16px; }
+
+    .trust-strip { border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 28px 0; margin-top: 36px; }
+    .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .trust-item { display: flex; align-items: center; gap: 14px; }
+    .trust-icon { font-size: 30px; color: var(--accent-yellow-hover); }
+    .trust-item h5 { font-size: 14px; font-weight: bold; }
+    .trust-item p { font-size: 12px; color: var(--text-secondary); }
+
+    /* ==========================================================================
+       7. FOOTER
+       ========================================================================== */
+    .site-footer { background: #ffffff; padding: 42px 0 24px; color: var(--text-secondary); font-size: 13px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.4fr; gap: 28px; margin-bottom: 32px; }
+    .footer-col h4 { font-size: 15px; font-weight: bold; color: var(--text-primary); margin-bottom: 14px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; font-size: 12px; }
+    .footer-col a:hover { color: var(--accent-yellow-hover); }
+    .social-links-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .soc-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 6px; font-size: 11px; font-weight: bold; border: 1px solid var(--border-light); background: var(--bg-surface); color: var(--text-primary); transition: 0.2s; }
+    .soc-pill:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+    .soc-tg { border-color: #229ED9; color: #0077b5; }
+    .soc-ig { border-color: #E1306C; color: #c13584; }
+    .soc-bale { border-color: #00B894; color: #00896f; }
+    .soc-rubika { border-color: #6C5CE7; color: #5243c2; }
+    .soc-eitaa { border-color: #E67E22; color: #c05600; }
+    .newsletter-form { display: flex; border: 1px solid var(--border-light); border-radius: 4px; overflow: hidden; margin-top: 10px; }
+    .newsletter-form input { flex: 1; border: none; padding: 10px; font-size: 12px; outline: none; }
+    .newsletter-form button { background: var(--accent-yellow); border: none; padding: 0 16px; font-weight: bold; font-size: 12px; cursor: pointer; }
+    .footer-bottom { border-top: 1px solid var(--border-light); padding-top: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 12px; }
+
+    /* ==========================================================================
+       8. MODALS & ADMIN TABS
+       ========================================================================== */
+    .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55); display: none; align-items: center; justify-content: center; z-index: 200; padding: 16px; }
+    .overlay.open { display: flex; }
+    .modal-card { background: #fff; border-radius: var(--radius-md); width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 24px; box-shadow: var(--shadow-md); }
+    .modal-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); padding-bottom: 12px; margin-bottom: 16px; }
+    .close-x { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); }
+    .field-input { width: 100%; padding: 10px 12px; border: 1px solid var(--border-light); border-radius: 6px; margin-bottom: 10px; font-size: 13px; }
+
+    .admin-tabs { display: flex; gap: 6px; flex-wrap: wrap; border-bottom: 1px solid var(--border-light); padding-bottom: 10px; margin-bottom: 16px; }
+    .admin-tab-btn { padding: 7px 12px; border: 1px solid var(--border-light); background: var(--bg-surface); border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; color: var(--text-secondary); }
+    .admin-tab-btn.active { background: var(--accent-yellow); color: #222; border-color: var(--accent-yellow); }
+    .admin-pane { display: none; }
+    .admin-pane.active { display: block; }
+
+    .media-slot-card { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 8px; padding: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .media-slot-preview { width: 52px; height: 52px; border-radius: 8px; background: #fff; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: center; font-size: 28px; overflow: hidden; flex-shrink: 0; }
+    .media-slot-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+    @media (max-width: 992px) {
+      .hero-grid, .saver-layout, .bottom-split { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-main-card { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="header-wrapper">
+    <div class="container">
+      <div class="header-top">
+        <div class="brand-logo" onclick="resetFilters()">
+          <div class="brand-icon" id="siteLogoMedia">🌿</div>
+          <div class="brand-text">
+            <h1 data-i18n="brandName">بوم چاش</h1>
+            <span data-i18n="brandSub" id="txtBrandSub">بازار محصولات طبیعی و مصرفی</span>
+          </div>
+        </div>
+
+        <div class="search-bar">
+          <select id="headerCatSelect" onchange="selectCategory(this.value)">
+            <option value="all" data-i18n="allCats">همه دسته‌ها</option>
+          </select>
+          <input type="text" id="searchInput" oninput="renderAllSections()" placeholder="جستجوی عسل طبیعی، رب انار، آبلیمو و..." />
+          <button onclick="renderAllSections()" aria-label="Search">🔍</button>
+        </div>
+
+        <div class="header-utils">
+          <div class="support-info">
+            <span class="phone" id="txtSupportPhone">۰۹۳۹۰۴۸۳۱۹۲</span>
+            <span class="label" data-i18n="supportLabel">پشتیبانی و مشاوره خرید</span>
+          </div>
+
+          <div class="lang-switcher">
+            <button class="lang-btn active" id="btn-fa" onclick="setLanguage('fa')">فا</button>
+            <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+            <button class="lang-btn" id="btn-ar" onclick="setLanguage('ar')">عربي</button>
+          </div>
+
+          <button class="util-btn" onclick="openModal('accountModal')" title="حساب کاربری">👤</button>
+
+          <button class="util-btn" onclick="openModal('wishlistModal')" title="علاقه‌مندی‌ها">
+            ♡ <span class="util-badge" id="wishBadge">0</span>
+          </button>
+
+          <button class="util-btn" onclick="openModal('cartModal')" title="سبد خرید">
+            🛒 <span class="util-badge" id="cartBadge">0</span>
+            <div class="cart-summary-text">
+              <span data-i18n="yourCart">سبد خرید</span>
+              <strong id="headerCartTotal">۰ تومان</strong>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div class="header-bottom">
+        <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
+          <button class="cat-dropdown-btn" onclick="document.getElementById('categoriesSection').scrollIntoView({behavior:'smooth'})">
+            ☰ <span data-i18n="shopByCat">دسته‌بندی کالاها</span>
+          </button>
+          <nav class="main-nav" id="mainNavLinks"></nav>
+        </div>
+        <button class="recent-btn" onclick="openAdminPanel()">⚙️ <span data-i18n="adminLink">مدیریت فروشگاه</span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO BANNERS ==================== -->
+  <section class="hero-section" id="secHero" data-sec-key="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-main-card">
+          <div class="hero-content">
+            <span class="hero-tag" data-i18n="heroTag" id="txtHeroTag">🌿 مستقیم از تولیدکننده و طبیعت</span>
+            <h2 data-i18n="heroTitle" id="txtHeroTitle">طعم اصیل طبیعت با محصولات بوم چاش</h2>
+            <p data-i18n="heroSubtitle" id="txtHeroSub">عسل طبیعی، آبلیمو خالص، رب انار محلی، فرآورده‌های سنتی و کالاهای مصرفی با تضمین کیفیت و اصالت در boomchash.ir</p>
+            <button class="hero-cta" onclick="document.getElementById('topSaverSection').scrollIntoView({behavior:'smooth'})" data-i18n="shopNow">مشاهده و خرید</button>
+          </div>
+          <div class="hero-visual" id="heroMainMedia">🍯🍋</div>
+        </div>
+
+        <div class="hero-side-card">
+          <div>
+            <h3 data-i18n="sidePromoTitle" id="txtSidePromoTitle">۲۰٪ تخفیف ویژه</h3>
+            <p data-i18n="sidePromoSub" id="txtSidePromoSub">بسته‌های اقتصادی عسل، رب انار و محصولات سنتی بوم چاش</p>
+            <button class="hero-cta" onclick="filterByTag('discount')" data-i18n="shopNow">خرید با تخفیف</button>
+          </div>
+          <div class="hero-side-visual" id="heroSideMedia">🧺</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BROWSE BY CATEGORY ==================== -->
+  <section class="section-block" id="categoriesSection" data-sec-key="categories">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-group">
+          <h3 data-i18n="browseCatTitle" id="secTitle_categories">خرید بر اساس دسته‌بندی</h3>
+          <button class="view-all-link" onclick="selectCategory('all')" data-i18n="allCatsLink">همه دسته‌ها &gt;</button>
+        </div>
+      </div>
+      <div class="category-grid" id="categoryGrid"></div>
+    </div>
+  </section>
+
+  <!-- ==================== FEATURED BRANDS / PRODUCERS ==================== -->
+  <section class="section-block" id="featuredBrandsSection" data-sec-key="brands">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-group">
+          <h3 data-i18n="featuredBrandsTitle" id="secTitle_brands">تولیدکنندگان و مجموعه‌های برگزیده</h3>
+        </div>
+      </div>
+      <div class="brands-grid" id="brandsGridContainer"></div>
+    </div>
+  </section>
+
+  <!-- ==================== TOP SAVER TODAY ==================== -->
+  <section class="section-block" id="topSaverSection" data-sec-key="saver">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-group">
+          <h3 data-i18n="topSaverTitle" id="secTitle_saver">پیشنهادهای شگفت‌انگیز امروز</h3>
+          <div class="countdown-pill">
+            <span data-i18n="expiresIn">پایان تخفیف:</span>
+            <span class="mono" id="saverTimer">14 : 28 : 45</span>
+          </div>
+        </div>
+        <button class="view-all-link" onclick="selectCategory('all')" data-i18n="allOffers">همه پیشنهادها &gt;</button>
+      </div>
+
+      <div class="saver-layout">
+        <div class="products-grid" id="topSaverGrid"></div>
+
+        <div class="member-promo-box">
+          <div class="off-title" id="txtMemberOff">۱۵٪ تخفیف</div>
+          <p data-i18n="memberPromoDesc" id="txtMemberDesc">برای عضویت کاربران جدید و اولین خرید از بوم چاش</p>
+          <input type="email" id="quickEmail" placeholder="ایمیل خود را وارد کنید" />
+          <input type="password" id="quickPass" placeholder="رمز عبور دلخواه" />
+          <button onclick="quickRegister()" data-i18n="registerNow">ثبت‌نام و دریافت کد</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BEST SELLER ==================== -->
+  <section class="section-block" id="bestSellerSection" data-sec-key="best">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-group">
+          <h3 data-i18n="bestSellerTitle" id="secTitle_best">پرفروش‌ترین محصولات</h3>
+          <div class="filter-tabs" id="bestTabs"></div>
+        </div>
+      </div>
+      <div class="products-grid" id="bestSellerGrid"></div>
+    </div>
+  </section>
+
+  <!-- ==================== JUST LANDING (NEW ARRIVALS) ==================== -->
+  <section class="section-block" id="newArrivalsSection" data-sec-key="new">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-group">
+          <h3 data-i18n="newArrivalsTitle" id="secTitle_new">تازه‌رسیده‌ها</h3>
+        </div>
+        <select id="sortSelect" onchange="renderAllSections()" style="padding:6px 10px; border:1px solid var(--border-light); border-radius:6px; font-size:12px;">
+          <option value="default">مرتب‌سازی: پیش‌فرض</option>
+          <option value="price-asc">ارزان‌ترین</option>
+          <option value="price-desc">گران‌ترین</option>
+          <option value="discount">بیشترین تخفیف</option>
+        </select>
+      </div>
+      <div class="products-grid" id="newArrivalsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ==================== TRIPLE PROMO BANNERS ==================== -->
+  <section class="section-block" id="tripleBannersSection" data-sec-key="banners">
+    <div class="container">
+      <div class="triple-banners" id="tripleBannersContainer"></div>
+    </div>
+  </section>
+
+  <!-- ==================== ESSENTIAL PRODUCTS ==================== -->
+  <section class="section-block" id="essentialSection" data-sec-key="essential">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-group">
+          <h3 data-i18n="essentialTitle" id="secTitle_essential">کالاهای اساسی و مصرفی</h3>
+        </div>
+      </div>
+      <div class="products-grid" id="essentialGrid"></div>
+    </div>
+  </section>
+
+  <!-- ==================== HEALTH DAILY & MULTI-VENDOR BOX ==================== -->
+  <section class="section-block" id="blogVendorSection" data-sec-key="blog">
+    <div class="container">
+      <div class="bottom-split">
+        <div>
+          <div class="section-header">
+            <h3 data-i18n="blogTitle" id="secTitle_blog">مجله سلامت و تغذیه بوم چاش</h3>
+          </div>
+          <div class="blog-grid" id="blogGridContainer"></div>
+        </div>
+
+        <div class="vendor-invite-box">
+          <div class="v-media" id="vendorBoxMedia">🏪</div>
+          <h4 id="txtVendorBoxTitle">فروشنده بوم چاش شوید!</h4>
+          <p id="txtVendorBoxDesc">در نسخه توسعه‌یافته boomchash.ir، تولیدکنندگان و فروشگاه‌های معتبر می‌توانند غرفه اختصاصی خود را بسازند و محصولاتشان را به سراسر کشور بفروشند.</p>
+          <button class="cat-dropdown-btn" onclick="openModal('vendorRoadmapModal')">مشاهده ساختار پنل فروشندگان</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CUSTOMER TRUST STRIP ==================== -->
+  <section class="trust-strip" id="trustSection" data-sec-key="trust">
+    <div class="container">
+      <div class="trust-grid" id="trustGridContainer"></div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="site-footer" id="footerSection" data-sec-key="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4 id="txtFooterTitle">درباره بوم چاش (boomchash.ir)</h4>
+          <p id="txtFooterAbout" style="font-size:12px; line-height:1.8; margin-bottom:12px;">
+            بوم چاش پلتفرم تخصصی عرضه محصولات طبیعی، ارگانیک، سنتی و کالاهای مصرفی است که با هدف اتصال مستقیم تولیدکنندگان اصیل به مصرف‌کنندگان طراحی شده است.
+          </p>
+          <p style="font-size:12px;">📞 تلفن پشتیبانی: <strong dir="ltr" id="txtFooterPhone">۰۹۳۹۰۴۸۳۱۹۲</strong></p>
+          <p style="font-size:12px;">🌐 وب‌سایت: <strong id="txtFooterDomain">boomchash.ir</strong></p>
+          <div class="social-links-grid" id="footerSocialLinks">
+            <a id="link-tg" href="https://t.me/boomchash" target="_blank" rel="noopener" class="soc-pill soc-tg">✈️ تلگرام</a>
+            <a id="link-ig" href="https://instagram.com/boomchash" target="_blank" rel="noopener" class="soc-pill soc-ig">📸 اینستاگرام</a>
+            <a id="link-bale" href="https://ble.ir/boomchash" target="_blank" rel="noopener" class="soc-pill soc-bale">💬 بله</a>
+            <a id="link-rubika" href="https://rubika.ir/boomchash" target="_blank" rel="noopener" class="soc-pill soc-rubika">🟣 روبیکا</a>
+            <a id="link-eitaa" href="https://eitaa.com/boomchash" target="_blank" rel="noopener" class="soc-pill soc-eitaa">🟠 ایتا</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 id="txtFooterCol2Title">دسترسی سریع</h4>
+          <ul id="footerCol2List"></ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 id="txtFooterCol3Title">خدمات مشتریان</h4>
+          <ul id="footerCol3List"></ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 id="txtFooterNewsTitle">خبرنامه بوم چاش</h4>
+          <p id="txtFooterNewsDesc" style="font-size:12px;">برای اطلاع از جشنواره‌های تخفیف و محصولات تازه ایمیل خود را ثبت کنید:</p>
+          <div class="newsletter-form">
+            <input type="email" id="newsEmail" placeholder="آدرس ایمیل شما..." />
+            <button onclick="subscribeNewsletter()">عضویت</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span id="txtCopyright">© ۱۴۰۵ کلیه حقوق برای فروشگاه اینترنتی <strong>بوم چاش (boomchash.ir)</strong> محفوظ است.</span>
+        <span id="txtFooterSubNote">طراحی مقیاس‌پذیر برای فروش مستقیم و بازارگاه چندفروشندگی</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODALS ==================== -->
+  <!-- Cart Modal -->
+  <div class="overlay" id="cartModal">
+    <div class="modal-card">
+      <div class="modal-top">
+        <h3>🛒 سبد خرید شما</h3>
+        <button class="close-x" onclick="closeModal('cartModal')">✕</button>
+      </div>
+      <div id="cartItemsContainer" style="margin-bottom:14px;"></div>
+      <div style="display:flex; justify-content:space-between; font-weight:bold; padding:12px 0; border-top:1px solid var(--border-light);">
+        <span>جمع کل قابل پرداخت:</span>
+        <span id="modalCartTotal" style="color:var(--accent-green);">۰ تومان</span>
+      </div>
+      <input class="field-input" id="orderName" placeholder="نام و نام خانوادگی تحویل‌گیرنده" />
+      <input class="field-input" id="orderPhone" placeholder="شماره موبایل (مثال: 09123456789)" />
+      <textarea class="field-input" id="orderAddress" rows="2" placeholder="آدرس دقیق پستی و کد پستی"></textarea>
+      <button class="add-cart-btn" style="padding:12px; font-size:13px;" onclick="processCheckout()">ثبت سفارش و انتقال به درگاه پرداخت</button>
+    </div>
+  </div>
+
+  <!-- Product Detail Modal -->
+  <div class="overlay" id="productModal">
+    <div class="modal-card" id="productModalBody"></div>
+  </div>
+
+  <!-- Wishlist Modal -->
+  <div class="overlay" id="wishlistModal">
+    <div class="modal-card">
+      <div class="modal-top">
+        <h3>♡ لیست علاقه‌مندی‌ها</h3>
+        <button class="close-x" onclick="closeModal('wishlistModal')">✕</button>
+      </div>
+      <div id="wishlistContainer"></div>
+    </div>
+  </div>
+
+  <!-- Account Modal -->
+  <div class="overlay" id="accountModal">
+    <div class="modal-card">
+      <div class="modal-top">
+        <h3>👤 حساب کاربری بوم چاش</h3>
+        <button class="close-x" onclick="closeModal('accountModal')">✕</button>
+      </div>
+      <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">وارد حساب کاربری خود شوید یا ثبت‌نام کنید:</p>
+      <input class="field-input" id="authEmail" type="email" placeholder="ایمیل" />
+      <input class="field-input" id="authPassword" type="password" placeholder="رمز عبور" />
+      <div style="display:flex; gap:10px;">
+        <button class="add-cart-btn" onclick="handleLogin()">ورود به حساب</button>
+        <button class="hero-cta" style="flex:1; border:1px solid var(--border-light);" onclick="handleRegister()">ثبت‌نام</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-Vendor Modal -->
+  <div class="overlay" id="vendorRoadmapModal">
+    <div class="modal-card" style="max-width:600px;">
+      <div class="modal-top">
+        <h3>🏪 معماری بازارگاه چندفروشندگی بوم چاش</h3>
+        <button class="close-x" onclick="closeModal('vendorRoadmapModal')">✕</button>
+      </div>
+      <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px; line-height:1.7;">
+        ساختار دیتابیس و مدل داده‌های این وب‌سایت از هم‌اکنون با فیلدهای <code>vendor_id</code>، <code>product_id</code> و <code>status</code> برای تبدیل شدن به یک بازارگاه چندفروشندگی آماده شده است.
+      </p>
+      <div style="background:var(--bg-surface); padding:14px; border-radius:8px; font-size:12px; line-height:1.9;">
+        <strong>امکانات برنامه‌ریزی‌شده برای فاز دوم:</strong><br>
+        • ثبت‌نام مستقل فروشندگان و تأیید هویت توسط مدیر کل<br>
+        • صفحه اختصاصی فروشگاه برای هر فروشنده<br>
+        • داشبورد مدیریت محصولات، موجودی و قیمت‌گذاری برای هر غرفه<br>
+        • مدیریت سفارشات تفکیک‌شده هر فروشنده و محاسبه کمیسیون بازارگاه
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FULL-CONTROL ADMIN PANEL MODAL ==================== -->
+  <div class="overlay" id="adminModal">
+    <div class="modal-card" style="max-width:780px;">
+      <div class="modal-top">
+        <h3>⚙️ پنل مدیریت جامع فروشگاه بوم چاش</h3>
+        <button class="close-x" onclick="closeModal('adminModal')">✕</button>
+      </div>
+
+      <div class="admin-tabs">
+        <button type="button" class="admin-tab-btn active" onclick="switchAdminTab('paneProducts', this)">📦 محصولات</button>
+        <button type="button" class="admin-tab-btn" onclick="switchAdminTab('paneCategories', this)">🗂️ دسته‌بندی‌ها</button>
+        <button type="button" class="admin-tab-btn" onclick="switchAdminTab('paneSiteImages', this)">🖼️ تمام عکس‌های سایت</button>
+        <button type="button" class="admin-tab-btn" onclick="switchAdminTab('paneSections', this)">📝 عناوین، منوها و بخش‌ها</button>
+        <button type="button" class="admin-tab-btn" onclick="switchAdminTab('paneSocials', this)">📱 شبکه‌های اجتماعی</button>
+      </div>
+
+      <!-- TAB 1: PRODUCTS -->
+      <div id="paneProducts" class="admin-pane active">
+        <p style="font-size:12px; font-weight:bold; margin-bottom:8px;">افزودن محصول جدید (با انتخاب فایل عکس یا لینک تصویر):</p>
+        <input class="field-input" id="admTitle" placeholder="نام محصول (مثلاً عسل کنار خالص ۱ کیلویی)" />
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <input class="field-input" id="admPrice" type="number" placeholder="قیمت اصلی (تومان)" />
+          <input class="field-input" id="admDiscount" type="number" placeholder="قیمت با تخفیف (اختیاری)" />
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <select class="field-input" id="admCat"></select>
+          <input class="field-input" id="admEmoji" placeholder="ایموجی جایگزین (مثلاً 🍯)" value="🌿" />
+        </div>
+        <div style="background:var(--bg-surface); border:1px dashed var(--border-light); border-radius:8px; padding:10px; margin-bottom:10px;">
+          <label style="display:block; font-size:12px; font-weight:bold; margin-bottom:6px;">🖼️ انتخاب فایل عکس محصول (JPG, PNG, WEBP) یا لینک تصویر:</label>
+          <input type="file" id="admImgFile" accept="image/*" onchange="handleProductImageFile(this)" style="font-size:12px; margin-bottom:8px; width:100%;" />
+          <input class="field-input" id="admImgUrl" placeholder="یا لینک مستقیم عکس را وارد کنید (https://...)" oninput="syncImageUrlPreview(this.value)" style="margin-bottom:6px;" />
+          <div id="admImgPreview" style="display:none; align-items:center; gap:10px; margin-top:6px;">
+            <img id="admPreviewTag" src="" alt="پیش‌نمایش" style="width:56px; height:56px; object-fit:cover; border-radius:6px; border:1px solid var(--border-light);" />
+            <span style="font-size:11px; color:var(--accent-green);">تصویر آماده ثبت روی محصول است</span>
+            <button type="button" onclick="clearProductImage()" style="background:none; border:none; color:var(--accent-red); font-size:11px; cursor:pointer; font-weight:bold;">حذف عکس</button>
+          </div>
+        </div>
+        <input class="field-input" id="admDesc" placeholder="توضیح کوتاه محصول" />
+        <button type="button" class="add-cart-btn" onclick="adminAddProduct()">+ ثبت محصول جدید</button>
+
+        <div style="margin-top:16px; border-top:1px solid var(--border-light); padding-top:12px;">
+          <p style="font-size:12px; font-weight:bold; margin-bottom:8px;">لیست محصولات فعلی (ویرایش یا حذف):</p>
+          <div id="adminProductsList" style="max-height:220px; overflow-y:auto; font-size:12px;"></div>
+        </div>
+      </div>
+
+      <!-- TAB 2: CATEGORIES -->
+      <div id="paneCategories" class="admin-pane">
+        <p style="font-size:12px; font-weight:bold; margin-bottom:8px;">افزودن دسته‌بندی جدید (با امکان انتخاب فایل عکس واقعی یا آیکون):</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <input class="field-input" id="newCatFa" placeholder="نام دسته (فارسی)" />
+          <input class="field-input" id="newCatEn" placeholder="Name (English)" />
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; align-items:center;">
+          <input class="field-input" id="newCatIcon" placeholder="ایموجی پیش‌فرض (مثلاً 🍯)" value="📦" />
+          <input type="file" id="newCatFile" accept="image/*" style="font-size:11px; margin-bottom:10px;" />
+        </div>
+        <button type="button" class="add-cart-btn" onclick="adminCreateCategory()">+ افزودن دسته‌بندی جدید</button>
+
+        <div style="margin-top:16px; border-top:1px solid var(--border-light); padding-top:12px;">
+          <p style="font-size:12px; font-weight:bold; margin-bottom:8px;">مدیریت و ویرایش دسته‌بندی‌های موجود:</p>
+          <div id="adminCategoriesList" style="max-height:260px; overflow-y:auto; font-size:12px;"></div>
+        </div>
+      </div>
+
+      <!-- TAB 3: ALL SITE IMAGES (REPLACING ALL STICKERS/EMOJIS ACROSS SITE) -->
+      <div id="paneSiteImages" class="admin-pane">
+        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">
+          در این بخش می‌توانید تمام استیکرها و تصاویر بخش‌های مختلف سایت (لوگو، بنر اصلی، بنر کناری، کارت‌های برند، بنرهای میانی، تصاویر مجله و باکس فروشندگان) را با <strong>فایل عکس واقعی</strong> یا <strong>لینک تصویر</strong> جایگزین کنید:
+        </p>
+        <div id="siteMediaSlotsContainer" style="max-height:420px; overflow-y:auto;"></div>
+      </div>
+
+      <!-- TAB 4: SECTIONS, TITLES, MENUS & FOOTER FULL EDITOR -->
+      <div id="paneSections" class="admin-pane">
+        <p style="font-size:12px; font-weight:bold; margin-bottom:8px;">الف) ویرایش متون هدر، بنرها و فوتر:</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <input class="field-input" id="cfgBrandName" placeholder="نام برند در هدر" />
+          <input class="field-input" id="cfgBrandSub" placeholder="زیرعنوان برند در هدر" />
+          <input class="field-input" id="cfgPhone" placeholder="شماره تماس پشتیبانی" />
+          <input class="field-input" id="cfgDomain" placeholder="آدرس دامنه در فوتر" />
+        </div>
+        <input class="field-input" id="cfgHeroTag" placeholder="برچسب بالای تیتر بنر اصلی" />
+        <input class="field-input" id="cfgHeroTitle" placeholder="تیتر اصلی بنر صفحه اول" />
+        <input class="field-input" id="cfgHeroSub" placeholder="توضیح زیر تیتر بنر اصلی" />
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <input class="field-input" id="cfgSidePromoTitle" placeholder="عنوان بنر کناری Hero" />
+          <input class="field-input" id="cfgSidePromoSub" placeholder="توضیح بنر کناری Hero" />
+        </div>
+        <input class="field-input" id="cfgFooterTitle" placeholder="عنوان ستون اول فوتر" />
+        <textarea class="field-input" id="cfgFooterAbout" rows="2" placeholder="متن درباره فروشگاه در فوتر"></textarea>
+        <input class="field-input" id="cfgCopyright" placeholder="متن کپی‌رایت پایین فوتر" />
+        <button type="button" class="add-cart-btn" onclick="saveSiteTexts()" style="margin-bottom:16px;">ذخیره تغییرات متون اصلی</button>
+
+        <div style="border-top:1px solid var(--border-light); padding-top:12px; margin-bottom:16px;">
+          <p style="font-size:12px; font-weight:bold; margin-bottom:8px;">ب) مدیریت کامل بخش‌های صفحه (ویرایش عنوان، حذف، نمایش/مخفی یا افزودن بخش جدید):</p>
+          <div style="display:grid; grid-template-columns:1.5fr 1.5fr auto; gap:6px; margin-bottom:10px;">
+            <input class="field-input" id="newCustomSecTitle" placeholder="عنوان بخش جدید (مثلاً محصولات ویژه فصل)" style="margin-bottom:0;" />
+            <input class="field-input" id="newCustomSecDesc" placeholder="توضیح کوتاه بخش جدید" style="margin-bottom:0;" />
+            <button type="button" class="add-cart-btn" onclick="addCustomSection()" style="width:auto; padding:10px 12px; white-space:nowrap;">+ افزودن بخش</button>
+          </div>
+          <div id="sectionsManagerList" style="max-height:240px; overflow-y:auto; font-size:12px;"></div>
+        </div>
+
+        <div style="border-top:1px solid var(--border-light); padding-top:12px;">
+          <p style="font-size:12px; font-weight:bold; margin-bottom:8px;">ج) مدیریت آیتم‌های منوی بالای سایت (افزودن، ویرایش عنوان و حذف):</p>
+          <div style="display:grid; grid-template-columns:1.3fr 1.3fr auto; gap:6px; margin-bottom:8px;">
+            <input class="field-input" id="newNavLabel" placeholder="عنوان لینک منو" style="margin-bottom:0;" />
+            <input class="field-input" id="newNavHref" placeholder="مقصد (مثلاً #bestSellerSection)" style="margin-bottom:0;" />
+            <button type="button" class="add-cart-btn" onclick="addNavMenuItem()" style="width:auto; padding:10px 12px;">+ افزودن منو</button>
+          </div>
+          <div id="navMenuManagerList" style="font-size:12px;"></div>
+        </div>
+      </div>
+
+      <!-- TAB 5: SOCIAL MEDIA -->
+      <div id="paneSocials" class="admin-pane">
+        <p style="font-size:12px; font-weight:bold; margin-bottom:8px;">تنظیم لینک شبکه‌های اجتماعی و پیام‌رسان‌ها:</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <input class="field-input" id="socTelegram" placeholder="لینک کانال تلگرام (https://t.me/...)" />
+          <input class="field-input" id="socInstagram" placeholder="لینک پیج اینستاگرام (https://instagram.com/...)" />
+          <input class="field-input" id="socBale" placeholder="لینک کانال بله (https://ble.ir/...)" />
+          <input class="field-input" id="socRubika" placeholder="لینک روبیکا (https://rubika.ir/...)" />
+          <input class="field-input" id="socEitaa" placeholder="لینک کانال ایتا (https://eitaa.com/...)" style="grid-column:1/-1;" />
+        </div>
+        <button type="button" class="add-cart-btn" onclick="saveSocialLinks()">ذخیره لینک شبکه‌های اجتماعی</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Sections Container -->
+  <div id="customSectionsMount"></div>
+
+  <!-- ==================== MODULAR JAVASCRIPT ==================== -->
+  <script>
+    const SUPABASE_URL = "https://zfetolyexhfftjejswtt.supabase.co";
+    const SUPABASE_ANON_KEY = "Sb_publishable_50vAaVZHEsTpiWt0J5MTCw_hK9hgklL";
+    const sbClient = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+    const TRANSLATIONS = {
+      fa: {
+        dir: 'rtl', brandName: 'بوم چاش', brandSub: 'بازار محصولات طبیعی و مصرفی',
+        allCats: 'همه دسته‌ها', supportLabel: 'پشتیبانی و مشاوره خرید', yourCart: 'سبد خرید',
+        shopByCat: 'دسته‌بندی کالاها', adminLink: 'مدیریت فروشگاه',
+        heroTag: '🌿 مستقیم از تولیدکننده و طبیعت',
+        heroTitle: 'طعم اصیل طبیعت با محصولات بوم چاش',
+        heroSubtitle: 'عسل طبیعی، آبلیمو خالص، رب انار محلی، فرآورده‌های سنتی و کالاهای مصرفی با تضمین کیفیت و اصالت در boomchash.ir',
+        shopNow: 'مشاهده و خرید', sidePromoTitle: '۲۰٪ تخفیف ویژه',
+        sidePromoSub: 'بسته‌های اقتصادی عسل، رب انار و محصولات سنتی بوم چاش',
+        browseCatTitle: 'خرید بر اساس دسته‌بندی', allCatsLink: 'همه دسته‌ها >',
+        featuredBrandsTitle: 'تولیدکنندگان و مجموعه‌های برگزیده',
+        topSaverTitle: 'پیشنهادهای شگفت‌انگیز امروز', expiresIn: 'پایان تخفیف:',
+        allOffers: 'همه پیشنهادها >', memberPromoDesc: 'برای عضویت کاربران جدید و اولین خرید از بوم چاش',
+        registerNow: 'ثبت‌نام و دریافت کد', bestSellerTitle: 'پرفروش‌ترین محصولات',
+        newArrivalsTitle: 'تازه‌رسیده‌ها', essentialTitle: 'کالاهای اساسی و مصرفی',
+        blogTitle: 'مجله سلامت و تغذیه بوم چاش', addToCart: 'افزودن به سبد خرید', currency: 'تومان'
+      },
+      en: {
+        dir: 'ltr', brandName: 'BoomChash', brandSub: 'Natural & Consumer Marketplace',
+        allCats: 'All Categories', supportLabel: 'Customer Support', yourCart: 'Your Cart',
+        shopByCat: 'SHOP BY CATEGORY', adminLink: 'Store Admin',
+        heroTag: '🌿 Direct From Nature & Producers',
+        heroTitle: 'Authentic Taste of Nature at BoomChash',
+        heroSubtitle: 'Natural honey, pure lemon juice, local pomegranate paste, traditional & consumer goods at boomchash.ir',
+        shopNow: 'Shop Now', sidePromoTitle: '20% SALE OFF',
+        sidePromoSub: 'Special value bundles of honey, pomegranate paste & traditional foods',
+        browseCatTitle: 'Browse by Category', allCatsLink: 'All Categories >',
+        featuredBrandsTitle: 'Featured Producers & Brands',
+        topSaverTitle: 'Top Saver Today', expiresIn: 'Expires in:',
+        allOffers: 'All Offers >', memberPromoDesc: 'For new member sign up at the first time on BoomChash',
+        registerNow: 'Register Now', bestSellerTitle: 'Best Seller',
+        newArrivalsTitle: 'Just Landing', essentialTitle: 'Essential Products',
+        blogTitle: 'Health & Nutrition Daily', addToCart: 'Add To Cart', currency: 'Toman'
+      },
+      ar: {
+        dir: 'rtl', brandName: 'بوم جاش', brandSub: 'سوق المنتجات الطبيعية والاستهلاكية',
+        allCats: 'جميع الفئات', supportLabel: 'الدعم والاستشارات', yourCart: 'سلة التسوق',
+        shopByCat: 'تسوق حسب الفئة', adminLink: 'إدارة المتجر',
+        heroTag: '🌿 مباشرة من الطبيعة والمنتجين',
+        heroTitle: 'مذاق الطبيعة الأصيل مع منتجات بوم جاش',
+        heroSubtitle: 'عسل طبيعي، عصير ليمون نقي، دبس رمان محلي، ومنتجات تقليدية واستهلاكية في boomchash.ir',
+        shopNow: 'تسوق الآن', sidePromoTitle: 'خصم خاص ٢٠٪',
+        sidePromoSub: 'باقات اقتصادية من العسل ودبس الرمان والمنتجات التقليدية',
+        browseCatTitle: 'تصفح حسب الفئة', allCatsLink: 'جميع الفئات >',
+        featuredBrandsTitle: 'العلامات والمنتجون المميزون',
+        topSaverTitle: 'أقوى عروض التوفير اليوم', expiresIn: 'ينتهي خلال:',
+        allOffers: 'جميع العروض >', memberPromoDesc: 'للتسجيل الجديد وأول طلب في متجر بوم جاش',
+        registerNow: 'سجل الآن', bestSellerTitle: 'الأكثر مبيعاً',
+        newArrivalsTitle: 'وصل حديثاً', essentialTitle: 'المنتجات الأساسية',
+        blogTitle: 'مجلة الصحة والتغذية', addToCart: 'أضف إلى السلة', currency: 'تومان'
+      }
+    };
+
+    /* ==========================================================================
+       MEDIA HELPER (SUPPORTS UPLOADED FILES, URLS & EMOJIS)
+       ========================================================================== */
+    function isImageSource(val) {
+      if (!val || typeof val !== 'string') return false;
+      return val.startsWith('data:image/') || val.startsWith('http://') || val.startsWith('https://') || val.startsWith('./') || val.startsWith('/');
+    }
+
+    function renderMediaThumb(mediaVal) {
+      if (isImageSource(mediaVal)) {
+        return `<img src="${mediaVal}" alt="بوم چاش" />`;
+      }
+      return `<span>${mediaVal || '🌿'}</span>`;
+    }
+
+    /* ==========================================================================
+       ALL SITE VISUAL SLOTS (LOGOS, BANNERS, CARDS, BLOG, VENDOR BOX)
+       ========================================================================== */
+    const DEFAULT_SITE_MEDIA = {
+      logo: '🌿',
+      heroMain: '🍯🍋',
+      heroSide: '🧺',
+      brand1: '🍯',
+      brand2: '🍎',
+      brand3: '🌾',
+      brand4: '🛒',
+      banner1: '🍋',
+      banner2: '🍯',
+      banner3: '🥫',
+      blog1: '🍯',
+      blog2: '🍋',
+      vendorBox: '🏪'
+    };
+
+    const SITE_MEDIA_LABELS = [
+      { key: 'logo', label: 'لوگوی اصلی هدر سایت' },
+      { key: 'heroMain', label: 'تصویر بنر بزرگ صفحه اول (Hero)' },
+      { key: 'heroSide', label: 'تصویر بنر تخفیف کناری (Hero Side)' },
+      { key: 'brand1', label: 'کارت تولیدکننده اول (عسل)' },
+      { key: 'brand2', label: 'کارت تولیدکننده دوم (رب و آبلیمو)' },
+      { key: 'brand3', label: 'کارت تولیدکننده سوم (محصولات سنتی)' },
+      { key: 'brand4', label: 'کارت تولیدکننده چهارم (کالاهای مصرفی)' },
+      { key: 'banner1', label: 'بنر تبلیغاتی میانی اول' },
+      { key: 'banner2', label: 'بنر تبلیغاتی میانی دوم' },
+      { key: 'banner3', label: 'بنر تبلیغاتی میانی سوم' },
+      { key: 'blog1', label: 'تصویر مقاله اول مجله سلامت' },
+      { key: 'blog2', label: 'تصویر مقاله دوم مجله سلامت' },
+      { key: 'vendorBox', label: 'تصویر باکس دعوت از فروشندگان' }
+    ];
+
+    let SITE_MEDIA = { ...DEFAULT_SITE_MEDIA, ...(JSON.parse(localStorage.getItem('boomchash_site_media') || 'null') || {}) };
+
+    function saveSiteMedia() {
+      localStorage.setItem('boomchash_site_media', JSON.stringify(SITE_MEDIA));
+      applyAllSiteMedia();
+      renderSiteMediaAdmin();
+    }
+
+    function applyAllSiteMedia() {
+      const directMap = {
+        logo: 'siteLogoMedia',
+        heroMain: 'heroMainMedia',
+        heroSide: 'heroSideMedia',
+        vendorBox: 'vendorBoxMedia'
+      };
+      Object.keys(directMap).forEach(k => {
+        const el = document.getElementById(directMap[k]);
+        if (el) el.innerHTML = renderMediaThumb(SITE_MEDIA[k]);
+      });
+      renderBrandsAndBanners();
+    }
+
+    /* ==========================================================================
+       CATEGORIES STATE (WITH REAL IMAGE OR ICON SUPPORT)
+       ========================================================================== */
+    const DEFAULT_CATEGORIES = [
+      { category_id: 'honey', name_fa: 'عسل و شیره‌ها', name_en: 'Honey & Syrups', name_ar: 'العسل والدبس', icon: '🍯' },
+      { category_id: 'extracts', name_fa: 'آبلیمو و رب انار', name_en: 'Lemon & Molasses', name_ar: 'عصير الليمون ودبس الرمان', icon: '🍋' },
+      { category_id: 'traditional', name_fa: 'محصولات سنتی', name_en: 'Traditional Foods', name_ar: 'الأغذية التقليدية', icon: '🍒' },
+      { category_id: 'agro', name_fa: 'محصولات کشاورزی', name_en: 'Agricultural Goods', name_ar: 'المنتجات الزراعية', icon: '🌾' },
+      { category_id: 'consumer', name_fa: 'کالاهای مصرفی', name_en: 'Consumer Goods', name_ar: 'السلع الاستهلاكية', icon: '🧺' },
+      { category_id: 'oils', name_fa: 'روغن‌های طبیعی', name_en: 'Natural Oils', name_ar: 'الزيوت الطبيعية', icon: '🫒' },
+      { category_id: 'herbal', name_fa: 'عرقیات و دمنوش', name_en: 'Herbal Infusions', name_ar: 'الأعشاب الطبيعية', icon: '🌿' },
+      { category_id: 'nuts', name_fa: 'خشکبار و مغزیجات', name_en: 'Nuts & Dried Fruit', name_ar: 'المكسرات والفواكه المجففة', icon: '🥜' }
+    ];
+
+    let CATEGORIES = JSON.parse(localStorage.getItem('boomchash_categories') || 'null') || [...DEFAULT_CATEGORIES];
+
+    function saveCategories() {
+      localStorage.setItem('boomchash_categories', JSON.stringify(CATEGORIES));
+      syncCategoryDropdowns();
+      renderCategories();
+      renderBestTabs();
+      renderAdminCategories();
+    }
+
+    function syncCategoryDropdowns() {
+      const headerSel = document.getElementById('headerCatSelect');
+      const admSel = document.getElementById('admCat');
+      if (headerSel) {
+        const cur = headerSel.value;
+        headerSel.innerHTML = `<option value="all">${TRANSLATIONS[currentLang].allCats}</option>` +
+          CATEGORIES.map(c => `<option value="${c.category_id}">${c.name_fa}</option>`).join('');
+        headerSel.value = CATEGORIES.some(c => c.category_id === cur) ? cur : 'all';
+      }
+      if (admSel) {
+        const curAdm = admSel.value;
+        admSel.innerHTML = CATEGORIES.map(c => `<option value="${c.category_id}">${c.name_fa}</option>`).join('');
+        if (CATEGORIES.some(c => c.category_id === curAdm)) admSel.value = curAdm;
+      }
+    }
+
+    /* ==========================================================================
+       SECTIONS, TITLES & NAVIGATION FULL MANAGEMENT
+       ========================================================================== */
+    const DEFAULT_SECTIONS_META = [
+      { key: 'hero', domId: 'secHero', label: 'بنر اصلی بالای صفحه (Hero)', titleId: 'txtHeroTitle', title: 'طعم اصیل طبیعت با محصولات بوم چاش', visible: true, removable: false },
+      { key: 'categories', domId: 'categoriesSection', label: 'بخش دسته‌بندی کالاها', titleId: 'secTitle_categories', title: 'خرید بر اساس دسته‌بندی', visible: true, removable: true },
+      { key: 'brands', domId: 'featuredBrandsSection', label: 'بخش مجموعه‌های برگزیده', titleId: 'secTitle_brands', title: 'تولیدکنندگان و مجموعه‌های برگزیده', visible: true, removable: true },
+      { key: 'saver', domId: 'topSaverSection', label: 'بخش پیشنهادهای شگفت‌انگیز', titleId: 'secTitle_saver', title: 'پیشنهادهای شگفت‌انگیز امروز', visible: true, removable: true },
+      { key: 'best', domId: 'bestSellerSection', label: 'بخش پرفروش‌ترین محصولات', titleId: 'secTitle_best', title: 'پرفروش‌ترین محصولات', visible: true, removable: true },
+      { key: 'new', domId: 'newArrivalsSection', label: 'بخش تازه‌رسیده‌ها', titleId: 'secTitle_new', title: 'تازه‌رسیده‌ها', visible: true, removable: true },
+      { key: 'banners', domId: 'tripleBannersSection', label: 'بنرهای تبلیغاتی سه‌تایی', titleId: null, title: 'بنرهای تبلیغاتی میانی', visible: true, removable: true },
+      { key: 'essential', domId: 'essentialSection', label: 'بخش کالاهای اساسی', titleId: 'secTitle_essential', title: 'کالاهای اساسی و مصرفی', visible: true, removable: true },
+      { key: 'blog', domId: 'blogVendorSection', label: 'مجله سلامت و پنل فروشندگان', titleId: 'secTitle_blog', title: 'مجله سلامت و تغذیه بوم چاش', visible: true, removable: true },
+      { key: 'trust', domId: 'trustSection', label: 'نوار تضمین و خدمات مشتریان', titleId: null, title: 'نوار اعتماد مشتریان', visible: true, removable: true },
+      { key: 'footer', domId: 'footerSection', label: 'فوتر پایین صفحه', titleId: 'txtFooterTitle', title: 'درباره بوم چاش (boomchash.ir)', visible: true, removable: true }
+    ];
+
+    let SECTIONS_STATE = JSON.parse(localStorage.getItem('boomchash_sections_v5') || 'null') || JSON.parse(JSON.stringify(DEFAULT_SECTIONS_META));
+    let CUSTOM_SECTIONS = JSON.parse(localStorage.getItem('boomchash_custom_sections') || '[]');
+
+    const DEFAULT_NAV_ITEMS = [
+      { id: 'nav1', label: 'پیشنهادهای امروز', href: '#topSaverSection' },
+      { id: 'nav2', label: 'پرفروش‌ترین‌ها', href: '#bestSellerSection' },
+      { id: 'nav3', label: 'تازه‌رسیده‌ها', href: '#newArrivalsSection' },
+      { id: 'nav4', label: 'کالاهای اساسی', href: '#essentialSection' },
+      { id: 'nav5', label: '🏪 فروشنده شوید (به‌زودی)', href: 'modal:vendorRoadmapModal', isGreen: true }
+    ];
+
+    let NAV_ITEMS = JSON.parse(localStorage.getItem('boomchash_nav_items') || 'null') || [...DEFAULT_NAV_ITEMS];
+
+    const DEFAULT_SITE_TEXTS = {
+      brandName: 'بوم چاش',
+      brandSub: 'بازار محصولات طبیعی و مصرفی',
+      phone: '۰۹۳۹۰۴۸۳۱۹۲',
+      domain: 'boomchash.ir',
+      heroTag: '🌿 مستقیم از تولیدکننده و طبیعت',
+      heroTitle: 'طعم اصیل طبیعت با محصولات بوم چاش',
+      heroSub: 'عسل طبیعی، آبلیمو خالص، رب انار محلی، فرآورده‌های سنتی و کالاهای مصرفی با تضمین کیفیت و اصالت در boomchash.ir',
+      sidePromoTitle: '۲۰٪ تخفیف ویژه',
+      sidePromoSub: 'بسته‌های اقتصادی عسل، رب انار و محصولات سنتی بوم چاش',
+      footerTitle: 'درباره بوم چاش (boomchash.ir)',
+      footerAbout: 'بوم چاش پلتفرم تخصصی عرضه محصولات طبیعی، ارگانیک، سنتی و کالاهای مصرفی است که با هدف اتصال مستقیم تولیدکنندگان اصیل به مصرف‌کنندگان طراحی شده است.',
+      copyright: '© ۱۴۰۵ کلیه حقوق برای فروشگاه اینترنتی بوم چاش (boomchash.ir) محفوظ است.'
+    };
+
+    let SITE_TEXTS = { ...DEFAULT_SITE_TEXTS, ...(JSON.parse(localStorage.getItem('boomchash_site_texts_v5') || 'null') || {}) };
+
+    function applySiteTextsAndSections() {
+      const brandEl = document.querySelector('[data-i18n="brandName"]');
+      if (brandEl && currentLang === 'fa') brandEl.innerText = SITE_TEXTS.brandName;
+      const subEl = document.getElementById('txtBrandSub');
+      if (subEl && currentLang === 'fa') subEl.innerText = SITE_TEXTS.brandSub;
+      if (document.getElementById('txtSupportPhone')) document.getElementById('txtSupportPhone').innerText = SITE_TEXTS.phone;
+      if (document.getElementById('txtFooterPhone')) document.getElementById('txtFooterPhone').innerText = SITE_TEXTS.phone;
+      if (document.getElementById('txtFooterDomain')) document.getElementById('txtFooterDomain').innerText = SITE_TEXTS.domain;
+      if (document.getElementById('txtHeroTag') && currentLang === 'fa') document.getElementById('txtHeroTag').innerText = SITE_TEXTS.heroTag;
+      if (document.getElementById('txtHeroTitle') && currentLang === 'fa') document.getElementById('txtHeroTitle').innerText = SITE_TEXTS.heroTitle;
+      if (document.getElementById('txtHeroSub') && currentLang === 'fa') document.getElementById('txtHeroSub').innerText = SITE_TEXTS.heroSub;
+      if (document.getElementById('txtSidePromoTitle') && currentLang === 'fa') document.getElementById('txtSidePromoTitle').innerText = SITE_TEXTS.sidePromoTitle;
+      if (document.getElementById('txtSidePromoSub') && currentLang === 'fa') document.getElementById('txtSidePromoSub').innerText = SITE_TEXTS.sidePromoSub;
+      if (document.getElementById('txtFooterTitle')) document.getElementById('txtFooterTitle').innerText = SITE_TEXTS.footerTitle;
+      if (document.getElementById('txtFooterAbout')) document.getElementById('txtFooterAbout').innerText = SITE_TEXTS.footerAbout;
+      if (document.getElementById('txtCopyright')) document.getElementById('txtCopyright').innerText = SITE_TEXTS.copyright;
+
+      SECTIONS_STATE.forEach(sec => {
+        const el = document.getElementById(sec.domId);
+        if (!el) return;
+        if (sec.deleted || sec.visible === false) {
+          el.style.display = 'none';
+        } else {
+          el.style.display = '';
+        }
+        if (sec.titleId && sec.title) {
+          const tEl = document.getElementById(sec.titleId);
+          if (tEl) tEl.innerText = sec.title;
+        }
+      });
+
+      renderCustomSections();
+      renderNavMenu();
+    }
+
+    function renderCustomSections() {
+      const mount = document.getElementById('customSectionsMount');
+      if (!mount) return;
+      mount.innerHTML = CUSTOM_SECTIONS.filter(cs => cs.visible !== false).map(cs => `
+        <section class="section-block" style="background:var(--bg-surface); border-top:1px solid var(--border-light);">
+          <div class="container">
+            <div class="section-header">
+              <div class="section-title-group">
+                <h3>${cs.title}</h3>
+              </div>
+            </div>
+            <p style="font-size:13px; color:var(--text-secondary); line-height:1.8;">${cs.desc || ''}</p>
+          </div>
+        </section>
+      `).join('');
+    }
+
+    function renderNavMenu() {
+      const nav = document.getElementById('mainNavLinks');
+      if (!nav) return;
+      nav.innerHTML = NAV_ITEMS.map(item => {
+        if (item.href && item.href.startsWith('modal:')) {
+          const modalId = item.href.replace('modal:', '');
+          return `<button type="button" onclick="openModal('${modalId}')" style="${item.isGreen ? 'color:var(--accent-green);' : ''}">${item.label}</button>`;
+        }
+        return `<a href="${item.href || '#'}">${item.label}</a>`;
+      }).join('');
+    }
+
+    /* ==========================================================================
+       DYNAMIC BRANDS, BANNERS, BLOG & TRUST CARDS
+       ========================================================================== */
+    function renderBrandsAndBanners() {
+      const brandsBox = document.getElementById('brandsGridContainer');
+      if (brandsBox) {
+        brandsBox.innerHTML = `
+          <div class="brand-card" onclick="selectCategory('honey')">
+            <div class="brand-banner" style="background:#fef3c7;">${renderMediaThumb(SITE_MEDIA.brand1)}</div>
+            <div class="brand-meta"><small>BOOMCHASH APIARY</small><h4>زنبورستان‌های منتخب بوم چاش — عسل خام و طبیعی</h4></div>
+          </div>
+          <div class="brand-card" onclick="selectCategory('extracts')">
+            <div class="brand-banner" style="background:#fee2e2;">${renderMediaThumb(SITE_MEDIA.brand2)}</div>
+            <div class="brand-meta"><small>TRADITIONAL EXTRACTS</small><h4>رب انار و آبلیمو خالص — پخت سنتی بدون افزودنی</h4></div>
+          </div>
+          <div class="brand-card" onclick="selectCategory('traditional')">
+            <div class="brand-banner" style="background:#e0f2fe;">${renderMediaThumb(SITE_MEDIA.brand3)}</div>
+            <div class="brand-meta"><small>LOCAL HARVEST</small><h4>محصولات سنتی و خشکبار درجه یک ایرانی</h4></div>
+          </div>
+          <div class="brand-card" onclick="selectCategory('consumer')">
+            <div class="brand-banner" style="background:#dcfce7;">${renderMediaThumb(SITE_MEDIA.brand4)}</div>
+            <div class="brand-meta"><small>DAILY ESSENTIALS</small><h4>کالاهای مصرفی و سبد سلامت خانواده</h4></div>
+          </div>
+        `;
+      }
+
+      const bannersBox = document.getElementById('tripleBannersContainer');
+      if (bannersBox) {
+        bannersBox.innerHTML = `
+          <div class="mini-banner" style="background:#fde68a;" onclick="selectCategory('extracts')">
+            <div><h4>آبلیمو طبیعی شیراز</h4><p>آب‌گیری تازه، خالص و بدون تلخی</p></div>
+            <div class="b-emoji">${renderMediaThumb(SITE_MEDIA.banner1)}</div>
+          </div>
+          <div class="mini-banner" style="background:#e2e8f0;" onclick="selectCategory('honey')">
+            <div><h4>عسل کوهستان</h4><p>همراه با برگه آنالیز آزمایشگاهی</p></div>
+            <div class="b-emoji">${renderMediaThumb(SITE_MEDIA.banner2)}</div>
+          </div>
+          <div class="mini-banner" style="background:#fed7aa;" onclick="selectCategory('traditional')">
+            <div><h4>رب انار و فرآورده سنتی</h4><p>پخت خانگی با طعم ملس و ترش</p></div>
+            <div class="b-emoji">${renderMediaThumb(SITE_MEDIA.banner3)}</div>
+          </div>
+        `;
+      }
+
+      const blogBox = document.getElementById('blogGridContainer');
+      if (blogBox) {
+        blogBox.innerHTML = `
+          <article class="blog-card">
+            <div class="blog-cover">${renderMediaThumb(SITE_MEDIA.blog1)}</div>
+            <div class="blog-body"><small>راهنمای خرید هوشمند</small><h5>چگونه عسل طبیعی و خام را از عسل صنعتی تشخیص دهیم؟</h5><p>بررسی معیارهای علمی ساکارز، پرولین و ویژگی‌های ظاهری عسل خالص...</p></div>
+          </article>
+          <article class="blog-card">
+            <div class="blog-cover">${renderMediaThumb(SITE_MEDIA.blog2)}</div>
+            <div class="blog-body"><small>نگهداری محصولات ارگانیک</small><h5>روش اصولی نگهداری آبلیمو تازه و رب انار خانگی</h5><p>نکات کلیدی برای حفظ عطر، رنگ و خواص آنتی‌اکسیدانی در طول سال...</p></div>
+          </article>
+        `;
+      }
+
+      const trustBox = document.getElementById('trustGridContainer');
+      if (trustBox) {
+        trustBox.innerHTML = `
+          <div class="trust-item"><div class="trust-icon">🚀</div><div><h5>ارسال سریع به سراسر کشور</h5><p>بسته‌بندی ایمن و تحویل مطمئن درب منزل</p></div></div>
+          <div class="trust-item"><div class="trust-icon">🌿</div><div><h5>تضمین اصالت و سلامت کالا</h5><p>کنترل کیفی دقیق محصولات طبیعی و مصرفی</p></div></div>
+          <div class="trust-item"><div class="trust-icon">🛡️</div><div><h5>پرداخت امن اینترنتی</h5><p>تراکنش مطمئن از طریق درگاه‌های رسمی بانکی</p></div></div>
+          <div class="trust-item"><div class="trust-icon">📞</div><div><h5>پشتیبانی پاسخگو</h5><p>همراهی کامل از انتخاب محصول تا تحویل سفارش</p></div></div>
+        `;
+      }
+
+      const fCol2 = document.getElementById('footerCol2List');
+      if (fCol2) {
+        fCol2.innerHTML = `
+          <li><a href="#topSaverSection">پیشنهادهای شگفت‌انگیز</a></li>
+          <li><a href="#bestSellerSection">پرفروش‌ترین محصولات</a></li>
+          <li><a href="#newArrivalsSection">تازه‌ترین کالاها</a></li>
+          <li><a href="javascript:void(0)" onclick="openModal('vendorRoadmapModal')">همکاری و ثبت غرفه فروشندگان</a></li>
+        `;
+      }
+
+      const fCol3 = document.getElementById('footerCol3List');
+      if (fCol3) {
+        fCol3.innerHTML = `
+          <li><a href="javascript:void(0)" onclick="openModal('cartModal')">پیگیری سبد خرید</a></li>
+          <li><a href="javascript:void(0)" onclick="openModal('accountModal')">حساب کاربری</a></li>
+          <li><a href="javascript:void(0)">شرایط بازگشت کالا</a></li>
+          <li><a href="javascript:void(0)">حریم خصوصی کاربران</a></li>
+        `;
+      }
+    }
+
+    /* ==========================================================================
+       PRODUCTS DATA & RENDERING
+       ========================================================================== */
+    const DEFAULT_PRODUCTS = [
+      { product_id: 1001, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'honey', product_name: 'عسل طبیعی چهل‌گیاه کوهستان (۱ کیلوگرم)', description: 'عسل خام و حرارت‌ندیده با ساکارز زیر ۲ درصد و عطر گیاهان دارویی کوهستان.', price: 540000, discount_price: 465000, stock: 30, sold: 22, rating: 4.9, reviews: 48, images: ['🍯'], section: 'saver', status: 'active' },
+      { product_id: 1002, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'extracts', product_name: 'آبلیمو طبیعی دست‌گیری شیراز (۱ لیتر)', description: 'آب لیموترش تازه و خالص بدون مواد نگهدارنده و اسانس.', price: 195000, discount_price: 165000, stock: 50, sold: 39, rating: 4.8, reviews: 64, images: ['🍋'], section: 'saver', status: 'active' },
+      { product_id: 1003, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'extracts', product_name: 'رب انار ملس محلی غلیظ (۸۰۰ گرم)', description: 'پخت سنتی از انارهای دانه سیاه باغی، کاملاً بهداشتی و خوش‌طعم.', price: 270000, discount_price: 235000, stock: 40, sold: 31, rating: 4.9, reviews: 52, images: ['🍎'], section: 'saver', status: 'active' },
+      { product_id: 1004, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'traditional', product_name: 'شیره انگور و خرما ارگانیک (۹۰۰ گرم)', description: 'ترکیب مقوی و انرژی‌بخش بدون شکر افزوده، مناسب صبحانه و ورزشکاران.', price: 230000, discount_price: 198000, stock: 35, sold: 24, rating: 4.7, reviews: 29, images: ['🍇'], section: 'saver', status: 'active' },
+      { product_id: 1005, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'traditional', product_name: 'زرشک پفکی اعلا قائنات (۵۰۰ گرم)', description: 'زرشک امسالی خوش‌رنگ، سورت‌شده و عاری از هرگونه ناخالصی.', price: 340000, discount_price: null, stock: 25, sold: 19, rating: 4.9, reviews: 37, images: ['🍒'], section: 'best', status: 'active' },
+      { product_id: 1006, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'oils', product_name: 'روغن زیتون فرابکر رودبار (۷۵۰ میلی‌لیتر)', description: 'روغن زیتون پرس سرد با عطر طبیعی زیتون تازه و اسیدیته پایین.', price: 490000, discount_price: 445000, stock: 20, sold: 14, rating: 4.8, reviews: 21, images: ['🫒'], section: 'best', status: 'active' },
+      { product_id: 1007, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'agro', product_name: 'برنج طارم هاشمی معطر (۵ کیلوگرم)', description: 'برنج کشت اول شمال با پخت عالی، قدکشیدن مناسب و عطر ماندگار.', price: 780000, discount_price: null, stock: 45, sold: 33, rating: 4.9, reviews: 71, images: ['🌾'], section: 'essential', status: 'active' },
+      { product_id: 1008, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'nuts', product_name: 'مغز گردو سفید تویسرکان (۵۰۰ گرم)', description: 'مغز گردو تازه، پرچرب و دست‌چین‌شده از باغات تویسرکان.', price: 420000, discount_price: 385000, stock: 28, sold: 16, rating: 4.8, reviews: 19, images: ['🥜'], section: 'new', status: 'active' }
+    ];
+
+    let PRODUCTS = JSON.parse(localStorage.getItem('boomchash_products_v5') || 'null') || [...DEFAULT_PRODUCTS];
+
+    function saveProducts() {
+      localStorage.setItem('boomchash_products_v5', JSON.stringify(PRODUCTS));
+    }
+
+    let currentLang = 'fa';
+    let activeCategory = 'all';
+    let bestFilter = 'all';
+    let discountOnly = false;
+    let cardQuantities = {};
+    let cart = JSON.parse(localStorage.getItem('boomchash_cart') || '[]');
+    let wishlist = JSON.parse(localStorage.getItem('boomchash_wish') || '[]');
+    let uploadedProductImageData = '';
+
+    function toPersianDigits(num) {
+      if (currentLang === 'en') return Number(num).toLocaleString('en-US');
+      return Number(num).toLocaleString('fa-IR');
+    }
+
+    function formatMoney(amount) {
+      return `${toPersianDigits(amount)} ${TRANSLATIONS[currentLang].currency}`;
+    }
+
+    function renderCategories() {
+      const grid = document.getElementById('categoryGrid');
+      if (!grid) return;
+      grid.innerHTML = CATEGORIES.map(cat => {
+        const label = currentLang === 'en' ? cat.name_en : (currentLang === 'ar' ? cat.name_ar : cat.name_fa);
+        const isActive = activeCategory === cat.category_id ? 'active' : '';
+        return `<div class="cat-card ${isActive}" onclick="selectCategory('${cat.category_id}')"><span class="cat-icon">${renderMediaThumb(cat.icon)}</span><span class="cat-name">${label}</span></div>`;
+      }).join('');
+    }
+
+    function renderBestTabs() {
+      const tabs = document.getElementById('bestTabs');
+      if (!tabs) return;
+      tabs.innerHTML = `<button class="filter-tab ${bestFilter === 'all' ? 'active' : ''}" onclick="setSectionFilter('best', 'all', this)">همه</button>` +
+        CATEGORIES.slice(0, 5).map(c => `<button class="filter-tab ${bestFilter === c.category_id ? 'active' : ''}" onclick="setSectionFilter('best', '${c.category_id}', this)">${c.name_fa}</button>`).join('');
+    }
+
+    function createProductCardHTML(p) {
+      const qty = cardQuantities[p.product_id] || 1;
+      const finalPrice = p.discount_price || p.price;
+      const discountPercent = p.discount_price ? Math.round(((p.price - p.discount_price) / p.price) * 100) : 0;
+      const isWished = wishlist.includes(p.product_id);
+      const soldPercent = Math.min(100, Math.round((p.sold / (p.stock + p.sold)) * 100));
+
+      return `
+        <div class="product-card">
+          ${discountPercent > 0 ? `<span class="discount-tag">${toPersianDigits(discountPercent)}٪-</span>` : ''}
+          <button class="wish-btn ${isWished ? 'active' : ''}" onclick="toggleWishlist(${p.product_id})" title="علاقه‌مندی">${isWished ? '♥' : '♡'}</button>
+          <div>
+            <div class="product-thumb" onclick="openProductPreview(${p.product_id})">${renderMediaThumb(p.images[0])}</div>
+            <div class="vendor-label">${p.vendor_name}</div>
+            <div class="product-title" onclick="openProductPreview(${p.product_id})">${p.product_name}</div>
+            <div class="rating-row">★★★★★ <span>(${toPersianDigits(p.reviews)})</span></div>
+            <div class="price-row">
+              <span class="current-price ${p.discount_price ? 'discounted' : ''}">${formatMoney(finalPrice)}</span>
+              ${p.discount_price ? `<span class="old-price">${toPersianDigits(p.price)}</span>` : ''}
+            </div>
+            <div class="stock-bar-wrap">
+              <div class="stock-bar"><div class="stock-fill" style="width:${soldPercent}%"></div></div>
+              <div class="stock-text">فروش: ${toPersianDigits(p.sold)} / موجودی: ${toPersianDigits(p.stock)}</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <div class="qty-row">
+              <div class="qty-box">
+                <button onclick="updateCardQty(${p.product_id}, -1)">-</button>
+                <span id="qty-val-${p.product_id}">${toPersianDigits(qty)}</span>
+                <button onclick="updateCardQty(${p.product_id}, 1)">+</button>
+              </div>
+              <span style="font-size:11px; color:var(--text-secondary);">جمع: <strong>${toPersianDigits(finalPrice * qty)}</strong></span>
+            </div>
+            <button class="add-cart-btn" onclick="addToCart(${p.product_id})">🛒 ${TRANSLATIONS[currentLang].addToCart}</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAllSections() {
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      const sortMode = document.getElementById('sortSelect').value;
+
+      let filtered = PRODUCTS.filter(p => {
+        if (p.status !== 'active') return false;
+        const matchCat = activeCategory === 'all' || p.category_id === activeCategory;
+        const matchQuery = !query || p.product_name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query);
+        const matchDisc = !discountOnly || Boolean(p.discount_price);
+        return matchCat && matchQuery && matchDisc;
+      });
+
+      if (sortMode === 'price-asc') filtered.sort((a, b) => (a.discount_price || a.price) - (b.discount_price || b.price));
+      if (sortMode === 'price-desc') filtered.sort((a, b) => (b.discount_price || b.price) - (a.discount_price || a.price));
+      if (sortMode === 'discount') filtered.sort((a, b) => (b.discount_price ? 1 : 0) - (a.discount_price ? 1 : 0));
+
+      const saverItems = filtered.slice(0, 4);
+      document.getElementById('topSaverGrid').innerHTML = saverItems.length ? saverItems.map(createProductCardHTML).join('') : '<p style="grid-column:1/-1; color:var(--text-muted); font-size:13px;">محصولی با این فیلتر یافت نشد.</p>';
+      document.getElementById('bestSellerGrid').innerHTML = filtered.filter(p => bestFilter === 'all' || p.category_id === bestFilter).slice(0, 5).map(createProductCardHTML).join('');
+      document.getElementById('newArrivalsGrid').innerHTML = [...filtered].reverse().slice(0, 5).map(createProductCardHTML).join('');
+      document.getElementById('essentialGrid').innerHTML = filtered.slice(0, 5).map(createProductCardHTML).join('');
+    }
+
+    function selectCategory(catId) { activeCategory = catId; discountOnly = false; document.getElementById('headerCatSelect').value = catId; renderCategories(); renderAllSections(); }
+    function filterByTag(tag) { if (tag === 'discount') discountOnly = true; renderAllSections(); document.getElementById('topSaverSection').scrollIntoView({ behavior: 'smooth' }); }
+    function resetFilters() { activeCategory = 'all'; bestFilter = 'all'; discountOnly = false; document.getElementById('searchInput').value = ''; document.getElementById('headerCatSelect').value = 'all'; renderCategories(); renderBestTabs(); renderAllSections(); }
+    function setSectionFilter(sec, cat, btn) { bestFilter = cat; document.querySelectorAll('#bestTabs .filter-tab').forEach(b => b.classList.remove('active')); if (btn) btn.classList.add('active'); renderAllSections(); }
+    function updateCardQty(productId, delta) { cardQuantities[productId] = Math.max(1, (cardQuantities[productId] || 1) + delta); renderAllSections(); }
+
+    function addToCart(productId) {
+      const product = PRODUCTS.find(p => p.product_id === productId);
+      if (!product) return;
+      const qtyToAdd = cardQuantities[productId] || 1;
+      const existing = cart.find(item => item.product_id === productId);
+      if (existing) existing.qty += qtyToAdd;
+      else cart.push({ product_id: product.product_id, vendor_id: product.vendor_id, product_name: product.product_name, unit_price: product.discount_price || product.price, image: product.images[0] || '🌿', qty: qtyToAdd });
+      cardQuantities[productId] = 1;
+      saveCart();
+      renderAllSections();
+    }
+
+    function changeCartItemQty(productId, delta) {
+      const item = cart.find(i => i.product_id === productId);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) cart = cart.filter(i => i.product_id !== productId);
+      saveCart();
+    }
+
+    function removeFromCart(productId) { cart = cart.filter(i => i.product_id !== productId); saveCart(); }
+    function saveCart() { localStorage.setItem('boomchash_cart', JSON.stringify(cart)); updateHeaderAndCartUI(); }
+
+    function updateHeaderAndCartUI() {
+      const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
+      const totalAmount = cart.reduce((sum, i) => sum + (i.unit_price * i.qty), 0);
+      document.getElementById('cartBadge').innerText = toPersianDigits(totalQty);
+      document.getElementById('headerCartTotal').innerText = formatMoney(totalAmount);
+      document.getElementById('modalCartTotal').innerText = formatMoney(totalAmount);
+      document.getElementById('wishBadge').innerText = toPersianDigits(wishlist.length);
+
+      const container = document.getElementById('cartItemsContainer');
+      if (cart.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px 0; font-size:13px;">سبد خرید شما در حال حاضر خالی است.</p>';
+        return;
+      }
+      container.innerHTML = cart.map(item => `
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--border-light); font-size:12px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:26px; width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; overflow:hidden; border-radius:6px;">${renderMediaThumb(item.image)}</span>
+            <div><strong>${item.product_name}</strong><div style="color:var(--text-secondary);">${formatMoney(item.unit_price)}</div></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button onclick="changeCartItemQty(${item.product_id}, -1)" style="width:24px; height:24px; cursor:pointer;">-</button>
+            <span>${toPersianDigits(item.qty)}</span>
+            <button onclick="changeCartItemQty(${item.product_id}, 1)" style="width:24px; height:24px; cursor:pointer;">+</button>
+            <button onclick="removeFromCart(${item.product_id})" style="color:var(--accent-red); background:none; border:none; cursor:pointer; margin-right:6px;">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleWishlist(productId) {
+      if (wishlist.includes(productId)) wishlist = wishlist.filter(id => id !== productId);
+      else wishlist.push(productId);
+      localStorage.setItem('boomchash_wish', JSON.stringify(wishlist));
+      updateHeaderAndCartUI();
+      renderAllSections();
+    }
+
+    function openProductPreview(productId) {
+      const p = PRODUCTS.find(x => x.product_id === productId);
+      if (!p) return;
+      const finalPrice = p.discount_price || p.price;
+      document.getElementById('productModalBody').innerHTML = `
+        <div class="modal-top"><h3>جزئیات محصول</h3><button class="close-x" onclick="closeModal('productModal')">✕</button></div>
+        <div style="text-align:center; font-size:80px; background:var(--bg-surface); border-radius:10px; padding:16px; margin-bottom:14px; height:200px; display:flex; align-items:center; justify-content:center; overflow:hidden;">${renderMediaThumb(p.images[0])}</div>
+        <span style="font-size:11px; color:var(--text-muted);">عرضه‌کننده: ${p.vendor_name}</span>
+        <h4 style="font-size:17px; margin:6px 0 10px;">${p.product_name}</h4>
+        <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px; line-height:1.7;">${p.description}</p>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <span style="font-size:18px; font-weight:bold; color:var(--accent-green);">${formatMoney(finalPrice)}</span>
+          <span style="font-size:12px; color:var(--text-muted);">موجودی انبار: ${toPersianDigits(p.stock)} عدد</span>
+        </div>
+        <button class="add-cart-btn" style="padding:12px;" onclick="addToCart(${p.product_id}); closeModal('productModal');">🛒 افزودن به سبد خرید</button>
+      `;
+      openModal('productModal');
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      const t = TRANSLATIONS[lang];
+      document.documentElement.lang = lang;
+      document.documentElement.dir = t.dir;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(`btn-${lang}`).classList.add('active');
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.innerText = t[key];
+      });
+      if (lang === 'fa') applySiteTextsAndSections();
+      syncCategoryDropdowns();
+      renderCategories();
+      renderAllSections();
+      updateHeaderAndCartUI();
+    }
+
+    function openModal(id) {
+      if (id === 'wishlistModal') {
+        const list = PRODUCTS.filter(p => wishlist.includes(p.product_id));
+        document.getElementById('wishlistContainer').innerHTML = list.length
+          ? list.map(p => `<div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border-light); font-size:13px;"><span style="display:inline-flex; align-items:center; gap:8px;"><span style="width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; overflow:hidden; border-radius:4px;">${renderMediaThumb(p.images[0])}</span>${p.product_name}</span><button class="add-cart-btn" style="width:auto; padding:5px 10px;" onclick="addToCart(${p.product_id})">افزودن</button></div>`).join('')
+          : '<p style="font-size:13px; color:var(--text-muted); text-align:center; padding:16px;">هنوز محصولی به علاقه‌مندی‌ها اضافه نکرده‌اید.</p>';
+      }
+      document.getElementById(id).classList.add('open');
+    }
+
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    async function processCheckout() {
+      if (!cart.length) return alert('سبد خرید شما خالی است.');
+      const customer_name = document.getElementById('orderName').value.trim();
+      const phone = document.getElementById('orderPhone').value.trim();
+      const address = document.getElementById('orderAddress').value.trim();
+      if (!customer_name || !phone || !address) return alert('لطفاً نام، شماره موبایل و آدرس کامل را وارد کنید.');
+      const total_amount = cart.reduce((s, i) => s + (i.unit_price * i.qty), 0);
+      if (sbClient) {
+        try { await sbClient.from('orders').insert([{ customer_name, phone, address, total_amount, items: cart, status: 'pending' }]); } catch (e) {}
+      }
+      alert('سفارش شما ثبت شد.');
+      cart = [];
+      saveCart();
+      closeModal('cartModal');
+    }
+
+    async function quickRegister() {
+      const email = document.getElementById('quickEmail').value.trim();
+      const password = document.getElementById('quickPass').value.trim();
+      if (!email || password.length < 6) return alert('ایمیل معتبر و رمز عبور حداقل ۶ رقمی وارد کنید.');
+      if (sbClient) {
+        const { error } = await sbClient.auth.signUp({ email, password });
+        if (error) return alert(error.message);
+      }
+      alert('ثبت‌نام اولیه انجام شد! کد تخفیف خوش‌آمدگویی: BOOM15');
+    }
+
+    async function handleLogin() {
+      const email = document.getElementById('authEmail').value.trim();
+      const password = document.getElementById('authPassword').value.trim();
+      if (!email || !password) return alert('ایمیل و رمز عبور را وارد کنید.');
+      if (sbClient) {
+        const { error } = await sbClient.auth.signInWithPassword({ email, password });
+        if (error) return alert(error.message);
+      }
+      alert('ورود با موفقیت انجام شد.');
+      closeModal('accountModal');
+    }
+
+    async function handleRegister() {
+      const email = document.getElementById('authEmail').value.trim();
+      const password = document.getElementById('authPassword').value.trim();
+      if (!email || password.length < 6) return alert('ایمیل و رمز عبور حداقل ۶ کاراکتری وارد کنید.');
+      if (sbClient) {
+        const { error } = await sbClient.auth.signUp({ email, password });
+        if (error) return alert(error.message);
+      }
+      alert('حساب کاربری شما ایجاد شد.');
+      closeModal('accountModal');
+    }
+
+    /* ==========================================================================
+       ADMIN PANEL CONTROLLERS (PRODUCTS, CATEGORIES, ALL IMAGES, SECTIONS, SOCIALS)
+       ========================================================================== */
+    function switchAdminTab(paneId, btn) {
+      document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(paneId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function openAdminPanel() {
+      const pass = prompt('رمز عبور مدیریت فروشگاه را وارد کنید (رمز پیش‌فرض: 1234):');
+      if (pass !== '1234') {
+        if (pass !== null) alert('رمز عبور اشتباه است!');
+        return;
+      }
+      syncCategoryDropdowns();
+      applySocialLinks();
+      populateAdminTextInputs();
+      renderAdminCategories();
+      renderAdminProducts();
+      renderSiteMediaAdmin();
+      renderSectionsManager();
+      renderNavMenuManager();
+      openModal('adminModal');
+    }
+
+    /* --- 1. Product Image & CRUD --- */
+    function handleProductImageFile(input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        uploadedProductImageData = e.target.result;
+        document.getElementById('admImgUrl').value = '';
+        showImagePreview(uploadedProductImageData);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function syncImageUrlPreview(val) {
+      const trimmed = val.trim();
+      if (trimmed) { uploadedProductImageData = trimmed; showImagePreview(trimmed); }
+      else if (!document.getElementById('admImgFile').files.length) clearProductImage();
+    }
+
+    function showImagePreview(src) {
+      document.getElementById('admPreviewTag').src = src;
+      document.getElementById('admImgPreview').style.display = 'flex';
+    }
+
+    function clearProductImage() {
+      uploadedProductImageData = '';
+      document.getElementById('admImgFile').value = '';
+      document.getElementById('admImgUrl').value = '';
+      document.getElementById('admImgPreview').style.display = 'none';
+    }
+
+    function renderAdminProducts() {
+      const box = document.getElementById('adminProductsList');
+      if (!box) return;
+      box.innerHTML = PRODUCTS.map(p => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid var(--border-light); gap:8px;">
+          <span style="display:inline-flex; align-items:center; gap:8px;">
+            <span style="width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; overflow:hidden; border-radius:4px;">${renderMediaThumb(p.images[0])}</span>
+            <strong>${p.product_name}</strong> — ${formatMoney(p.discount_price || p.price)}
+          </span>
+          <div style="display:flex; gap:8px; flex-shrink:0;">
+            <button type="button" onclick="adminEditProduct(${p.product_id})" style="color:#0066c0; background:none; border:none; cursor:pointer; font-weight:bold;">ویرایش ✏️</button>
+            <button type="button" onclick="adminDeleteProduct(${p.product_id})" style="color:var(--accent-red); background:none; border:none; cursor:pointer; font-weight:bold;">حذف 🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function adminEditProduct(id) {
+      const p = PRODUCTS.find(x => x.product_id === id);
+      if (!p) return;
+      const newName = prompt('نام جدید محصول:', p.product_name);
+      if (newName === null) return;
+      const newPrice = prompt('قیمت جدید (تومان):', p.price);
+      if (newPrice === null) return;
+      p.product_name = newName.trim() || p.product_name;
+      p.price = Number(newPrice) || p.price;
+      saveProducts();
+      renderAdminProducts();
+      renderAllSections();
+    }
+
+    function adminDeleteProduct(id) {
+      PRODUCTS = PRODUCTS.filter(p => p.product_id !== id);
+      saveProducts();
+      renderAdminProducts();
+      renderAllSections();
+    }
+
+    function adminAddProduct() {
+      const product_name = document.getElementById('admTitle').value.trim();
+      const price = Number(document.getElementById('admPrice').value);
+      const discount_price = Number(document.getElementById('admDiscount').value) || null;
+      const category_id = document.getElementById('admCat').value;
+      const emoji = document.getElementById('admEmoji').value.trim() || '🌿';
+      const urlVal = document.getElementById('admImgUrl').value.trim();
+      const mediaItem = uploadedProductImageData || urlVal || emoji;
+      const description = document.getElementById('admDesc').value.trim();
+
+      if (!product_name || !price) return alert('نام محصول و قیمت الزامی است.');
+
+      PRODUCTS.unshift({
+        product_id: Date.now(), vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش',
+        category_id, product_name, description: description || 'محصول طبیعی و باکیفیت عرضه شده در بوم چاش',
+        price, discount_price, stock: 25, sold: 1, rating: 5.0, reviews: 1,
+        images: [mediaItem], section: 'saver', status: 'active'
+      });
+
+      saveProducts();
+      document.getElementById('admTitle').value = '';
+      document.getElementById('admPrice').value = '';
+      document.getElementById('admDiscount').value = '';
+      document.getElementById('admDesc').value = '';
+      clearProductImage();
+      renderAdminProducts();
+      renderAllSections();
+      alert('محصول جدید به ویترین فروشگاه اضافه شد!');
+    }
+
+    /* --- 2. Categories with Real Image Upload --- */
+    function adminCreateCategory() {
+      const name_fa = document.getElementById('newCatFa').value.trim();
+      const name_en = document.getElementById('newCatEn').value.trim() || name_fa;
+      const iconText = document.getElementById('newCatIcon').value.trim() || '📦';
+      const fileInput = document.getElementById('newCatFile');
+
+      if (!name_fa) return alert('نام دسته‌بندی را وارد کنید.');
+
+      const finalizeAdd = (finalIcon) => {
+        CATEGORIES.push({ category_id: 'cat_' + Date.now(), name_fa, name_en, name_ar: name_fa, icon: finalIcon });
+        document.getElementById('newCatFa').value = '';
+        document.getElementById('newCatEn').value = '';
+        if (fileInput) fileInput.value = '';
+        saveCategories();
+        alert('دسته‌بندی جدید اضافه شد!');
+      };
+
+      if (fileInput && fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => finalizeAdd(e.target.result);
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        finalizeAdd(iconText);
+      }
+    }
+
+    function adminEditCategory(catId) {
+      const target = CATEGORIES.find(c => c.category_id === catId);
+      if (!target) return;
+      const nextFa = prompt('نام جدید دسته‌بندی (فارسی):', target.name_fa);
+      if (nextFa === null) return;
+      const nextEn = prompt('نام جدید دسته‌بندی (انگلیسی):', target.name_en);
+      if (nextEn === null) return;
+      target.name_fa = nextFa.trim() || target.name_fa;
+      target.name_en = nextEn.trim() || target.name_en;
+      target.name_ar = target.name_fa;
+      saveCategories();
+    }
+
+    function adminChangeCategoryImage(catId, input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const target = CATEGORIES.find(c => c.category_id === catId);
+      if (!target) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        target.icon = e.target.result;
+        saveCategories();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function adminDeleteCategory(catId) {
+      if (CATEGORIES.length <= 1) return alert('حداقل یک دسته‌بندی باید باقی بماند.');
+      CATEGORIES = CATEGORIES.filter(c => c.category_id !== catId);
+      if (activeCategory === catId) activeCategory = 'all';
+      saveCategories();
+    }
+
+    function renderAdminCategories() {
+      const box = document.getElementById('adminCategoriesList');
+      if (!box) return;
+      box.innerHTML = CATEGORIES.map(c => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 6px; border-bottom:1px solid var(--border-light); gap:8px; flex-wrap:wrap;">
+          <span style="display:inline-flex; align-items:center; gap:8px;">
+            <span class="media-slot-preview" style="width:34px; height:34px; font-size:18px;">${renderMediaThumb(c.icon)}</span>
+            <strong>${c.name_fa}</strong> <small style="color:var(--text-muted);">(${c.name_en})</small>
+          </span>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label style="font-size:11px; color:var(--accent-green); cursor:pointer; font-weight:bold; border:1px solid var(--border-light); padding:3px 7px; border-radius:4px; background:#fff;">
+              🖼️ تغییر عکس
+              <input type="file" accept="image/*" onchange="adminChangeCategoryImage('${c.category_id}', this)" style="display:none;" />
+            </label>
+            <button type="button" onclick="adminEditCategory('${c.category_id}')" style="color:#0066c0; background:none; border:none; cursor:pointer; font-weight:bold;">ویرایش نام ✏️</button>
+            <button type="button" onclick="adminDeleteCategory('${c.category_id}')" style="color:var(--accent-red); background:none; border:none; cursor:pointer; font-weight:bold;">حذف 🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* --- 3. All Site Media / Stickers Replacement --- */
+    function renderSiteMediaAdmin() {
+      const box = document.getElementById('siteMediaSlotsContainer');
+      if (!box) return;
+      box.innerHTML = SITE_MEDIA_LABELS.map(item => `
+        <div class="media-slot-card">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="media-slot-preview">${renderMediaThumb(SITE_MEDIA[item.key])}</div>
+            <div>
+              <strong style="font-size:12px; display:block;">${item.label}</strong>
+              <small style="font-size:10px; color:var(--text-muted);">${isImageSource(SITE_MEDIA[item.key]) ? 'تصویر سفارشی بارگذاری شده' : 'استیکر/آیکون پیش‌فرض'}</small>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <label class="add-cart-btn" style="width:auto; padding:6px 10px; font-size:11px; cursor:pointer;">
+              📁 انتخاب فایل عکس
+              <input type="file" accept="image/*" onchange="uploadSlotMediaFile('${item.key}', this)" style="display:none;" />
+            </label>
+            <button type="button" class="hero-cta" style="padding:6px 10px; font-size:11px; border:1px solid var(--border-light);" onclick="setSlotMediaUrl('${item.key}')">🔗 لینک عکس</button>
+            <button type="button" onclick="resetSlotMedia('${item.key}')" style="background:none; border:none; color:var(--accent-red); font-size:11px; cursor:pointer;">بازنشانی</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function uploadSlotMediaFile(key, input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        SITE_MEDIA[key] = e.target.result;
+        saveSiteMedia();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function setSlotMediaUrl(key) {
+      const url = prompt('لینک مستقیم تصویر (URL) را وارد کنید:', isImageSource(SITE_MEDIA[key]) ? SITE_MEDIA[key] : '');
+      if (url && url.trim()) {
+        SITE_MEDIA[key] = url.trim();
+        saveSiteMedia();
+      }
+    }
+
+    function resetSlotMedia(key) {
+      SITE_MEDIA[key] = DEFAULT_SITE_MEDIA[key];
+      saveSiteMedia();
+    }
+
+    /* --- 4. Full Section Titles, Add/Delete Sections & Navigation Management --- */
+    function populateAdminTextInputs() {
+      document.getElementById('cfgBrandName').value = SITE_TEXTS.brandName;
+      document.getElementById('cfgBrandSub').value = SITE_TEXTS.brandSub;
+      document.getElementById('cfgPhone').value = SITE_TEXTS.phone;
+      document.getElementById('cfgDomain').value = SITE_TEXTS.domain;
+      document.getElementById('cfgHeroTag').value = SITE_TEXTS.heroTag;
+      document.getElementById('cfgHeroTitle').value = SITE_TEXTS.heroTitle;
+      document.getElementById('cfgHeroSub').value = SITE_TEXTS.heroSub;
+      document.getElementById('cfgSidePromoTitle').value = SITE_TEXTS.sidePromoTitle;
+      document.getElementById('cfgSidePromoSub').value = SITE_TEXTS.sidePromoSub;
+      document.getElementById('cfgFooterTitle').value = SITE_TEXTS.footerTitle;
+      document.getElementById('cfgFooterAbout').value = SITE_TEXTS.footerAbout;
+      document.getElementById('cfgCopyright').value = SITE_TEXTS.copyright;
+    }
+
+    function saveSiteTexts() {
+      SITE_TEXTS = {
+        brandName: document.getElementById('cfgBrandName').value.trim() || DEFAULT_SITE_TEXTS.brandName,
+        brandSub: document.getElementById('cfgBrandSub').value.trim() || DEFAULT_SITE_TEXTS.brandSub,
+        phone: document.getElementById('cfgPhone').value.trim() || DEFAULT_SITE_TEXTS.phone,
+        domain: document.getElementById('cfgDomain').value.trim() || DEFAULT_SITE_TEXTS.domain,
+        heroTag: document.getElementById('cfgHeroTag').value.trim() || DEFAULT_SITE_TEXTS.heroTag,
+        heroTitle: document.getElementById('cfgHeroTitle').value.trim() || DEFAULT_SITE_TEXTS.heroTitle,
+        heroSub: document.getElementById('cfgHeroSub').value.trim() || DEFAULT_SITE_TEXTS.heroSub,
+        sidePromoTitle: document.getElementById('cfgSidePromoTitle').value.trim() || DEFAULT_SITE_TEXTS.sidePromoTitle,
+        sidePromoSub: document.getElementById('cfgSidePromoSub').value.trim() || DEFAULT_SITE_TEXTS.sidePromoSub,
+        footerTitle: document.getElementById('cfgFooterTitle').value.trim() || DEFAULT_SITE_TEXTS.footerTitle,
+        footerAbout: document.getElementById('cfgFooterAbout').value.trim() || DEFAULT_SITE_TEXTS.footerAbout,
+        copyright: document.getElementById('cfgCopyright').value.trim() || DEFAULT_SITE_TEXTS.copyright
+      };
+      localStorage.setItem('boomchash_site_texts_v5', JSON.stringify(SITE_TEXTS));
+      applySiteTextsAndSections();
+      alert('متون هدر، بنرها و فوتر ذخیره شد!');
+    }
+
+    function saveSectionsState() {
+      localStorage.setItem('boomchash_sections_v5', JSON.stringify(SECTIONS_STATE));
+      localStorage.setItem('boomchash_custom_sections', JSON.stringify(CUSTOM_SECTIONS));
+      applySiteTextsAndSections();
+      renderSectionsManager();
+    }
+
+    function renderSectionsManager() {
+      const box = document.getElementById('sectionsManagerList');
+      if (!box) return;
+
+      const builtInRows = SECTIONS_STATE.filter(s => !s.deleted).map((sec, idx) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:7px 6px; border-bottom:1px solid var(--border-light); gap:8px; flex-wrap:wrap;">
+          <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" ${sec.visible !== false ? 'checked' : ''} onchange="toggleBuiltInSection(${idx}, this.checked)" />
+            <span><strong>${sec.title}</strong> <small style="color:var(--text-muted);">(${sec.label})</small></span>
+          </label>
+          <div style="display:flex; gap:8px;">
+            ${sec.titleId ? `<button type="button" onclick="editBuiltInSectionTitle(${idx})" style="color:#0066c0; background:none; border:none; cursor:pointer; font-weight:bold;">ویرایش عنوان ✏️</button>` : ''}
+            ${sec.removable ? `<button type="button" onclick="deleteBuiltInSection(${idx})" style="color:var(--accent-red); background:none; border:none; cursor:pointer; font-weight:bold;">حذف بخش 🗑️</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      const customRows = CUSTOM_SECTIONS.map((cs, cIdx) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:7px 6px; border-bottom:1px solid var(--border-light); background:#fffbeb; gap:8px; flex-wrap:wrap;">
+          <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" ${cs.visible !== false ? 'checked' : ''} onchange="toggleCustomSection(${cIdx}, this.checked)" />
+            <span><strong>${cs.title}</strong> <small style="color:var(--accent-green);">(بخش سفارشی)</small></span>
+          </label>
+          <div style="display:flex; gap:8px;">
+            <button type="button" onclick="editCustomSection(${cIdx})" style="color:#0066c0; background:none; border:none; cursor:pointer; font-weight:bold;">ویرایش ✏️</button>
+            <button type="button" onclick="deleteCustomSection(${cIdx})" style="color:var(--accent-red); background:none; border:none; cursor:pointer; font-weight:bold;">حذف 🗑️</button>
+          </div>
+        </div>
+      `).join('');
+
+      box.innerHTML = builtInRows + customRows;
+    }
+
+    function toggleBuiltInSection(idx, checked) {
+      SECTIONS_STATE[idx].visible = checked;
+      saveSectionsState();
+    }
+
+    function editBuiltInSectionTitle(idx) {
+      const next = prompt('عنوان جدید این بخش را وارد کنید:', SECTIONS_STATE[idx].title);
+      if (next !== null && next.trim()) {
+        SECTIONS_STATE[idx].title = next.trim();
+        saveSectionsState();
+      }
+    }
+
+    function deleteBuiltInSection(idx) {
+      if (!confirm('آیا مطمئن هستید که می‌خواهید این بخش را از صفحه حذف کنید؟')) return;
+      SECTIONS_STATE[idx].deleted = true;
+      saveSectionsState();
+    }
+
+    function addCustomSection() {
+      const title = document.getElementById('newCustomSecTitle').value.trim();
+      const desc = document.getElementById('newCustomSecDesc').value.trim();
+      if (!title) return alert('عنوان بخش جدید را وارد کنید.');
+      CUSTOM_SECTIONS.push({ id: 'cs_' + Date.now(), title, desc, visible: true });
+      document.getElementById('newCustomSecTitle').value = '';
+      document.getElementById('newCustomSecDesc').value = '';
+      saveSectionsState();
+    }
+
+    function toggleCustomSection(cIdx, checked) {
+      CUSTOM_SECTIONS[cIdx].visible = checked;
+      saveSectionsState();
+    }
+
+    function editCustomSection(cIdx) {
+      const nextTitle = prompt('عنوان جدید بخش:', CUSTOM_SECTIONS[cIdx].title);
+      if (nextTitle === null) return;
+      const nextDesc = prompt('متن توضیح بخش:', CUSTOM_SECTIONS[cIdx].desc);
+      if (nextDesc === null) return;
+      CUSTOM_SECTIONS[cIdx].title = nextTitle.trim() || CUSTOM_SECTIONS[cIdx].title;
+      CUSTOM_SECTIONS[cIdx].desc = nextDesc.trim();
+      saveSectionsState();
+    }
+
+    function deleteCustomSection(cIdx) {
+      CUSTOM_SECTIONS.splice(cIdx, 1);
+      saveSectionsState();
+    }
+
+    function renderNavMenuManager() {
+      const box = document.getElementById('navMenuManagerList');
+      if (!box) return;
+      box.innerHTML = NAV_ITEMS.map((item, idx) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 4px; border-bottom:1px solid var(--border-light);">
+          <span><strong>${item.label}</strong> <small style="color:var(--text-muted);">(${item.href})</small></span>
+          <div style="display:flex; gap:8px;">
+            <button type="button" onclick="editNavItem(${idx})" style="color:#0066c0; background:none; border:none; cursor:pointer; font-weight:bold;">ویرایش ✏️</button>
+            <button type="button" onclick="deleteNavItem(${idx})" style="color:var(--accent-red); background:none; border:none; cursor:pointer; font-weight:bold;">حذف 🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addNavMenuItem() {
+      const label = document.getElementById('newNavLabel').value.trim();
+      const href = document.getElementById('newNavHref').value.trim() || '#';
+      if (!label) return alert('عنوان منو را وارد کنید.');
+      NAV_ITEMS.push({ id: 'nav_' + Date.now(), label, href });
+      document.getElementById('newNavLabel').value = '';
+      document.getElementById('newNavHref').value = '';
+      localStorage.setItem('boomchash_nav_items', JSON.stringify(NAV_ITEMS));
+      renderNavMenu();
+      renderNavMenuManager();
+    }
+
+    function editNavItem(idx) {
+      const nextLabel = prompt('عنوان جدید لینک منو:', NAV_ITEMS[idx].label);
+      if (nextLabel === null) return;
+      const nextHref = prompt('مقصد لینک:', NAV_ITEMS[idx].href);
+      if (nextHref === null) return;
+      NAV_ITEMS[idx].label = nextLabel.trim() || NAV_ITEMS[idx].label;
+      NAV_ITEMS[idx].href = nextHref.trim() || NAV_ITEMS[idx].href;
+      localStorage.setItem('boomchash_nav_items', JSON.stringify(NAV_ITEMS));
+      renderNavMenu();
+      renderNavMenuManager();
+    }
+
+    function deleteNavItem(idx) {
+      NAV_ITEMS.splice(idx, 1);
+      localStorage.setItem('boomchash_nav_items', JSON.stringify(NAV_ITEMS));
+      renderNavMenu();
+      renderNavMenuManager();
+    }
+
+    /* --- 5. Social Links --- */
+    const DEFAULT_SOCIALS = { tg: 'https://t.me/boomchash', ig: 'https://instagram.com/boomchash', bale: 'https://ble.ir/boomchash', rubika: 'https://rubika.ir/boomchash', eitaa: 'https://eitaa.com/boomchash' };
+
+    function applySocialLinks() {
+      const saved = JSON.parse(localStorage.getItem('boomchash_socials') || 'null') || DEFAULT_SOCIALS;
+      const map = { tg: 'link-tg', ig: 'link-ig', bale: 'link-bale', rubika: 'link-rubika', eitaa: 'link-eitaa' };
+      Object.keys(map).forEach(k => { const el = document.getElementById(map[k]); if (el && saved[k]) el.href = saved[k]; });
+      if (document.getElementById('socTelegram')) {
+        document.getElementById('socTelegram').value = saved.tg || '';
+        document.getElementById('socInstagram').value = saved.ig || '';
+        document.getElementById('socBale').value = saved.bale || '';
+        document.getElementById('socRubika').value = saved.rubika || '';
+        document.getElementById('socEitaa').value = saved.eitaa || '';
+      }
+    }
+
+    function saveSocialLinks() {
+      const updated = {
+        tg: document.getElementById('socTelegram').value.trim() || DEFAULT_SOCIALS.tg,
+        ig: document.getElementById('socInstagram').value.trim() || DEFAULT_SOCIALS.ig,
+        bale: document.getElementById('socBale').value.trim() || DEFAULT_SOCIALS.bale,
+        rubika: document.getElementById('socRubika').value.trim() || DEFAULT_SOCIALS.rubika,
+        eitaa: document.getElementById('socEitaa').value.trim() || DEFAULT_SOCIALS.eitaa
+      };
+      localStorage.setItem('boomchash_socials', JSON.stringify(updated));
+      applySocialLinks();
+      alert('لینک شبکه‌های اجتماعی به‌روزرسانی شد!');
+    }
+
+    function subscribeNewsletter() {
+      const email = document.getElementById('newsEmail').value.trim();
+      if (!email) return alert('لطفاً ایمیل خود را وارد کنید.');
+      alert('عضویت شما در خبرنامه بوم چاش ثبت شد.');
+      document.getElementById('newsEmail').value = '';
+    }
+
+    let remainingSec = 14 * 3600 + 28 * 60 + 45;
+    setInterval(() => {
+      if (remainingSec > 0) remainingSec--;
+      const h = String(Math.floor(remainingSec / 3600)).padStart(2, '0');
+      const m = String(Math.floor((remainingSec % 3600) / 60)).padStart(2, '0');
+      const s = String(remainingSec % 60).padStart(2, '0');
+      const timerEl = document.getElementById('saverTimer');
+      if (timerEl) timerEl.innerText = `${h} : ${m} : ${s}`;
+    }, 1000);
+
+    /* Initial Boot */
+    syncCategoryDropdowns();
+    applySocialLinks();
+    applyAllSiteMedia();
+    applySiteTextsAndSections();
+    renderCategories();
+    renderBestTabs();
+    renderAllSections();
+    updateHeaderAndCartUI();
+  </script>
+</body>
+</html>
