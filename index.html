@@ -580,6 +580,23 @@
     </div>
   </div>
 
+  <!-- Admin Login Modal (Email + Password) -->
+  <div class="overlay" id="adminLoginModal">
+    <div class="modal-card" style="max-width:420px;">
+      <div class="modal-top">
+        <h3>🔐 ورود به پنل مدیریت</h3>
+        <button class="close-x" onclick="closeModal('adminLoginModal')">✕</button>
+      </div>
+      <form onsubmit="submitAdminLogin(event)">
+        <label style="display:block; font-size:12px; font-weight:bold; margin-bottom:4px;">ایمیل مدیر</label>
+        <input class="field-input" id="adminLoginEmail" type="email" required placeholder="ایمیل خود را وارد کنید" autocomplete="username" />
+        <label style="display:block; font-size:12px; font-weight:bold; margin-bottom:4px;">رمز عبور</label>
+        <input class="field-input" id="adminLoginPassword" type="password" required placeholder="رمز عبور را وارد کنید" autocomplete="current-password" />
+        <button type="submit" class="add-cart-btn" style="padding:11px; font-size:13px;">ورود به پنل مدیریت</button>
+      </form>
+    </div>
+  </div>
+
   <!-- Multi-Vendor Modal -->
   <div class="overlay" id="vendorRoadmapModal">
     <div class="modal-card" style="max-width:600px;">
@@ -737,8 +754,13 @@
   <!-- ==================== MODULAR JAVASCRIPT ==================== -->
   <script>
     const SUPABASE_URL = "https://zfetolyexhfftjejswtt.supabase.co";
-    const SUPABASE_ANON_KEY = "Sb_publishable_50vAaVZHEsTpiWt0J5MTCw_hK9hgklL";
+    const SUPABASE_ANON_KEY = "sb_publishable_50vAaVZHEsTpiWt0J5MTCw_hK9hgklL";
     const sbClient = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+    const ADMIN_CREDENTIALS = {
+      email: "example123@mail.com",
+      password: "Ab@12345"
+    };
 
     const TRANSLATIONS = {
       fa: {
@@ -1107,7 +1129,7 @@
     }
 
     /* ==========================================================================
-       PRODUCTS DATA & RENDERING
+       PRODUCTS DATA & SUPABASE SYNC
        ========================================================================== */
     const DEFAULT_PRODUCTS = [
       { product_id: 1001, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'honey', product_name: 'عسل طبیعی چهل‌گیاه کوهستان (۱ کیلوگرم)', description: 'عسل خام و حرارت‌ندیده با ساکارز زیر ۲ درصد و عطر گیاهان دارویی کوهستان.', price: 540000, discount_price: 465000, stock: 30, sold: 22, rating: 4.9, reviews: 48, images: ['🍯'], section: 'saver', status: 'active' },
@@ -1124,6 +1146,47 @@
 
     function saveProducts() {
       localStorage.setItem('boomchash_products_v5', JSON.stringify(PRODUCTS));
+    }
+
+    async function syncFromSupabase() {
+      if (!sbClient) return;
+      try {
+        const { data: settingsRows } = await sbClient.from('store_settings').select('*').limit(1);
+        if (settingsRows && settingsRows.length > 0) {
+          const row = settingsRows[0];
+          if (row.store_name) SITE_TEXTS.brandName = row.store_name;
+          if (row.phone) SITE_TEXTS.phone = row.phone;
+          localStorage.setItem('boomchash_site_texts_v5', JSON.stringify(SITE_TEXTS));
+          applySiteTextsAndSections();
+        }
+      } catch (e) {}
+
+      try {
+        const { data: dbProducts } = await sbClient.from('products').select('*').order('id', { ascending: false });
+        if (dbProducts && dbProducts.length > 0) {
+          PRODUCTS = dbProducts.map((item, index) => ({
+            db_id: item.id,
+            product_id: item.id || (2000 + index),
+            vendor_id: 'admin_boomchash',
+            vendor_name: 'فروشگاه مرکزی بوم چاش',
+            category_id: item.category || 'honey',
+            product_name: item.title || 'محصول بوم چاش',
+            description: item.description || 'محصول طبیعی و باکیفیت عرضه شده در بوم چاش',
+            price: Number(item.price) || 0,
+            discount_price: null,
+            stock: Number(item.stock) || 20,
+            sold: 1,
+            rating: 5.0,
+            reviews: 1,
+            images: [item.image_url || '🌿'],
+            section: 'saver',
+            status: 'active'
+          }));
+          saveProducts();
+          renderAllSections();
+          renderAdminProducts();
+        }
+      } catch (e) {}
     }
 
     let currentLang = 'fa';
@@ -1391,7 +1454,7 @@
     }
 
     /* ==========================================================================
-       ADMIN PANEL CONTROLLERS (PRODUCTS, CATEGORIES, ALL IMAGES, SECTIONS, SOCIALS)
+       ADMIN LOGIN & PANEL CONTROLLERS
        ========================================================================== */
     function switchAdminTab(paneId, btn) {
       document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('active'));
@@ -1401,11 +1464,34 @@
     }
 
     function openAdminPanel() {
-      const pass = prompt('رمز عبور مدیریت فروشگاه را وارد کنید (رمز پیش‌فرض: 1234):');
-      if (pass !== '1234') {
-        if (pass !== null) alert('رمز عبور اشتباه است!');
+      document.getElementById('adminLoginEmail').value = '';
+      document.getElementById('adminLoginPassword').value = '';
+      openModal('adminLoginModal');
+    }
+
+    async function submitAdminLogin(event) {
+      event.preventDefault();
+      const email = document.getElementById('adminLoginEmail').value.trim();
+      const password = document.getElementById('adminLoginPassword').value;
+
+      let authenticated = false;
+      if (sbClient) {
+        try {
+          const { data } = await sbClient.auth.signInWithPassword({ email, password });
+          if (data && data.user) authenticated = true;
+        } catch (e) {}
+      }
+
+      if (!authenticated && email.toLowerCase() === ADMIN_CREDENTIALS.email.toLowerCase() && password === ADMIN_CREDENTIALS.password) {
+        authenticated = true;
+      }
+
+      if (!authenticated) {
+        alert('ایمیل یا رمز عبور مدیریت اشتباه است.');
         return;
       }
+
+      closeModal('adminLoginModal');
       syncCategoryDropdowns();
       applySocialLinks();
       populateAdminTextInputs();
@@ -1465,7 +1551,7 @@
       `).join('');
     }
 
-    function adminEditProduct(id) {
+    async function adminEditProduct(id) {
       const p = PRODUCTS.find(x => x.product_id === id);
       if (!p) return;
       const newName = prompt('نام جدید محصول:', p.product_name);
@@ -1475,18 +1561,25 @@
       p.product_name = newName.trim() || p.product_name;
       p.price = Number(newPrice) || p.price;
       saveProducts();
+      if (sbClient && p.db_id) {
+        try { await sbClient.from('products').update({ title: p.product_name, price: p.price }).eq('id', p.db_id); } catch (e) {}
+      }
       renderAdminProducts();
       renderAllSections();
     }
 
-    function adminDeleteProduct(id) {
+    async function adminDeleteProduct(id) {
+      const target = PRODUCTS.find(p => p.product_id === id);
       PRODUCTS = PRODUCTS.filter(p => p.product_id !== id);
       saveProducts();
+      if (sbClient && target && target.db_id) {
+        try { await sbClient.from('products').delete().eq('id', target.db_id); } catch (e) {}
+      }
       renderAdminProducts();
       renderAllSections();
     }
 
-    function adminAddProduct() {
+    async function adminAddProduct() {
       const product_name = document.getElementById('admTitle').value.trim();
       const price = Number(document.getElementById('admPrice').value);
       const discount_price = Number(document.getElementById('admDiscount').value) || null;
@@ -1498,13 +1591,31 @@
 
       if (!product_name || !price) return alert('نام محصول و قیمت الزامی است.');
 
-      PRODUCTS.unshift({
+      const newProd = {
         product_id: Date.now(), vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش',
         category_id, product_name, description: description || 'محصول طبیعی و باکیفیت عرضه شده در بوم چاش',
         price, discount_price, stock: 25, sold: 1, rating: 5.0, reviews: 1,
         images: [mediaItem], section: 'saver', status: 'active'
-      });
+      };
 
+      if (sbClient) {
+        try {
+          const { data: inserted } = await sbClient.from('products').insert([{
+            title: product_name,
+            price: discount_price || price,
+            image_url: isImageSource(mediaItem) ? mediaItem : '',
+            category: category_id,
+            stock: 25,
+            description: newProd.description
+          }]).select();
+          if (inserted && inserted[0]) {
+            newProd.db_id = inserted[0].id;
+            newProd.product_id = inserted[0].id;
+          }
+        } catch (e) {}
+      }
+
+      PRODUCTS.unshift(newProd);
       saveProducts();
       document.getElementById('admTitle').value = '';
       document.getElementById('admPrice').value = '';
@@ -1662,7 +1773,7 @@
       document.getElementById('cfgCopyright').value = SITE_TEXTS.copyright;
     }
 
-    function saveSiteTexts() {
+    async function saveSiteTexts() {
       SITE_TEXTS = {
         brandName: document.getElementById('cfgBrandName').value.trim() || DEFAULT_SITE_TEXTS.brandName,
         brandSub: document.getElementById('cfgBrandSub').value.trim() || DEFAULT_SITE_TEXTS.brandSub,
@@ -1679,6 +1790,18 @@
       };
       localStorage.setItem('boomchash_site_texts_v5', JSON.stringify(SITE_TEXTS));
       applySiteTextsAndSections();
+
+      if (sbClient) {
+        try {
+          const { data: existing } = await sbClient.from('store_settings').select('phone').limit(1);
+          if (existing && existing.length > 0) {
+            await sbClient.from('store_settings').update({ store_name: SITE_TEXTS.brandName, phone: SITE_TEXTS.phone }).eq('phone', existing[0].phone);
+          } else {
+            await sbClient.from('store_settings').insert([{ phone: SITE_TEXTS.phone, store_name: SITE_TEXTS.brandName }]);
+          }
+        } catch (e) {}
+      }
+
       alert('متون هدر، بنرها و فوتر ذخیره شد!');
     }
 
@@ -1871,6 +1994,7 @@
     renderBestTabs();
     renderAllSections();
     updateHeaderAndCartUI();
+    syncFromSupabase();
   </script>
 </body>
 </html>
