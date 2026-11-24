@@ -134,8 +134,176 @@
   </div>
 
   <script>
-    const SUPABASE_URL = "https://zfetolyexhfftjejswtt.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_50vAaVZHEsTpiWt0J5MTCw_hK9hgklL";
+      const SUPABASE_URL = "https://zfetolyexhfftjejswtt.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_50vaAVZHEsTPiWt0J5MTCw_hk9hgk1L";
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const loginSection = document.getElementById("loginSection");
+    const panelSection = document.getElementById("panelSection");
+    const loginForm = document.getElementById("loginForm");
+    const loginError = document.getElementById("loginError");
+    const panelError = document.getElementById("panelError");
+    const operatorInfo = document.getElementById("operatorInfo");
+    const ordersBody = document.getElementById("ordersBody");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    let currentUser = null;
+
+    function formatItems(items) {
+      if (!items) return "-";
+      if (Array.isArray(items)) {
+        return items.map(it => ${it.name || it.title || "محصول"} × ${it.qty || it.quantity || 1}).join("<br>");
+      }
+      if (typeof items === "string") {
+        try {
+          const parsed = JSON.parse(items);
+          if (Array.isArray(parsed)) {
+            return parsed.map(it => ${it.name || it.title || "محصول"} × ${it.qty || it.quantity || 1}).join("<br>");
+          }
+        } catch (_) {}
+        return items;
+      }
+      return JSON.stringify(items);
+    }
+
+    function formatDate(isoStr) {
+      if (!isoStr) return "";
+      try {
+        return new Date(isoStr).toLocaleString("fa-IR");
+      } catch (_) {
+        return isoStr;
+      }
+    }
+
+    async function loadOrders() {
+      panelError.textContent = "";
+      ordersBody.innerHTML = <tr><td colspan="8">در حال بارگذاری سفارش‌ها...</td></tr>;
+
+      const { data, error } = await sb
+        .from("orders")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        ordersBody.innerHTML = "";
+        panelError.textContent = "خطا در دریافت سفارش‌ها: " + error.message;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        ordersBody.innerHTML = <tr><td colspan="8">هیچ سفارشی ثبت نشده است.</td></tr>;
+        return;
+      }
+
+      ordersBody.innerHTML = data.map(order => {
+        const isDone = Boolean(order.processed_at || order.processed_by);
+        const statusBadge = isDone
+          ? <span class="badge-done">پردازش شد</span>
+          : <span class="badge-pending">در انتظار</span>;
+
+        const metaText = isDone
+          ? ${order.processed_by || "اپراتور"}<br><small>${formatDate(order.processed_at)}</small>
+          : "-";
+
+        const customerName = orde order.full_name der.full_name || order.name || "-";
+        const phon order.mobile  order.mobile || "-";
+        const address = order.address || "-";
+        const total = order.total_price ?? order.total ?? "-";
+
+        return 
+          <tr>
+            <td style="text-align:center;">
+              <input
+                type="checkbox"
+                ${isDone ? "checked" : ""}
+                onchange="toggleProcessed('${order.id}', this.checked, this)"
+              />
+            </td>
+            <td>${customerName}</td>
+            <td>${phone}</td>
+            <td>${address}</td>
+            <td>${formatItems(order.items)}</td>
+            <td>${total}</td>
+            <td>${statusBadge}</td>
+            <td>${metaText}</td>
+          </tr>
+        ;
+      }).join("");
+    }
+
+    window.toggleProcessed = async function(orderId, checked, checkboxEl) {
+      panelError.textContent = "";
+      checkboxEl.disabled = true;
+
+      const updatePayload = checked
+        ? {
+            processed_by: currentUser?.email || "operator",
+            processed_at: new Date().toISOString()
+          }
+        : {
+            processed_by: null,
+            processed_at: null
+          };
+
+      const { error } = await sb
+        .from("orders")
+        .update(updatePayload)
+        .eq("id", orderId);
+
+      checkboxEl.disabled = false;if (error) {
+        checkboxEl.checked = !checked;
+        panelError.textContent = "خطا در ثبت وضعیت پردازش: " + error.message;
+        return;
+      }
+
+      await loadOrders();
+    };
+
+    function showPanel(user) {
+      currentUser = user;
+      loginSection.classList.add("hidden");
+      panelSection.classList.remove("hidden");
+      operatorInfo.textContent = اپراتور واردشده: ${user.email};
+      loadOrders();
+    }
+
+    function showLogin() {
+      currentUser = null;
+      panelSection.classList.add("hidden");
+      loginSection.classList.remove("hidden");
+    }
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      loginError.textContent = "";
+      const email = document.getElementById("emailInput").value.trim();
+      const password = document.getElementById("passwordInput").value;
+
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) {
+        loginError.textContent = "ورود ناموفق بود: " + error.message;
+        return;
+      }
+      if (data.user) {
+        showPanel(data.user);
+      }
+    });
+
+    refreshBtn.addEventListener("click", loadOrders);
+
+    logoutBtn.addEventListener("click", async () => {
+      await sb.auth.signOut();
+      showLogin();
+    });
+
+    sb.auth.getSession().then(({ data }) => {
+      if (data.session && data.session.user) {
+        showPanel(data.session.user);
+      } else {
+        showLogin();
+      }
+    });
   </script>
 </body>
 </html>
