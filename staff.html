@@ -134,7 +134,7 @@
   </div>
 
   <script>
-      const SUPABASE_URL = "https://zfetolyexhfftjejswtt.supabase.co";
+   const SUPABASE_URL = "https://zfetolyexhfftjejswtt.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_50vaAVZHEsTPiWt0J5MTCw_hk9hgk1L";
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -153,13 +153,13 @@
     function formatItems(items) {
       if (!items) return "-";
       if (Array.isArray(items)) {
-        return items.map(it => ${it.name || it.title || "محصول"} × ${it.qty || it.quantity || 1}).join("<br>");
+        return items.map(it => `${it.name || it.title || "محصول"} × ${it.qty || it.quantity || 1}`).join("<br>");
       }
       if (typeof items === "string") {
         try {
           const parsed = JSON.parse(items);
           if (Array.isArray(parsed)) {
-            return parsed.map(it => ${it.name || it.title || "محصول"} × ${it.qty || it.quantity || 1}).join("<br>");
+            return parsed.map(it => `${it.name || it.title || "محصول"} × ${it.qty || it.quantity || 1}`).join("<br>");
           }
         } catch (_) {}
         return items;
@@ -178,7 +178,7 @@
 
     async function loadOrders() {
       panelError.textContent = "";
-      ordersBody.innerHTML = <tr><td colspan="8">در حال بارگذاری سفارش‌ها...</td></tr>;
+      ordersBody.innerHTML = `<tr><td colspan="8">در حال بارگذاری سفارش‌ها...</td></tr>`;
 
       const { data, error } = await sb
         .from("orders")
@@ -192,26 +192,26 @@
       }
 
       if (!data || data.length === 0) {
-        ordersBody.innerHTML = <tr><td colspan="8">هیچ سفارشی ثبت نشده است.</td></tr>;
+        ordersBody.innerHTML = `<tr><td colspan="8">هیچ سفارشی ثبت نشده است.</td></tr>`;
         return;
       }
 
       ordersBody.innerHTML = data.map(order => {
         const isDone = Boolean(order.processed_at || order.processed_by);
         const statusBadge = isDone
-          ? <span class="badge-done">پردازش شد</span>
-          : <span class="badge-pending">در انتظار</span>;
+          ? `<span class="badge-done">پردازش شد</span>`
+          : `<span class="badge-pending">در انتظار</span>`;
 
         const metaText = isDone
-          ? ${order.processed_by || "اپراتور"}<br><small>${formatDate(order.processed_at)}</small>
+          ? `${order.processed_by || "اپراتور"}<br><small>${formatDate(order.processed_at)}</small>`
           : "-";
 
-        const customerName = orde order.full_name der.full_name || order.name || "-";
-        const phon order.mobile  order.mobile || "-";
+        const customerName = order.customer_name || order.full_name || order.name || "-";
+        const phone = order.phone || order.mobile || "-";
         const address = order.address || "-";
         const total = order.total_price ?? order.total ?? "-";
 
-        return 
+        return `
           <tr>
             <td style="text-align:center;">
               <input
@@ -228,7 +228,7 @@
             <td>${statusBadge}</td>
             <td>${metaText}</td>
           </tr>
-        ;
+        `;
       }).join("");
     }
 
@@ -251,8 +251,12 @@
         .update(updatePayload)
         .eq("id", orderId);
 
-      checkboxEl.disabled = false;if (error) {
-        checkboxEl.checked = !checked;
+      checkboxEl.disabled = false;
+
+      if (error) {
+        checkboxEl.checked = !check
+
+ed;
         panelError.textContent = "خطا در ثبت وضعیت پردازش: " + error.message;
         return;
       }
@@ -264,7 +268,7 @@
       currentUser = user;
       loginSection.classList.add("hidden");
       panelSection.classList.remove("hidden");
-      operatorInfo.textContent = اپراتور واردشده: ${user.email};
+      operatorInfo.textContent = `اپراتور واردشده: ${user.email}`;
       loadOrders();
     }
 
