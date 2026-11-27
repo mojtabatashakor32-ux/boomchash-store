@@ -81,6 +81,55 @@
     .order-label { font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
     .req-star { color: #dc2626; font-weight: 900; font-size: 14px; margin-right: 2px; }
     .order-grid-2 .field-input { margin-bottom: 6px; }
+    .user-panel-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+    .user-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .btn-link-inline {
+      background: none;
+      border: none;
+      color: #0066c0;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 4px 0;
+      text-decoration: underline;
+    }
+    .btn-logout-sm {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .info-banner-sm {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
     @media (max-width: 520px) {
       .order-grid-2, .order-grid-3 { grid-template-columns: 1fr; }
     }
@@ -555,8 +604,28 @@
         <span>جمع کل قابل پرداخت:</span>
         <span id="modalCartTotal" style="color:var(--accent-green);">۰ تومان</span>
       </div>
-      <div class="order-group-title">مشخصات مشتری</div>
-      <div class="order-grid-2">
+      <div id="checkoutAccountStatusBox"></div>
+
+      <div id="checkoutNewUserFields">
+        <div class="order-group-title">ثبت‌نام و اطلاعات حساب کاربری (سفارش اول)</div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderUsername">نام کاربری<span class="req-star">*</span></label>
+          <input class="field-input" id="orderUsername" placeholder="نام کاربری" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderEmail">ایمیل (اختیاری)</label>
+          <input class="field-input" id="orderEmail" type="email" placeholder="ایمیل" />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderPassword">رمز عبور<span class="req-star">*</span></label>
+          <input class="field-input" id="orderPassword" type="password" placeholder="حداقل ۶ کاراکتر" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderPasswordConfirm">تکرار رمز عبور<span class="req-star">*</span></label>
+          <input class="field-input" id="orderPasswordConfirm" type="password" placeholder="تکرار رمز عبور" required />
+        </div>
+
+        <div class="order-group-title">مشخصات مشتری</div>
         <div class="order-field-wrap">
           <label class="order-label" for="orderFirstName">نام<span class="req-star">*</span></label>
           <input class="field-input" id="orderFirstName" placeholder="نام" required />
@@ -565,50 +634,36 @@
           <label class="order-label" for="orderLastName">نام خانوادگی<span class="req-star">*</span></label>
           <input class="field-input" id="orderLastName" placeholder="نام خانوادگی" required />
         </div>
-      </div>
-      <div class="order-grid-2">
         <div class="order-field-wrap">
           <label class="order-label" for="orderNationalId">کد ملی<span class="req-star">*</span></label>
           <input class="field-input" id="orderNationalId" placeholder="کد ملی (۱۰ رقم)" maxlength="10" required />
         </div>
         <div class="order-field-wrap">
           <label class="order-label" for="orderPhone">شماره موبایل<span class="req-star">*</span></label>
-          <input class="field-input" id="orderPhone" placeholder="مثال: 09123456789" required />
+          <input class="field-input" id="orderPhone" placeholder="مثال: 09123456789" maxlength="11" required />
         </div>
-      </div>
 
-      <div class="order-group-title">نشانی تحویل</div>
-      <div class="order-grid-2">
+        <div class="order-group-title">نشانی تحویل</div>
         <div class="order-field-wrap">
           <label class="order-label" for="orderProvince">استان<span class="req-star">*</span></label>
-          <input class="field-input" id="orderProvince" placeholder="استان" required />
+          <select class="field-input" id="orderProvince" onchange="populateCitySelect('orderProvince', 'orderCity')" required></select>
         </div>
         <div class="order-field-wrap">
           <label class="order-label" for="orderCity">شهر<span class="req-star">*</span></label>
-          <input class="field-input" id="orderCity" placeholder="شهر" required />
+          <select class="field-input" id="orderCity" required></select>
         </div>
-      </div>
-      <div class="order-grid-2">
         <div class="order-field-wrap">
           <label class="order-label" for="orderStreet">خیابان<span class="req-star">*</span></label>
           <input class="field-input" id="orderStreet" placeholder="خیابان" required />
         </div>
         <div class="order-field-wrap">
-          <label class="order-label" for="orderAlley">کوچه<span class="req-star">*</span></label>
-          <input class="field-input" id="orderAlley" placeholder="کوچه" required />
-        </div>
-      </div>
-      <div class="order-grid-2">
-        <div class="order-field-wrap">
-          <label class="order-label" for="orderPlaque">پلاک<span class="req-star">*</span></label>
-          <input class="field-input" id="orderPlaque" placeholder="پلاک" required />
+          <label class="order-label" for="orderAlley">کوچه</label>
+          <input class="field-input" id="orderAlley" placeholder="کوچه" />
         </div>
         <div class="order-field-wrap">
-          <label class="order-label" for="orderPostalCode">کد پستی<span class="req-star">*</span></label>
-          <input class="field-input" id="orderPostalCode" placeholder="کد پستی (۱۰ رقم)" maxlength="10" required />
+          <label class="order-label" for="orderPlaque">پلاک</label>
+          <input class="field-input" id="orderPlaque" placeholder="پلاک" />
         </div>
-      </div>
-      <div class="order-grid-2">
         <div class="order-field-wrap">
           <label class="order-label" for="orderFloor">طبقه</label>
           <input class="field-input" id="orderFloor" placeholder="طبقه" />
@@ -617,7 +672,12 @@
           <label class="order-label" for="orderUnit">واحد</label>
           <input class="field-input" id="orderUnit" placeholder="واحد" />
         </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderPostalCode">کد پستی<span class="req-star">*</span></label>
+          <input class="field-input" id="orderPostalCode" placeholder="کد پستی (۱۰ رقم)" maxlength="10" required />
+        </div>
       </div>
+
       <button class="add-cart-btn" style="padding:12px; font-size:13px;" onclick="processCheckout()">ثبت سفارش و انتقال به درگاه پرداخت</button>
     </div>
   </div>
@@ -640,17 +700,143 @@
 
   <!-- Account Modal -->
   <div class="overlay" id="accountModal">
-    <div class="modal-card">
+    <div class="modal-card" style="max-width:560px;">
       <div class="modal-top">
         <h3>👤 حساب کاربری بوم چاش</h3>
         <button class="close-x" onclick="closeModal('accountModal')">✕</button>
       </div>
-      <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">وارد حساب کاربری خود شوید یا ثبت‌نام کنید:</p>
-      <input class="field-input" id="authEmail" type="email" placeholder="ایمیل" />
-      <input class="field-input" id="authPassword" type="password" placeholder="رمز عبور" />
-      <div style="display:flex; gap:10px;">
-        <button class="add-cart-btn" onclick="handleLogin()">ورود به حساب</button>
-        <button class="hero-cta" style="flex:1; border:1px solid var(--border-light);" onclick="handleRegister()">ثبت‌نام</button>
+
+      <!-- Logged-in User Panel -->
+      <div id="loggedInUserPanel" style="display:none;">
+        <div class="user-panel-box" id="userProfileSummary"></div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button type="button" class="add-cart-btn" style="flex:1;" onclick="closeModal('accountModal'); openModal('cartModal');">🛒 ادامه خرید و سبد خرید</button>
+          <button type="button" class="hero-cta" style="border:1px solid var(--border-light);" onclick="switchAccountMode('register')">ویرایش / ثبت حساب جدید</button>
+        </div>
+      </div>
+
+      <!-- Returning User Login View -->
+      <div id="accountLoginView">
+        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">
+          اگر قبلاً ثبت‌نام کرده‌اید، نام کاربری، ایمیل یا شماره موبایل خود را به همراه رمز عبور وارد کنید:
+        </p>
+        <div class="order-field-wrap">
+          <label class="order-label" for="loginIdentifier">نام کاربری، ایمیل یا شماره تماس<span class="req-star">*</span></label>
+          <input class="field-input" id="loginIdentifier" placeholder="نام کاربری، ایمیل یا 09123456789" />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="loginPassword">رمز عبور<span class="req-star">*</span></label>
+          <input class="field-input" id="loginPassword" type="password" placeholder="رمز عبور" />
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+          <button type="button" class="btn-link-inline" onclick="switchAccountMode('recovery')">بازیابی رمز عبور / نام کاربری</button>
+          <button type="button" class="btn-link-inline" onclick="switchAccountMode('register')">کاربر جدید هستید؟ ثبت‌نام کامل</button>
+        </div>
+
+        <button type="button" class="add-cart-btn" style="padding:11px; font-size:13px;" onclick="handleReturningLogin()">ورود به پنل کاربری</button>
+      </div>
+
+      <!-- Full New User Registration View -->
+      <div id="accountRegisterView" style="display:none;">
+        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:8px;">
+          ثبت‌نام کاربر جدید با مشخصات کامل و نشانی تحویل:
+        </p>
+
+        <div class="order-group-title">اطلاعات حساب کاربری</div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regUsername">نام کاربری<span class="req-star">*</span></label>
+          <input class="field-input" id="regUsername" placeholder="نام کاربری" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regEmail">ایمیل (اختیاری)</label>
+          <input class="field-input" id="regEmail" type="email" placeholder="ایمیل" />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regPassword">رمز عبور<span class="req-star">*</span></label>
+          <input class="field-input" id="regPassword" type="password" placeholder="حداقل ۶ کاراکتر" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regPasswordConfirm">تکرار رمز عبور<span class="req-star">*</span></label>
+          <input class="field-input" id="regPasswordConfirm" type="password" placeholder="تکرار رمز عبور" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regPhone">شماره موبایل<span class="req-star">*</span></label>
+          <input class="field-input" id="regPhone" placeholder="مثال: 09123456789" maxlength="11" required />
+        </div>
+
+        <div class="order-group-title">مشخصات مشتری</div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regFirstName">نام<span class="req-star">*</span></label>
+          <input class="field-input" id="regFirstName" placeholder="نام" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regLastName">نام خانوادگی<span class="req-star">*</span></label>
+          <input class="field-input" id="regLastName" placeholder="نام خانوادگی" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regNationalId">کد ملی<span class="req-star">*</span></label>
+          <input class="field-input" id="regNationalId" placeholder="کد ملی (۱۰ رقم)" maxlength="10" required />
+        </div>
+
+        <div class="order-group-title">نشانی تحویل</div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regProvince">استان<span class="req-star">*</span></label>
+          <select class="field-input" id="regProvince" onchange="populateCitySelect('regProvince', 'regCity')" required></select>
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regCity">شهر<span class="req-star">*</span></label>
+          <select class="field-input" id="regCity" required></select>
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regStreet">خیابان<span class="req-star">*</span></label>
+          <input class="field-input" id="regStreet" placeholder="خیابان" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regAlley">کوچه</label>
+          <input class="field-input" id="regAlley" placeholder="کوچه" />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regPlaque">پلاک</label>
+          <input class="field-input" id="regPlaque" placeholder="پلاک" />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regFloor">طبقه</label>
+          <input class="field-input" id="regFloor" placeholder="طبقه" />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regUnit">واحد</label>
+          <input class="field-input" id="regUnit" placeholder="واحد" />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="regPostalCode">کد پستی<span class="req-star">*</span></label>
+          <input class="field-input" id="regPostalCode" placeholder="کد پستی (۱۰ رقم)" maxlength="10" required />
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:8px;">
+          <button type="button" class="add-cart-btn" style="padding:11px; font-size:13px;" onclick="handleFullRegistration()">ثبت‌نام و ورود به پنل کاربری</button>
+          <button type="button" class="hero-cta" style="border:1px solid var(--border-light);" onclick="switchAccountMode('login')">بازگشت به ورود</button>
+        </div>
+      </div>
+
+      <!-- Password & Username Recovery View -->
+      <div id="accountRecoveryView" style="display:none;">
+        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">
+          برای بازیابی رمز عبور یا نام کاربری، شناسه خود و شماره همراه ثبت‌شده را وارد کنید:
+        </p>
+        <div class="order-field-wrap">
+          <label class="order-label" for="recIdentifier">نام کاربری یا کد ملی یا ایمیل<span class="req-star">*</span></label>
+          <input class="field-input" id="recIdentifier" placeholder="نام کاربری، کد ملی یا ایمیل" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="recMobile">شماره همراه<span class="req-star">*</span></label>
+          <input class="field-input" id="recMobile" placeholder="مثال: 09123456789" maxlength="11" required />
+        </div>
+        <div id="recoveryResultBox" style="margin-bottom:10px;"></div>
+        <div style="display:flex; gap:10px;">
+          <button type="button" class="add-cart-btn" style="padding:11px; font-size:13px;" onclick="handleAccountRecovery()">بازیابی اطلاعات حساب</button>
+          <button type="button" class="hero-cta" style="border:1px solid var(--border-light);" onclick="switchAccountMode('login')">بازگشت به ورود</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1471,58 +1657,402 @@
         document.getElementById('wishlistContainer').innerHTML = list.length
           ? list.map(p => `<div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border-light); font-size:13px;"><span style="display:inline-flex; align-items:center; gap:8px;"><span style="width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; overflow:hidden; border-radius:4px;">${renderMediaThumb(p.images[0])}</span>${p.product_name}</span><button class="add-cart-btn" style="width:auto; padding:5px 10px;" onclick="addToCart(${p.product_id})">افزودن</button></div>`).join('')
           : '<p style="font-size:13px; color:var(--text-muted); text-align:center; padding:16px;">هنوز محصولی به علاقه‌مندی‌ها اضافه نکرده‌اید.</p>';
+      } else if (id === 'accountModal') {
+        if (getActiveUser()) {
+          switchAccountMode('panel');
+        } else {
+          switchAccountMode('login');
+        }
+      } else if (id === 'cartModal') {
+        refreshUserAccountUI();
       }
       document.getElementById(id).classList.add('open');
     }
 
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
+    const USERS_STORAGE_KEY = 'boomchash_registered_users_v1';
+    const SESSION_STORAGE_KEY = 'boomchash_active_user_v1';
+
+    function getRegisteredUsers() {
+      try {
+        return JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function saveRegisteredUsers(list) {
+      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(list));
+    }
+
+    function getActiveUser() {
+      try {
+        return JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || 'null');
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function setActiveUser(userObj) {
+      if (userObj) {
+        localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(userObj));
+      } else {
+        localStorage.removeItem(SESSION_STORAGE_KEY);
+      }
+      refreshUserAccountUI();
+    }
+
+    const IRAN_PROVINCES_CITIES = {
+      "آذربایجان شرقی": ["آذرشهر", "آقکند", "اسکو", "اهر", "ایلخچی", "باسمنج", "بستان‌آباد", "بناب", "تبریز", "ترک", "ترکمانچای", "تسوج", "تیمورلو", "جلفا", "چاراویماق", "خامنه", "خسروشاه", "خمارلو", "خداآفرین", "دوزدوزان", "سراب", "سردرود", "شبستر", "شربیان", "شرفخانه", "شندآباد", "صوفیان", "عجب‌شیر", "قره‌آغاج", "قره چمن", "کلیبر", "کوزه کنان", "گوگان", "لیکوان", "مبارک‌شهر", "مراغه", "مرند", "ملکان", "ممقان", "مهربان", "میانه", "نظرکهریزی", "وايقان", "وایقان", "ورزقان", "یامچی"],
+      "آذربایجان غربی": ["ارومیه", "اشنویه", "ایواوغلی", "باروق", "بازرگان", "بوکان", "پلدشت", "پیرانشهر", "تازه‌شهر", "تکاب", "چایپاره", "چهاربرج", "خوی", "خلیفان", "دیزج‌دیز", "ربط", "زرآباد", "سردشت", "سرو", "سلماس", "سیمینه", "شاهین‌دژ", "شوط", "قطور", "قوشچی", "کشاورز", "گردکشانه", "ماکو", "محمودآباد", "محمدیار", "مرگنلر", "مهاباد", "میاندوآب", "میرآباد", "نالوس", "نقده", "نوشین‌شهر", "هشتیجان"],
+      "اردبیل": ["آبی‌بیگلو", "اصلاندوز", "انبارآلوم‌اردبیل", "اردبیل", "بیله‌سوار", "پارس‌آباد", "تازه‌کند", "جعفرآباد", "خلخال", "رضی", "سرعین", "فخرآباد", "قصبه‌انگوت", "کلور", "کورت‌کندی", "کوراییم", "کوثر", "گرمی", "گیوی", "لاهرود", "مرادلو", "مشگین‌شهر", "مغان‌شهر", "نمین", "نیر", "هشجین", "هیر"],
+      "اصفهان": ["ابریشم", "ابوزیدآباد", "اردستان", "اژیه", "اصفهان", "افوس", "انارک", "ایمانشهر", "آران و بیدگل", "بادرود", "باغ بهادران", "باغملک‌اصفهان", "برخوار", "برزاوند", "برف‌انبار", "بهارستان", "بوئین و میاندشت", "پیربکران", "تودشک", "تیران", "تیران و کرون", "جندق", "جوزدان", "حبیب‌آباد", "حنا", "خالدآباد", "خمینی‌شهر", "خور", "خورزوق", "خور و بیابانک", "داران", "دامنه", "درچه", "دستگرد", "دهق", "دهاقان", "دولت‌آباد", "دیزیچه", "رزوه", "رضوانشهر", "زاینده‌رود", "زرین‌شهر", "زواره", "زیباشهر", "سده لنجان", "سفیدشهر", "سمیرم", "شاهین‌شهر", "شهرضا", "سپاهانشهر", "سین", "شاپورآباد", "طالخونچه", "عسگران", "علویجه", "فرخی", "فریدن", "فریدون‌شهر", "فلاورجان", "فولادشهر", "قهدریجان", "کاشان", "کرکوند", "کلیشاد و سودرجان", "کمشچه", "کوهپایه", "کهریزسنگ", "کوشک", "گزبرخوار", "گلپایگان", "گلدشت", "گوگد", "مبارکه", "مجلسی", "محمدآباد", "مشکات", "مهاباد", "مهاباد اردستان", "مه‌آباد", "نایین", "نجف‌آباد", "نصرآباد", "نوش‌آباد", "نیک‌آباد", "هرند", "ورزنه", "ورنامخواست", "وزوان", "ونک"],
+      "البرز": ["آسارا", "اشتهارد", "تنکمان", "چهارباغ", "زیبادشت", "شهر جدید هشتگرد", "طالقان", "فردیس", "کمال‌شهر", "کوهسار", "کرج", "گرمدره", "ماهدشت", "محمدشهر", "مشکین‌دشت", "نظرآباد", "هشتگرد"],
+      "ایلام": ["آبدانان", "آسمان‌آباد", "ارکواز", "ایلام", "ایوان", "بدره", "بلاوه", "پهله", "توحید", "چرداول", "دره‌شهر", "دهلران", "زرین‌آباد", "سراب‌باغ", "سرابله", "صالح‌آباد", "لومار", "ماژین", "ملکشاهی", "مهران", "مورموری", "مهر", "میمه", "هلیلان"],
+      "بوشهر": ["آبدان", "آب‌پخش", "اهرم", "بادوله", "بردخون", "بندر ریگ", "بندر کنگان", "بندر گناوه", "بنک", "بوشهر", "بیدخون", "تنگ ارم", "جم", "چغادک", "خارک", "خورموج", "دالکی", "دیلم", "ریز", "سعدآباد", "سیراف", "شبیکو", "شبانکاره", "شنبه", "عسلویه", "کاکی", "کلمه", "نخل تقی", "وحدتیه"],
+      "تهران": ["آبسرد", "آبعلی", "ارجمند", "اسلام‌شهر", "اندیشه", "باغستان", "باقرشهر", "بومهن", "پاکدشت", "پردیس", "پیشوا", "تهران", "جوادآباد", "چهاردانگه", "حسن‌آباد", "خاورشهر", "دماوند", "رباط‌کریم", "رودهن", "شاهدشهر", "شریف‌آباد", "شهریار", "صالح‌آباد", "صباشهر", "صفادشت", "فردوسیه", "فرون‌آباد", "فشم", "فیروزکوه", "قدس", "قرچک", "کهریزک", "کیلان", "لواسان", "مارلیک‌تهران", "ملارد", "نسیم‌شهر", "نصیرشهر", "ورامین", "وحیدیه"],
+      "چهارمحال و بختیاری": ["آلونی", "اردل", "باباحیدر", "بازفت", "بن", "بلداجی", "بروجن", "پردنجان", "تلبور", "جونقان", "چلیچه", "دشتک", "دستنا", "رده‌بند", "سردشت", "سودجان", "سفیددشت", "شهرکرد", "شلمزار", "صمصامی", "طاقانک", "فارسان", "فرادنبه", "فرخ‌شهر", "کاج", "کوهرنگ", "کیار", "گندمان", "گوجان", "لردگان", "مال‌خلیفه", "منج", "نافچ", "ناغان", "نقنه", "وردنجان", "هفشجان"],
+      "خراسان جنوبی": ["آرین‌شهر", "آیسک", "ارسک", "اسدیه", "اسلامیه", "بیرجند", "بشرویه", "حاجی‌آباد", "خضری دشت‌بیاض", "خوسف", "درمیان", "دیهوک", "زیرکوه", "سرایان", "سه قلعه", "شاسکوه", "شوسف", "طبس", "عشق‌آباد", "فردوس", "قائن", "قهستان", "گزیک", "ماژان", "مود", "نهبندان", "نیمبلوک"],
+      "خراسان رضوی": ["احمدآباد صولت", "انابد", "باجگیران", "باخرز", "بجستان", "بردسکن", "بیدخت", "تایباد", "تربت جام", "تربت حیدریه", "جغتای", "جنگل", "جوین", "چاپشلو", "چناران", "خلیل‌آباد", "خواف", "خوشاب", "داورزن", "درگز", "دولت‌آباد", "دولت‌آباد زاوه", "رباط سنگ", "رشتخوار", "رضویه", "ریوش", "سبزوار", "سرخس", "سفیدسنگ", "سلامی", "سلطان‌آباد", "سنگان", "شادمهر", "شاندیز", "ششتمد", "شهرآباد", "شهرزو", "صالح‌آباد خراسان", "طرقبه", "عشق‌آباد خراسان", "فرهادگرد", "فریمان", "فیض‌آباد", "قاسم‌آباد", "قدمگاه", "قلندرآباد", "قوچان", "کاریز", "کاشمر", "کدکن", "کلات", "گلمکان", "گناباد", "لطف‌آباد", "مزدآوند", "مزداوند", "مشهد", "مشهدریزه", "ملک‌آباد", "مه‌ولات", "نصرآباد", "نقاب", "نیشابور", "نوخندان", "یونسی"],
+      "خراسان شمالی": ["آشخانه", "اسفراین", "بجنورد", "پیش‌قلعه", "تیتکانلو", "جاجرم", "حصار گرمخان", "درق", "راز", "راز و جرگلان", "سنخواست", "شوقان", "شیروان", "صفی‌آباد خراسان", "فاروج", "قاضی", "گرمه", "یکه‌سعود"],
+      "خوزستان": ["آغاجاری", "ابوالفارس", "امیدیه", "اندیمشک", "اهواز", "ایذه", "باغ‌ملک", "باوی", "بستان", "بندر امام خمینی", "بهبهان", "تشان", "جایزان", "چمران", "چویبده", "حر", "حسینیه", "حمیدیه", "خرمشهر", "دزآب", "دزفول", "دهدز", "رامشیر", "رامهرمز", "رفیع", "زهره", "سالند", "سردشت", "سردشت دزفول", "سوسنگرد", "شادگان", "شاوور", "شوش", "شوشتر", "شیبان", "صفی‌آباد", "صیدون", "علاء", "فتح‌المبین", "قلعه خواجه", "قلعه تل", "کارون", "کوت عبدالله", "کوت سیدنعیم", "گتوند", "گوریه", "لالی", "ماهشهر", "مسجدسلیمان", "ملاثانی", "میداوود", "مینوشهر", "هندیجان", "هویزه", "ویس"],
+      "زنجان": ["آب‌بر", "ابهر", "ارمغانخانه", "حلب", "خرمدره", "دندی", "زرین‌آباد", "زرین‌رود", "زنجان", "سجاس", "سلطانیه", "صائین‌قلعه", "قیدار", "گرماب", "ماه‌نشان", "نیک‌پی", "هیدج"],
+      "سمنان": ["آرادان", "امیریه", "ایوانکی", "بسطام", "بیارجمند", "دامغان", "درجزین", "دیباج", "سمنان", "سرخه", "شاهرود", "شهمیرزاد", "کلاته خیج", "گرمسار", "مجن", "مهدی‌شهر", "میامی", "کهن‌آباد"],
+      "سیستان و بلوچستان": ["ادیمی", "اسپکه", "ایرانشهر", "بزمان", "بمپور", "بنجار", "پیشین", "تفتان", "جالق", "چابهار", "خاش", "دلگان", "دوست‌محمد", "راسک", "زابل", "زابلی", "زاهدان", "زرآباد", "زرآباد سیستان", "زهک", "سراوان", "سرباز", "سنگان", "سنگان سیستان", "سوران", "سیب و سوران", "فنوج", "قصرقند", "کنارک", "گشت", "گلمورتی", "محمودآباد سیستان", "محمدان", "میرجاوه", "نگور", "نیک‌شهر", "نوک‌آباد", "هامون", "هیرمند", "هیدوچ"],
+      "فارس": ["اردکان", "اردکان فارس", "ارسنجان", "استهبان", "اشکنان", "اهل", "ایج", "ایزدخواست", "باب انار", "بالاده", "بنارویه", "بوانات", "بهمن", "بیضا", "بیرم", "جنت‌شهر", "جهرم", "جویم", "حاجی‌آباد فارس", "حسامی", "خاوران", "خرامه", "خنج", "خور", "داراب", "دوزه", "دهرم", "دبیران", "دژگاه", "رامجرد", "رونیز", "زاهدشهر", "زرقان", "سروستان", "سعادت‌شهر", "سوریان", "سیدان", "ششده", "شهر پیر", "شیراز", "صغاد", "صفاشهر", "علامرودشت", "عمادده", "فراشبند", "فسا", "فیروزآباد", "قادرآباد", "قطرویه", "قیر", "قیر و کارزین", "کارزین", "کازرون", "کامفیروز", "کره‌ای", "کوار", "گراش", "گله‌دار", "لار", "لامرد", "لپویی", "لطیفی", "مبارک‌آباد", "مرودشت", "مهر", "میمند", "نوبندگان", "نوجین", "نورآباد", "نی‌ریز", "وراوی", "هماشهر"],
+      "قزوین": ["آبگرم", "آبیک", "اقبالیه", "الوند", "ارداق", "اسفرورین", "بوئین‌زهرا", "بیدستان", "تاکستان", "خاکعلی", "خرمدشت", "دانسفهان", "رازمیان", "سگزآباد", "سیردان", "شال", "ضیاءآباد", "قزوین", "کوهین", "محمودآباد نمونه", "معلم‌کلایه", "نرجه"],
+      "قم": ["جعفریه", "دستجرد", "سلفچگان", "قم", "قنوات", "کهک"],
+      "کردستان": ["آرمرده", "اورامان تخت", "بابارشانی", "بانه", "بلبان‌آباد", "بوئین‌سفلی", "بیجار", "توحید کردستان", "چناره", "حسن‌آباد کردستان", "خورخوره", "دزج", "دلبران", "دهگلان", "دیواندره", "زرینه", "سروآباد", "سقز", "سنندج", "شویشه", "صاحب", "قروه", "کامیاران", "کانی‌دینار", "کانی‌سور", "مریوان", "موچش", "یاسوکند"],
+      "کرمان": ["اختیارآباد", "ارزوئیه", "امین‌شهر", "انار", "اندوهجرد", "باغین", "بافت", "بردسیر", "بزنجان", "بم", "بهرمان", "پاریز", "جبالبارز", "جوپار", "جیرفت", "چترود", "حجت‌آباد", "خاتون‌آباد", "خانوک", "خورسند", "درب بهشت", "دهج", "دوساری", "رابر", "راور", "رفسنجان", "ریحان‌شهر", "زرند", "زنگی‌آباد", "زیدآباد", "سیرجان", "صفائیه", "عنبرآباد", "فاریاب", "فهرج", "قلعه‌گنج", "کاظم‌آباد", "کرمان", "کشکوئیه", "کوهبنان", "کهنوج", "کیان‌شهر", "گلباف", "ماهان", "محمدآباد کرمان", "محمودآباد کرمان", "مردهک", "مس سرچشمه", "منوجان", "نجف‌شهر", "نرماشیر", "نظام‌شهر", "نگار", "هجدک"],
+      "کرمانشاه": ["ازگله", "اسلام‌آباد غرب", "بانه‌وره", "بیستون", "پاوه", "تازه‌آباد", "جوانرود", "حمیل", "خسروی", "دالاهو", "روانسر", "ریجاب", "سرپل ذهاب", "سرمست", "سطر", "سنقر", "سومار", "شاهو", "صحنه", "قصر شیرین", "کرمانشاه", "کرند غرب", "کنگاور", "گهواره", "گیلانغرب", "میانراهان", "نودشه", "نوسود", "هرسین"],
+      "کهگیلویه و بویراحمد": ["باشت", "پاتاوه", "چرام", "چیتاب", "دهدشت", "دوگنبدان", "دیشموک", "سوق", "سی‌سخت", "قلعه رئیسی", "لنده", "لیکک", "مادوان", "مارگون", "یاسوج"],
+      "گلستان": ["آزادشهر", "آق‌قلا", "انبارآلوم", "بندر ترکمن", "بندر گز", "تاتار علیا", "جلین", "خان‌ببین", "دلند", "راميان", "رام‌یان", "سرخنکلاته", "سیمین‌شهر", "علی‌آباد کتول", "فاضل‌آباد", "کردکوی", "کلاله", "گالیکش", "گرگان", "گمیشان", "مراوه‌تپه", "مزرعه کتول", "مینودشت", "نگین‌شهر", "نوده خاندوز", "نوکنده"],
+      "گیلان": ["احمدسرگوراب", "اسالم", "اطاقور", "املش", "آستانه اشرفیه", "آستارا", "انزلی", "بازار جمعه", "بره‌سر", "پره‌سر", "تالش", "توتکابن", "جیرنده", "چابکسر", "چاف و چمخاله", "چوبر", "خمام", "خشکبیجار", "دیلمان", "رانکوه", "رحیم‌آباد", "رستم‌آباد", "رشت", "رضوانشهر", "رودبار", "رودسر", "زیباکنار", "سیاهکل", "شاندرمن", "شفت", "شلمان", "صومعه‌سرا", "فومن", "قاسم‌آباد گیلان", "کلاچای", "کوچصفهان", "کومله", "کیاشهر", "گوراب زرمیخ", "لاهیجان", "لشت نشا", "لنگرود", "لوشان", "ماسال", "ماسوله", "ماکلوان", "مرجقل", "منجیل", "واجارگاه"],
+      "لرستان": ["ازنا", "اشترینان", "الشتر", "الیگودرز", "بروجرد", "بیرانشهر", "پلدختر", "چالانچولان", "چغلوندی", "خرم‌آباد", "درب گنبد", "دورود", "زاغه", "سراب دوره", "سپیددشت", "شول‌آباد", "فیروزآباد لرستان", "کونانی", "کوهدشت", "گراب", "معمولان", "مومن‌آباد", "نورآباد"],
+      "مازندران": ["آلاشت", "آمل", "امیرکلا", "امامزاده عبدالله", "ایزدشهر", "بابلسر", "بابل", "بندپی شرقی", "بندپی غربی", "بهشهر", "بهنمیر", "پل سفید", "تنکابن", "جویبار", "چالوس", "خرم‌آباد تنکابن", "خلیل‌شهر", "خوش‌رودپی", "دابودشت", "رامسر", "رستمکلا", "رینه", "زرگرمحله", "زیرآب", "ساری", "سلمان‌شهر", "سورک", "عباس‌آباد", "فریدونکنار", "قائم‌شهر", "کلاردشت", "کله‌بست", "کوهی‌خیل", "کیاکلا", "گتاب", "گزنک", "گلوگاه", "محمودآباد", "مرزن‌آباد", "مرزیکلا", "میاندرود", "میاندورود", "نکا", "نشتارود", "نور", "نوشهر", "هادی‌شهر مازندران"],
+      "مرکزی": ["آشتیان", "آوه", "اراک", "پرندک", "تفرش", "توره", "جاورسیان", "خشکرود", "خمین", "خنداب", "داودآباد", "دلیجان", "رازقان", "زاویه", "ساروق", "ساوه", "شازند", "شهباز", "غرق‌آباد", "فرمهین", "کمیجان", "کرهرود", "کارچان", "محلات", "مهاجران", "میلاجرد", "نراق", "نوبران", "نیمور", "هندودر"],
+      "هرمزگان": ["ابوموسی", "بستک", "بندر جاسک", "بندر چارک", "بندر خمیر", "بندرعباس", "بندر لنگه", "بیکاه", "پارسیان", "تازه‌آباد هرمزگان", "توحید هرمزگان", "جناح", "حاجی‌آباد", "خورگو", "درگهان", "دهبارز", "دشتی", "رویدر", "رودان", "زیارتعلی", "سندرک", "سوزا", "سیریک", "فارغان", "قشم", "کنگ", "کوهستک", "کیش", "گوهران", "لمزان", "لیردف", "میناب", "هرمز"],
+      "همدان": ["ازندریان", "اسدآباد", "برزول", "بهار", "تویسرکان", "جورقان", "جوکار", "حین‌آباد", "دمق", "رزن", "زنگنه", "سامن", "شیرین‌سو", "صالح‌آباد همدان", "فامنین", "فرسفج", "قروه درجزین", "قهاوند", "کبودرآهنگ", "گل‌تپه", "گیان", "لالجین", "مریانج", "ملایر", "مهاجران همدان", "نهاوند", "همدان"],
+      "یزد": ["ابرکوه", "احمدآباد", "اردکان", "اشکذر", "بافق", "بفروئیه", "بهاباد", "تفت", "حمیدیا", "خاتم", "خضرآباد", "زارچ", "شاهدیه", "شاهدشهر یزد", "عقدا", "مروست", "مهردشت", "مهریز", "میبد", "ندوشن", "نیر یزد", "هرات", "یزد"]
+    };
+
+    function populateProvinceSelect(provinceSelectId, citySelectId, selectedProvince = '', selectedCity = '') {
+      const provEl = document.getElementById(provinceSelectId);
+      if (!provEl) return;
+      const provinces = Object.keys(IRAN_PROVINCES_CITIES);
+      provEl.innerHTML = `<option value="">انتخاب استان</option>` +
+        provinces.map(p => `<option value="${p}">${p}</option>`).join('');
+      if (selectedProvince && IRAN_PROVINCES_CITIES[selectedProvince]) {
+        provEl.value = selectedProvince;
+      }
+      populateCitySelect(provinceSelectId, citySelectId, selectedCity);
+    }
+
+    function populateCitySelect(provinceSelectId, citySelectId, selectedCity = '') {
+      const provEl = document.getElementById(provinceSelectId);
+      const cityEl = document.getElementById(citySelectId);
+      if (!provEl || !cityEl) return;
+      const prov = provEl.value;
+      const cities = prov && IRAN_PROVINCES_CITIES[prov] ? IRAN_PROVINCES_CITIES[prov] : [];
+      cityEl.innerHTML = `<option value="">${prov ? 'انتخاب شهر' : 'ابتدا استان را انتخاب کنید'}</option>` +
+        [...cities].sort((a, b) => a.localeCompare(b, 'fa')).map(c => `<option value="${c}">${c}</option>`).join('');
+      if (selectedCity && cities.includes(selectedCity)) {
+        cityEl.value = selectedCity;
+      }
+    }
+
+    function formatAddressString(data) {
+      return [
+        data.province ? `استان ${data.province}` : '',
+        data.city ? `شهر ${data.city}` : '',
+        data.street ? `خیابان ${data.street}` : '',
+        data.alley ? `کوچه ${data.alley}` : '',
+        data.plaque ? `پلاک ${data.plaque}` : '',
+        data.floor ? `طبقه ${data.floor}` : '',
+        data.unit ? `واحد ${data.unit}` : '',
+        data.postal_code ? `کد پستی: ${data.postal_code}` : ''
+      ].filter(Boolean).join('، ');
+    }
+
+    function validateProfileAndAddress(payload, requireAuthFields) {
+      if (requireAuthFields) {
+        if (!payload.username || !payload.password || !payload.password_confirm) {
+          alert('لطفاً نام کاربری، رمز عبور و تکرار رمز عبور را وارد کنید.');
+          return false;
+        }
+        if (payload.password.length < 6) {
+          alert('رمز عبور باید حداقل ۶ کاراکتر باشد.');
+          return false;
+        }
+        if (payload.password !== payload.password_confirm) {
+          alert('رمز عبور و تکرار رمز عبور با یکدیگر مطابقت ندارند.');
+          return false;
+        }
+      }
+      if (!payload.first_name || !payload.last_name || !payload.national_id || !payload.phone) {
+        alert('لطفاً نام، نام خانوادگی، کد ملی و شماره موبایل را وارد کنید.');
+        return false;
+      }
+      if (!/^\d{10}$/.test(payload.national_id)) {
+        alert('کد ملی باید دقیقاً ۱۰ رقم عددی باشد.');
+        return false;
+      }
+      if (!/^09\d{9}$/.test(payload.phone)) {
+        alert('شماره موبایل باید ۱۱ رقم و با 09 شروع شود.');
+        return false;
+      }
+      if (!payload.province || !payload.city || !payload.street || !payload.postal_code) {
+        alert('لطفاً فیلدهای اجباری آدرس (استان، شهر، خیابان و کد پستی) را کامل کنید.');
+        return false;
+      }
+      if (!/^\d{10}$/.test(payload.postal_code)) {
+        alert('کد پستی باید دقیقاً ۱۰ رقم عددی باشد.');
+        return false;
+      }
+      return true;
+    }
+
+    function switchAccountMode(mode) {
+      const activeUser = getActiveUser();
+      const loggedPanel = document.getElementById('loggedInUserPanel');
+      const loginView = document.getElementById('accountLoginView');
+      const regView = document.getElementById('accountRegisterView');
+      const recView = document.getElementById('accountRecoveryView');
+
+      if (mode === 'panel' && activeUser) {
+        loggedPanel.style.display = 'block';
+        loginView.style.display = 'none';
+        regView.style.display = 'none';
+        recView.style.display = 'none';
+        document.getElementById('userProfileSummary').innerHTML = `
+          <div class="user-panel-header">
+            <div>
+              <strong>پنل کاربری: ${activeUser.first_name} ${activeUser.last_name}</strong>
+              <div style="color:var(--text-secondary);">نام کاربری: ${activeUser.username}${activeUser.email ? ' | ایمیل: ' + activeUser.email : ''}</div>
+            </div>
+            <button type="button" class="btn-logout-sm" onclick="logoutUserPanel()">خروج از حساب</button>
+          </div>
+          <div><strong>کد ملی:</strong> ${activeUser.national_id} | <strong>موبایل:</strong> ${activeUser.phone}</div>
+          <div><strong>نشانی ثبت‌شده:</strong> ${activeUser.address || formatAddressString(activeUser)}</div>
+        `;
+        return;
+      }
+
+      loggedPanel.style.display = 'none';
+      loginView.style.display = mode === 'login' ? 'block' : 'none';
+      regView.style.display = mode === 'register' ? 'block' : 'none';
+      recView.style.display = mode === 'recovery' ? 'block' : 'none';
+      if (mode === 'register') {
+        populateProvinceSelect('regProvince', 'regCity');
+      }
+      if (mode === 'recovery') {
+        document.getElementById('recoveryResultBox').innerHTML = '';
+      }
+    }
+
+    function logoutUserPanel() {
+      setActiveUser(null);
+      switchAccountMode('login');
+    }
+
+    async function handleFullRegistration() {
+      const payload = {
+        username: document.getElementById('regUsername').value.trim(),
+        email: document.getElementById('regEmail').value.trim().toLowerCase(),
+        password: document.getElementById('regPassword').value,
+        password_confirm: document.getElementById('regPasswordConfirm').value,
+        phone: document.getElementById('regPhone').value.trim(),
+        first_name: document.getElementById('regFirstName').value.trim(),
+        last_name: document.getElementById('regLastName').value.trim(),
+        national_id: document.getElementById('regNationalId').value.trim(),
+        province: document.getElementById('regProvince').value.trim(),
+        city: document.getElementById('regCity').value.trim(),
+        street: document.getElementById('regStreet').value.trim(),
+        alley: document.getElementById('regAlley').value.trim(),
+        plaque: document.getElementById('regPlaque').value.trim(),
+        floor: document.getElementById('regFloor').value.trim(),
+        unit: document.getElementById('regUnit').value.trim(),
+        postal_code: document.getElementById('regPostalCode').value.trim()
+      };
+
+      if (!validateProfileAndAddress(payload, true)) return;
+      payload.address = formatAddressString(payload);
+
+      if (sbClient && payload.email) {
+        try {
+          await sbClient.auth.signUp({ email: payload.email, password: payload.password });
+        } catch (_) {}
+      }
+
+      const users = getRegisteredUsers();
+      const idx = users.findIndex(u => (payload.email && u.email === payload.email) || u.username === payload.username || u.phone === payload.phone);
+      if (idx >= 0) users[idx] = payload;
+      else users.push(payload);
+      saveRegisteredUsers(users);
+      setActiveUser(payload);
+      switchAccountMode('panel');
+      alert('ثبت‌نام شما با موفقیت انجام شد و وارد پنل کاربری شدید.');
+    }
+
+    async function handleReturningLogin() {
+      const identifier = document.getElementById('loginIdentifier').value.trim().toLowerCase();
+      const password = document.getElementById('loginPassword').value;
+
+      if (!identifier || !password) {
+        return alert('لطفاً نام کاربری، ایمیل یا شماره تماس و رمز عبور را وارد کنید.');
+      }
+
+      const users = getRegisteredUsers();
+      const matched = users.find(u =>
+        u.password === password && (
+          (u.username || '').toLowerCase() === identifier ||
+          (u.email || '').toLowerCase() === identifier ||
+          (u.phone || '').toLowerCase() === identifier
+        )
+      );
+
+      if (matched) {
+        setActiveUser(matched);
+        switchAccountMode('panel');
+        alert('ورود به پنل کاربری با موفقیت انجام شد.');
+        return;
+      }
+
+      if (sbClient && identifier.includes('@')) {
+        try {
+          const { data, error } = await sbClient.auth.signInWithPassword({ email: identifier, password });
+          if (!error && data && data.user) {
+            const fallbackUser = {
+              username: identifier.split('@')[0],
+              email: identifier,
+              phone: '',
+              first_name: identifier.split('@')[0],
+              last_name: '',
+              national_id: '-',
+              address: ''
+            };
+            setActiveUser(fallbackUser);
+            switchAccountMode('panel');
+            alert('ورود به پنل کاربری انجام شد.');
+            return;
+          }
+        } catch (_) {}
+      }
+
+      alert('نام کاربری، ایمیل، شماره تماس یا رمز عبور صحیح نیست.');
+    }
+
+    function handleAccountRecovery() {
+      const identifier = document.getElementById('recIdentifier').value.trim().toLowerCase();
+      const mobile = document.getElementById('recMobile').value.trim();
+      const resBox = document.getElementById('recoveryResultBox');
+
+      if (!identifier || !mobile) {
+        return alert('لطفاً نام کاربری، کد ملی یا ایمیل و همچنین شماره همراه را وارد کنید.');
+      }
+
+      const users = getRegisteredUsers();
+      const found = users.find(u =>
+        u.phone === mobile && (
+          (u.username || '').toLowerCase() === identifier ||
+          (u.national_id || '').toLowerCase() === identifier ||
+          (u.email || '').toLowerCase() === identifier
+        )
+      );
+
+      if (!found) {
+        resBox.innerHTML = `<div style="background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; padding:8px 10px; border-radius:8px; font-size:12px;">حسابی با این مشخصات و شماره همراه پیدا نشد.</div>`;
+        return;
+      }
+
+      resBox.innerHTML = `
+        <div class="info-banner-sm">
+          اطلاعات بازیابی‌شده حساب شما:<br />
+          نام کاربری: <strong>${found.username}</strong><br />
+          رمز عبور: <strong>${found.password}</strong>
+        </div>
+      `;
+    }
+
+    function refreshUserAccountUI() {
+      const activeUser = getActiveUser();
+      const statusBox = document.getElementById('checkoutAccountStatusBox');
+      const newUserFields = document.getElementById('checkoutNewUserFields');
+      if (!statusBox || !newUserFields) return;
+
+      if (activeUser) {
+        newUserFields.style.display = 'none';
+        statusBox.innerHTML = `
+          <div class="info-banner-sm">
+            وارد پنل کاربری شده‌اید: <strong>${activeUser.first_name} ${activeUser.last_name}</strong> (${activeUser.phone})<br />
+            نشانی ارسال: ${activeUser.address || formatAddressString(activeUser)}
+          </div>
+        `;
+      } else {
+        newUserFields.style.display = 'block';
+        populateProvinceSelect('orderProvince', 'orderCity');
+        statusBox.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; background:#fffbeb; border:1px solid #fde68a; padding:8px 10px; border-radius:8px; margin-bottom:8px; font-size:12px;">
+            <span>اگر قبلاً حساب ساخته‌اید، از حساب کاربری وارد شوید تا اطلاعاتتان خودکار ثبت شود.</span>
+            <button type="button" class="btn-link-inline" onclick="closeModal('cartModal'); openModal('accountModal');">ورود به حساب کاربری</button>
+          </div>
+        `;
+      }
+    }
+
     async function processCheckout() {
       if (!cart.length) return alert('سبد خرید شما خالی است.');
-      const first_name = document.getElementById('orderFirstName').value.trim();
-      const last_name = document.getElementById('orderLastName').value.trim();
-      const national_id = document.getElementById('orderNationalId').value.trim();
-      const phone = document.getElementById('orderPhone').value.trim();
-
-      const province = document.getElementById('orderProvince').value.trim();
-      const city = document.getElementById('orderCity').value.trim();
-      const street = document.getElementById('orderStreet').value.trim();
-      const alley = document.getElementById('orderAlley').value.trim();
-      const plaque = document.getElementById('orderPlaque').value.trim();
-      const postal_code = document.getElementById('orderPostalCode').value.trim();
-      const floor = document.getElementById('orderFloor').value.trim();
-      const unit = document.getElementById('orderUnit').value.trim();
-
-      if (!first_name || !last_name || !national_id || !phone) {
-        return alert('لطفاً نام، نام خانوادگی، کد ملی و شماره موبایل را وارد کنید.');
-      }
-      if (!/^\d{10}$/.test(national_id)) {
-        return alert('کد ملی باید دقیقاً ۱۰ رقم عددی باشد.');
-      }
-      if (!province || !city || !street || !alley || !plaque || !postal_code) {
-        return alert('لطفاً فیلدهای اجباری آدرس (استان، شهر، خیابان، کوچه، پلاک و کد پستی) را کامل کنید.');
-      }
-
-      const customer_name = `${first_name} ${last_name}`.trim();
-      const addressParts = [
-        `استان ${province}`,
-        `شهر ${city}`,
-        `خیابان ${street}`,
-        `کوچه ${alley}`,
-        `پلاک ${plaque}`,
-        floor ? `طبقه ${floor}` : '',
-        unit ? `واحد ${unit}` : '',
-        `کد پستی: ${postal_code}`
-      ].filter(Boolean);
-      const address = addressParts.join('، ');
-
       const total_amount = cart.reduce((s, i) => s + (i.unit_price * i.qty), 0);
+      let activeUser = getActiveUser();
+
+      if (!activeUser) {
+        const payload = {
+          username: document.getElementById('orderUsername').value.trim(),
+          email: document.getElementById('orderEmail').value.trim().toLowerCase(),
+          password: document.getElementById('orderPassword').value,
+          password_confirm: document.getElementById('orderPasswordConfirm').value,
+          first_name: document.getElementById('orderFirstName').value.trim(),
+          last_name: document.getElementById('orderLastName').value.trim(),
+          national_id: document.getElementById('orderNationalId').value.trim(),
+          phone: document.getElementById('orderPhone').value.trim(),
+          province: document.getElementById('orderProvince').value.trim(),
+          city: document.getElementById('orderCity').value.trim(),
+          street: document.getElementById('orderStreet').value.trim(),
+          alley: document.getElementById('orderAlley').value.trim(),
+          plaque: document.getElementById('orderPlaque').value.trim(),
+          floor: document.getElementById('orderFloor').value.trim(),
+          unit: document.getElementById('orderUnit').value.trim(),
+          postal_code: document.getElementById('orderPostalCode').value.trim()
+        };
+
+        if (!validateProfileAndAddress(payload, true)) return;
+        payload.address = formatAddressString(payload);
+
+        if (sbClient && payload.email) {
+          try {
+            await sbClient.auth.signUp({ email: payload.email, password: payload.password });
+          } catch (_) {}
+        }
+
+        const users = getRegisteredUsers();
+        const idx = users.findIndex(u => (payload.email && u.email === payload.email) || u.username === payload.username || u.phone === payload.phone);
+        if (idx >= 0) users[idx] = payload;
+        else users.push(payload);
+        saveRegisteredUsers(users);
+        setActiveUser(payload);
+        activeUser = payload;
+      }
+
+      const customer_name = `${activeUser.first_name} ${activeUser.last_name}`.trim();
+      const address = activeUser.address || formatAddressString(activeUser);
+
       if (sbClient) {
         try {
           await sbClient.from('orders').insert([{
             customer_name,
-            national_id,
-            phone,
+            national_id: activeUser.national_id,
+            phone: activeUser.phone,
             address,
             total_amount,
             items: cart,
@@ -1545,30 +2075,6 @@
         if (error) return alert(error.message);
       }
       alert('ثبت‌نام اولیه انجام شد! کد تخفیف خوش‌آمدگویی: BOOM15');
-    }
-
-    async function handleLogin() {
-      const email = document.getElementById('authEmail').value.trim();
-      const password = document.getElementById('authPassword').value.trim();
-      if (!email || !password) return alert('ایمیل و رمز عبور را وارد کنید.');
-      if (sbClient) {
-        const { error } = await sbClient.auth.signInWithPassword({ email, password });
-        if (error) return alert(error.message);
-      }
-      alert('ورود با موفقیت انجام شد.');
-      closeModal('accountModal');
-    }
-
-    async function handleRegister() {
-      const email = document.getElementById('authEmail').value.trim();
-      const password = document.getElementById('authPassword').value.trim();
-      if (!email || password.length < 6) return alert('ایمیل و رمز عبور حداقل ۶ کاراکتری وارد کنید.');
-      if (sbClient) {
-        const { error } = await sbClient.auth.signUp({ email, password });
-        if (error) return alert(error.message);
-      }
-      alert('حساب کاربری شما ایجاد شد.');
-      closeModal('accountModal');
     }
 
     /* ==========================================================================
@@ -2118,6 +2624,7 @@
     renderBestTabs();
     renderAllSections();
     updateHeaderAndCartUI();
+    refreshUserAccountUI();
     syncFromSupabase();
   </script>
 </body>
