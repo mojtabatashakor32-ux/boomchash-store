@@ -83,8 +83,41 @@
       font-size: 12px;
       display: inline-block;
     }
-    .error { color: #dc2626; font-size: 13px; margin-top: 6px; }
+    .error {
+      color: #b91c1c;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .error:empty { display: none; }
     .hidden { display: none; }
+    .btn-confirm-lock {
+      background: #0f766e;
+      color: #fff;
+      width: auto;
+      padding: 6px 10px;
+      margin: 6px 0 0;
+      font-size: 12px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .btn-confirm-lock:hover:not(:disabled) { background: #115e59; }
+    .btn-confirm-lock:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      opacity: 0.85;
+    }
+    .locked-note {
+      display: block;
+      font-size: 11px;
+      color: #166534;
+      font-weight: bold;
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
@@ -210,15 +243,35 @@
         const phone = order.phone || order.mobile || "-";
         const address = order.address || "-";
         const total = order.total_price ?? order.total ?? "-";
+        const safeId = String(order.id).replace(/'/g, "\\'");
+
+        const actionCell = isDone
+          ? `
+            <input type="checkbox" checked disabled />
+            <span class="locked-note">🔒 قفل‌شده</span>
+          `
+          : `
+            <input
+              type="checkbox"
+              id="chk-${order.id}"
+              onchange="onCheckChanged('${safeId}', this.checked)"
+            />
+            <br />
+            <button
+              type="button"
+              id="btn-lock-${order.id}"
+              class="btn-confirm-lock"
+              disabled
+              onclick="confirmAndLockProcessed('${safeId}', this)"
+            >
+              ثبت و نهایی پردازش
+            </button>
+          `;
 
         return `
           <tr>
             <td style="text-align:center;">
-              <input
-                type="checkbox"
-                ${isDone ? "checked" : ""}
-                onchange="toggleProcessed('${order.id}', this.checked, this)"
-              />
+              ${actionCell}
             </td>
             <td>${customerName}</td>
             <td>${phone}</td>
@@ -232,32 +285,50 @@
       }).join("");
     }
 
-    window.toggleProcessed = async function(orderId, checked, checkboxEl) {
+    window.onCheckChanged = function(orderId, checked) {
       panelError.textContent = "";
-      checkboxEl.disabled = true;
+      const lockBtn = document.getElementById("btn-lock-" + orderId);
+      if (lockBtn) {
+        lockBtn.disabled = !checked;
+      }
+    };
 
-      const updatePayload = checked
-        ? {
-            processed_by: currentUser?.email || "operator",
-            processed_at: new Date().toISOString()
-          }
-        : {
-            processed_by: null,
-            processed_at: null
-          };
+    window.confirmAndLockProcessed = async function(orderId, btnEl) {
+      panelError.textContent = "";
+      const chkEl = document.getElementById("chk-" + orderId);
+      if (!chkEl || !chkEl.checked) {
+        panelError.textContent = "ابتدا تیک «پردازش شد» را بزنید و سپس دکمه ثبت و نهایی پردازش را فشار دهید.";
+        return;
+      }
 
-      const { error } = await sb
+      btnEl.disabled = true;
+      chkEl.disabled = true;
+      btnEl.textContent = "در حال ثبت نهایی...";
+
+      const updatePayload = {
+        processed_by: currentUser?.email || "operator",
+        processed_at: new Date().toISOString()
+      };
+
+      const { data: updatedRows, error } = await sb
         .from("orders")
         .update(updatePayload)
-        .eq("id", orderId);
-
-      checkboxEl.disabled = false;
+        .eq("id", orderId)
+        .select();
 
       if (error) {
-        checkboxEl.checked = !check
+        chkEl.disabled = false;
+        btnEl.disabled = false;
+        btnEl.textContent = "ثبت و نهایی پردازش";
+        panelError.textContent = "خطا در ثبت نهایی پردازش: " + error.message;
+        return;
+      }
 
-ed;
-        panelError.textContent = "خطا در ثبت وضعیت پردازش: " + error.message;
+      if (!updatedRows || updatedRows.length === 0) {
+        chkEl.disabled = false;
+        btnEl.disabled = false;
+        btnEl.textContent = "ثبت و نهایی پردازش";
+        panelError.textContent = "تغییرات در دیتابیس ذخیره نشد (احتمالاً محدودیت دسترسی RLS در سوپابیس روی جدول orders فعال است).";
         return;
       }
 
@@ -284,13 +355,31 @@ ed;
       const email = document.getElementById("emailInput").value.trim();
       const password = document.getElementById("passwordInput").value;
 
-      const { data, error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) {
-        loginError.textContent = "ورود ناموفق بود: " + error.message;
+      if (!email || !password) {
+        loginError.textContent = "لطفاً ایمیل و رمز عبور را وارد کنید.";
         return;
       }
-      if (data.user) {
-        showPanel(data.user);
+
+      try {
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+        if (error) {
+          const msg = (error.message || "").toLowerCase();
+          if (msg.includes("invalid login credentials") || msg.includes("invalid credentials")) {
+            loginError.textContent = "نام کاربری (ایمیل) یا رمز عبور اشتباه است.";
+          } else if (msg.includes("email not confirmed")) {
+            loginError.textContent = "ایمیل این حساب در سوپابیس تأیید نشده است.";
+          } else {
+            loginError.textContent = "نام کاربری یا رمز عبور به درستی وارد نشده است (" + error.message + ").";
+          }
+          return;
+        }
+        if (data && data.user) {
+          showPanel(data.user);
+        } else {
+          loginError.textContent = "نام کاربری یا رمز عبور به درستی وارد نشده است.";
+        }
+      } catch (err) {
+        loginError.textContent = "خطا در برقراری ارتباط با سرور ورود: " + (err && err.message ? err.message : "نامشخص");
       }
     });
 
@@ -311,3 +400,6 @@ ed;
   </script>
 </body>
 </html>
+```[cite: 6, 8, 9]
+
+کد بالا را در فایل `staff.html` مخزن جایگزین و **Commit** کنید تا کلودفلر نسخه جدید را منتشر کند[cite: 7]. پس از انتشار، در پنل سفارش‌ها ابتدا تیک را بزنید و دکمه **«ثبت و نهایی پردازش»** را فشار دهید تا سفارش به‌صورت قفل‌شده ثبت شود[cite: 8].
