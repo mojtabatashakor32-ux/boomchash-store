@@ -85,6 +85,29 @@
     }
     .error { color: #dc2626; font-size: 13px; margin-top: 6px; }
     .hidden { display: none; }
+    .btn-confirm-lock {
+      background: #0f766e;
+      color: #fff;
+      width: auto;
+      padding: 6px 10px;
+      margin: 6px 0 0;
+      font-size: 12px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .btn-confirm-lock:hover:not(:disabled) { background: #115e59; }
+    .btn-confirm-lock:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      opacity: 0.85;
+    }
+    .locked-note {
+      display: block;
+      font-size: 11px;
+      color: #166534;
+      font-weight: bold;
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
@@ -116,14 +139,14 @@
         <table>
           <thead>
             <tr>
-              <th>پردازش شد</th>
-              <th>مشتری</th>
+              <th>تایید پردازش سفارش</th>
+              <th>نام مشتری</th>
               <th>تلفن</th>
               <th>آدرس</th>
               <th>اقلام</th>
               <th>مبلغ کل</th>
-              <th>وضعیت</th>
-              <th>اپراتور و زمان</th>
+              <th>وضعیت سفارش</th>
+              <th>اپراتور و زمان پردازش سفارش</th>
             </tr>
           </thead>
           <tbody id="ordersBody"></tbody>
@@ -153,13 +176,13 @@
     function formatItems(items) {
       if (!items) return "-";
       if (Array.isArray(items)) {
-        return items.map(it => `${it.name || it.title || "محصول"} × ${it.qty || it.quantity || 1}`).join("<br>");
+        return items.map(it => `${it.name \vert{}\vert{} it.title \vert{}\vert{} "محصول"} × ${it.qty || it.quantity || 1}`).join("<br>");
       }
       if (typeof items === "string") {
         try {
           const parsed = JSON.parse(items);
           if (Array.isArray(parsed)) {
-            return parsed.map(it => `${it.name || it.title || "محصول"} × ${it.qty || it.quantity || 1}`).join("<br>");
+            return parsed.map(it => `${it.name \vert{}\vert{} it.title \vert{}\vert{} "محصول"} × ${it.qty || it.quantity || 1}`).join("<br>");
           }
         } catch (_) {}
         return items;
@@ -203,111 +226,4 @@
           : `<span class="badge-pending">در انتظار</span>`;
 
         const metaText = isDone
-          ? `${order.processed_by || "اپراتور"}<br><small>${formatDate(order.processed_at)}</small>`
-          : "-";
-
-        const customerName = order.customer_name || order.full_name || order.name || "-";
-        const phone = order.phone || order.mobile || "-";
-        const address = order.address || "-";
-        const total = order.total_price ?? order.total ?? "-";
-
-        return `
-          <tr>
-            <td style="text-align:center;">
-              <input
-                type="checkbox"
-                ${isDone ? "checked" : ""}
-                onchange="toggleProcessed('${order.id}', this.checked, this)"
-              />
-            </td>
-            <td>${customerName}</td>
-            <td>${phone}</td>
-            <td>${address}</td>
-            <td>${formatItems(order.items)}</td>
-            <td>${total}</td>
-            <td>${statusBadge}</td>
-            <td>${metaText}</td>
-          </tr>
-        `;
-      }).join("");
-    }
-
-    window.toggleProcessed = async function(orderId, checked, checkboxEl) {
-      panelError.textContent = "";
-      checkboxEl.disabled = true;
-
-      const updatePayload = checked
-        ? {
-            processed_by: currentUser?.email || "operator",
-            processed_at: new Date().toISOString()
-          }
-        : {
-            processed_by: null,
-            processed_at: null
-          };
-
-      const { error } = await sb
-        .from("orders")
-        .update(updatePayload)
-        .eq("id", orderId);
-
-      checkboxEl.disabled = false;
-
-      if (error) {
-        checkboxEl.checked = !check
-
-ed;
-        panelError.textContent = "خطا در ثبت وضعیت پردازش: " + error.message;
-        return;
-      }
-
-      await loadOrders();
-    };
-
-    function showPanel(user) {
-      currentUser = user;
-      loginSection.classList.add("hidden");
-      panelSection.classList.remove("hidden");
-      operatorInfo.textContent = `اپراتور واردشده: ${user.email}`;
-      loadOrders();
-    }
-
-    function showLogin() {
-      currentUser = null;
-      panelSection.classList.add("hidden");
-      loginSection.classList.remove("hidden");
-    }
-
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      loginError.textContent = "";
-      const email = document.getElementById("emailInput").value.trim();
-      const password = document.getElementById("passwordInput").value;
-
-      const { data, error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) {
-        loginError.textContent = "ورود ناموفق بود: " + error.message;
-        return;
-      }
-      if (data.user) {
-        showPanel(data.user);
-      }
-    });
-
-    refreshBtn.addEventListener("click", loadOrders);
-
-    logoutBtn.addEventListener("click", async () => {
-      await sb.auth.signOut();
-      showLogin();
-    });
-
-    sb.auth.getSession().then(({ data }) => {
-      if (data.session && data.session.user) {
-        showPanel(data.session.user);
-      } else {
-        showLogin();
-      }
-    });
-  </script>
-</body>
-</html>
+          ? `${order.processed_by \vert{}\vert{} "اپراتور"}<br><small>${formatDate(order
