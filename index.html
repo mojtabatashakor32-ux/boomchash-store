@@ -76,7 +76,11 @@
     .btn-staff:hover { filter: brightness(0.92); }
     .order-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .order-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .order-group-title { font-size: 12px; font-weight: 800; color: var(--text-primary); margin: 8px 0 6px; }
+    .order-group-title { font-size: 12px; font-weight: 800; color: var(--text-primary); margin: 10px 0 6px; }
+    .order-field-wrap { display: flex; flex-direction: column; }
+    .order-label { font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .req-star { color: #dc2626; font-weight: 900; font-size: 14px; margin-right: 2px; }
+    .order-grid-2 .field-input { margin-bottom: 6px; }
     @media (max-width: 520px) {
       .order-grid-2, .order-grid-3 { grid-template-columns: 1fr; }
     }
@@ -551,32 +555,68 @@
         <span>جمع کل قابل پرداخت:</span>
         <span id="modalCartTotal" style="color:var(--accent-green);">۰ تومان</span>
       </div>
-      <div class="order-group-title">مشخصات مشتری (تکمیل نام، نام خانوادگی و کد ملی اجباری است)</div>
+      <div class="order-group-title">مشخصات مشتری</div>
       <div class="order-grid-2">
-        <input class="field-input" id="orderFirstName" placeholder="نام *" required />
-        <input class="field-input" id="orderLastName" placeholder="نام خانوادگی *" required />
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderFirstName">نام<span class="req-star">*</span></label>
+          <input class="field-input" id="orderFirstName" placeholder="نام" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderLastName">نام خانوادگی<span class="req-star">*</span></label>
+          <input class="field-input" id="orderLastName" placeholder="نام خانوادگی" required />
+        </div>
       </div>
       <div class="order-grid-2">
-        <input class="field-input" id="orderNationalId" placeholder="کد ملی (۱۰ رقم) *" maxlength="10" required />
-        <input class="field-input" id="orderPhone" placeholder="شماره موبایل (مثال: 09123456789)" />
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderNationalId">کد ملی<span class="req-star">*</span></label>
+          <input class="field-input" id="orderNationalId" placeholder="کد ملی (۱۰ رقم)" maxlength="10" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderPhone">شماره موبایل<span class="req-star">*</span></label>
+          <input class="field-input" id="orderPhone" placeholder="مثال: 09123456789" required />
+        </div>
       </div>
 
-      <div class="order-group-title">نشانی تحویل (تکمیل استان، شهر، خیابان، کوچه، پلاک و کد پستی اجباری است)</div>
+      <div class="order-group-title">نشانی تحویل</div>
       <div class="order-grid-2">
-        <input class="field-input" id="orderProvince" placeholder="استان *" required />
-        <input class="field-input" id="orderCity" placeholder="شهر *" required />
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderProvince">استان<span class="req-star">*</span></label>
+          <input class="field-input" id="orderProvince" placeholder="استان" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderCity">شهر<span class="req-star">*</span></label>
+          <input class="field-input" id="orderCity" placeholder="شهر" required />
+        </div>
       </div>
       <div class="order-grid-2">
-        <input class="field-input" id="orderStreet" placeholder="خیابان *" required />
-        <input class="field-input" id="orderAlley" placeholder="کوچه *" required />
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderStreet">خیابان<span class="req-star">*</span></label>
+          <input class="field-input" id="orderStreet" placeholder="خیابان" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderAlley">کوچه<span class="req-star">*</span></label>
+          <input class="field-input" id="orderAlley" placeholder="کوچه" required />
+        </div>
       </div>
       <div class="order-grid-2">
-        <input class="field-input" id="orderPlaque" placeholder="پلاک *" required />
-        <input class="field-input" id="orderPostalCode" placeholder="کد پستی (۱۰ رقم) *" maxlength="10" required />
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderPlaque">پلاک<span class="req-star">*</span></label>
+          <input class="field-input" id="orderPlaque" placeholder="پلاک" required />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderPostalCode">کد پستی<span class="req-star">*</span></label>
+          <input class="field-input" id="orderPostalCode" placeholder="کد پستی (۱۰ رقم)" maxlength="10" required />
+        </div>
       </div>
       <div class="order-grid-2">
-        <input class="field-input" id="orderFloor" placeholder="طبقه (اختیاری)" />
-        <input class="field-input" id="orderUnit" placeholder="واحد (اختیاری)" />
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderFloor">طبقه</label>
+          <input class="field-input" id="orderFloor" placeholder="طبقه" />
+        </div>
+        <div class="order-field-wrap">
+          <label class="order-label" for="orderUnit">واحد</label>
+          <input class="field-input" id="orderUnit" placeholder="واحد" />
+        </div>
       </div>
       <button class="add-cart-btn" style="padding:12px; font-size:13px;" onclick="processCheckout()">ثبت سفارش و انتقال به درگاه پرداخت</button>
     </div>
@@ -1453,8 +1493,8 @@
       const floor = document.getElementById('orderFloor').value.trim();
       const unit = document.getElementById('orderUnit').value.trim();
 
-      if (!first_name || !last_name || !national_id) {
-        return alert('لطفاً نام، نام خانوادگی و کد ملی را وارد کنید.');
+      if (!first_name || !last_name || !national_id || !phone) {
+        return alert('لطفاً نام، نام خانوادگی، کد ملی و شماره موبایل را وارد کنید.');
       }
       if (!/^\d{10}$/.test(national_id)) {
         return alert('کد ملی باید دقیقاً ۱۰ رقم عددی باشد.');
@@ -1552,6 +1592,14 @@
       const email = document.getElementById('adminLoginEmail').value.trim();
       const password = document.getElementById('adminLoginPassword').value;
 
+      let authenticated = false;
+      if (sbClient) {
+        try {
+          const { data } = await sbClient.auth.signInWithPassword({ email, password });
+          if (data && data.user) authenticated = true;
+        } catch (e) {}
+      }
+
       const isPrimaryAdmin = (
         email.toLowerCase() === ADMIN_CREDENTIALS.email.toLowerCase() &&
         password === ADMIN_CREDENTIALS.password
@@ -1564,6 +1612,8 @@
         alert('دسترسی به پنل مدیریت فروشگاه فقط برای مدیر کل مجاز است. برای ورود اپراتور سفارش‌ها از دکمه «پنل سفارش‌ها» استفاده کنید.');
         return;
       }
+
+      authenticated = true;
 
       closeModal('adminLoginModal');
       syncCategoryDropdowns();
@@ -2072,4 +2122,3 @@
   </script>
 </body>
 </html>
-```[cite: 3, 12]
