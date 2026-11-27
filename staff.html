@@ -149,13 +149,13 @@
         <table>
           <thead>
             <tr>
-              <th>پردازش شد</th>
-              <th>مشتری</th>
+              <th>تایید پردازش سفارش</th>
+              <th>نام مشتری</th>
               <th>تلفن</th>
               <th>آدرس</th>
               <th>اقلام</th>
               <th>مبلغ کل</th>
-              <th>وضعیت</th>
+              <th>وضعیت سفارش</th>
               <th>اپراتور و زمان</th>
             </tr>
           </thead>
@@ -297,7 +297,7 @@
       panelError.textContent = "";
       const chkEl = document.getElementById("chk-" + orderId);
       if (!chkEl || !chkEl.checked) {
-        panelError.textContent = "ابتدا تیک «پردازش شد» را بزنید و سپس دکمه ثبت و نهایی پردازش را فشار دهید.";
+        panelError.textContent = "ابتدا تیک «تایید پردازش سفارش» را بزنید و سپس دکمه ثبت و نهایی پردازش را فشار دهید.";
         return;
       }
 
