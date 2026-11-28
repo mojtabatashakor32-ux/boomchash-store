@@ -316,48 +316,6 @@
       .hero-grid, .saver-layout, .bottom-split { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
-    .cat-suggest-box {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 8px;
-      padding: 10px 12px;
-      margin-bottom: 10px;
-      font-size: 12px;
-    }
-    .cat-suggest-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-    }
-    .cat-suggest-chip {
-      background: #ffffff;
-      border: 1px solid #3b82f6;
-      color: #1d4ed8;
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 11px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.15s;
-    }
-    .cat-suggest-chip:hover, .cat-suggest-chip.selected {
-      background: #2563eb;
-      color: #ffffff;
-    }
-    .attr-dynamic-grid {
-      background: #f8fafc;
-      border: 1px solid var(--border-light);
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-    .cat-sub-badge {
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-top: 3px;
-      display: block;
-    }
     @media (max-width: 600px) {
       .footer-grid { grid-template-columns: 1fr; }
       .hero-main-card { flex-direction: column; text-align: center; }
@@ -388,7 +346,7 @@
 
         <div class="header-utils">
           <div class="support-info">
-            <span class="phone" id="txtSupportPhone">09905870673</span>
+            <span class="phone" id="txtSupportPhone">۰۹۳۹۰۴۸۳۱۹۲</span>
             <span class="label" data-i18n="supportLabel">پشتیبانی و مشاوره خرید</span>
           </div>
 
@@ -463,7 +421,6 @@
           <h3 data-i18n="browseCatTitle" id="secTitle_categories">خرید بر اساس دسته‌بندی</h3>
           <button class="view-all-link" onclick="selectCategory('all')" data-i18n="allCatsLink">همه دسته‌ها &gt;</button>
         </div>
-        <button type="button" class="btn-link-inline" onclick="openSellerListingModal()">+ ثبت کالا یا خدمات جدید</button>
       </div>
       <div class="category-grid" id="categoryGrid"></div>
     </div>
@@ -572,12 +529,9 @@
 
         <div class="vendor-invite-box">
           <div class="v-media" id="vendorBoxMedia">🏪</div>
-          <h4 id="txtVendorBoxTitle">فروشنده یا ارائه‌دهنده خدمات شوید!</h4>
-          <p id="txtVendorBoxDesc">کالا، محصول طبیعی، خدمت، ملک، خودرو یا آگهی استخدام خود را ثبت کنید. سیستم هوشمند بوم چاش دسته‌بندی مرتبط را به شما پیشنهاد می‌دهد و پس از ثبت نهایی، دسته مربوطه برای همه مشتریان فعال می‌شود.</p>
-          <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
-            <button class="cat-dropdown-btn" onclick="openSellerListingModal()">+ ثبت کالا یا خدمات جدید</button>
-            <button class="hero-cta" style="border:1px solid var(--border-light);" onclick="openModal('vendorRoadmapModal')">ساختار ۲۱ دسته‌بندی</button>
-          </div>
+          <h4 id="txtVendorBoxTitle">فروشنده بوم چاش شوید!</h4>
+          <p id="txtVendorBoxDesc">در نسخه توسعه‌یافته boomchash.ir، تولیدکنندگان و فروشگاه‌های معتبر می‌توانند غرفه اختصاصی خود را بسازند و محصولاتشان را به سراسر کشور بفروشند.</p>
+          <button class="cat-dropdown-btn" onclick="openModal('vendorRoadmapModal')">مشاهده ساختار پنل فروشندگان</button>
         </div>
       </div>
     </div>
@@ -599,7 +553,7 @@
           <p id="txtFooterAbout" style="font-size:12px; line-height:1.8; margin-bottom:12px;">
             بوم چاش پلتفرم تخصصی عرضه محصولات طبیعی، ارگانیک، سنتی و کالاهای مصرفی است که با هدف اتصال مستقیم تولیدکنندگان اصیل به مصرف‌کنندگان طراحی شده است.
           </p>
-          <p style="font-size:12px;">📞 تلفن پشتیبانی: <strong dir="ltr" id="txtFooterPhone">09905870673</strong></p>
+          <p style="font-size:12px;">📞 تلفن پشتیبانی: <strong dir="ltr" id="txtFooterPhone">۰۹۳۹۰۴۸۳۱۹۲</strong></p>
           <p style="font-size:12px;">🌐 وب‌سایت: <strong id="txtFooterDomain">boomchash.ir</strong></p>
           <div class="social-links-grid" id="footerSocialLinks">
             <a id="link-tg" href="https://t.me/boomchash" target="_blank" rel="noopener" class="soc-pill soc-tg">✈️ تلگرام</a>
@@ -904,108 +858,23 @@
     </div>
   </div>
 
-  <!-- 21 Categories Structure Overview Modal -->
+  <!-- Multi-Vendor Modal -->
   <div class="overlay" id="vendorRoadmapModal">
-    <div class="modal-card" style="max-width:680px;">
+    <div class="modal-card" style="max-width:600px;">
       <div class="modal-top">
-        <h3>🗂️ ساختار جامع ۲۱ دسته‌بندی بازارگاه بوم چاش</h3>
+        <h3>🏪 معماری بازارگاه چندفروشندگی بوم چاش</h3>
         <button class="close-x" onclick="closeModal('vendorRoadmapModal')">✕</button>
       </div>
       <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px; line-height:1.7;">
-        تمام ۲۱ دسته اصلی در سامانه تعریف شده‌اند، اما برای جلوگیری از نمایش دسته‌های خالی به مشتریان، <strong>فقط دسته‌هایی که حداقل یک کالا یا خدمت ثبت‌شده داشته باشند در صفحه اصلی نمایش داده می‌شوند</strong>. به محض ثبت اولین کالا یا خدمت در هر دسته، آن دسته به‌طور خودکار برای همه کاربران فعال و قابل مشاهده می‌گردد.
+        ساختار دیتابیس و مدل داده‌های این وب‌سایت از هم‌اکنون با فیلدهای <code>vendor_id</code>، <code>product_id</code> و <code>status</code> برای تبدیل شدن به یک بازارگاه چندفروشندگی آماده شده است.
       </p>
-      <div id="all21CategoriesDirectory" style="max-height:360px; overflow-y:auto; font-size:12px; background:var(--bg-surface); padding:12px; border-radius:8px; line-height:1.8;"></div>
-      <div style="margin-top:12px; text-align:left;">
-        <button type="button" class="add-cart-btn" style="width:auto; padding:9px 16px;" onclick="closeModal('vendorRoadmapModal'); openSellerListingModal();">+ ثبت کالا یا خدمت جدید</button>
+      <div style="background:var(--bg-surface); padding:14px; border-radius:8px; font-size:12px; line-height:1.9;">
+        <strong>امکانات برنامه‌ریزی‌شده برای فاز دوم:</strong><br>
+        • ثبت‌نام مستقل فروشندگان و تأیید هویت توسط مدیر کل<br>
+        • صفحه اختصاصی فروشگاه برای هر فروشنده<br>
+        • داشبورد مدیریت محصولات، موجودی و قیمت‌گذاری برای هر غرفه<br>
+        • مدیریت سفارشات تفکیک‌شده هر فروشنده و محاسبه کمیسیون بازارگاه
       </div>
-    </div>
-  </div>
-
-  <!-- Seller / User Product & Service Listing Modal -->
-  <div class="overlay" id="sellerListingModal">
-    <div class="modal-card" style="max-width:640px;">
-      <div class="modal-top">
-        <h3>➕ ثبت کالا، محصول یا خدمات جدید</h3>
-        <button class="close-x" onclick="closeModal('sellerListingModal')">✕</button>
-      </div>
-
-      <div class="order-grid-2">
-        <div class="order-field-wrap">
-          <label class="order-label" for="lstOfferType">نوع عرضه<span class="req-star">*</span></label>
-          <select class="field-input" id="lstOfferType" onchange="updateSellerCategorySuggestions()">
-            <option value="فروش نو">فروش نو</option>
-            <option value="فروش کارکرده">فروش کارکرده</option>
-            <option value="بازسازی‌شده">بازسازی‌شده</option>
-            <option value="عمده">عمده</option>
-            <option value="خرده">خرده</option>
-            <option value="سفارش ساخت">سفارش ساخت</option>
-            <option value="خدمت">خدمت</option>
-            <option value="آگهی ملک">آگهی ملک</option>
-            <option value="آگهی خودرو">آگهی خودرو</option>
-            <option value="استخدام">استخدام</option>
-            <option value="اجاره">اجاره</option>
-            <option value="معاوضه">معاوضه</option>
-            <option value="واگذاری مسئولانه">واگذاری مسئولانه</option>
-          </select>
-        </div>
-        <div class="order-field-wrap">
-          <label class="order-label" for="lstProviderName">نام فروشنده / ارائه‌دهنده<span class="req-star">*</span></label>
-          <input class="field-input" id="lstProviderName" placeholder="نام فروشنده یا ارائه‌دهنده" />
-        </div>
-      </div>
-
-      <div class="order-field-wrap">
-        <label class="order-label" for="lstTitle">عنوان کالا یا خدمت<span class="req-star">*</span></label>
-        <input class="field-input" id="lstTitle" placeholder="مثلاً: عسل طبیعی کوهستان یا قاب گوشی سامسونگ مدل A12" oninput="updateSellerCategorySuggestions()" />
-      </div>
-
-      <div class="order-field-wrap">
-        <label class="order-label" for="lstDesc">توضیحات تکمیلی کالا یا خدمت</label>
-        <textarea class="field-input" id="lstDesc" rows="2" placeholder="مشخصات، برند، مدل، نوع تولید، شهر مبدأ یا شرایط انجام خدمت..." oninput="updateSellerCategorySuggestions()"></textarea>
-      </div>
-
-      <div class="cat-suggest-box" id="sellerCatSuggestBox">
-        <div style="font-weight:bold; color:#1e40af;">💡 پیشنهاد هوشمند دسته‌بندی مرتبط:</div>
-        <div id="sellerCatSuggestHint" style="font-size:11px; color:#334155; margin-top:2px;">
-          با نوشتن عنوان کالا یا خدمت، دسته‌بندی مرتبط به‌صورت خودکار پیشنهاد می‌شود.
-        </div>
-        <div class="cat-suggest-chips" id="sellerCatSuggestChips"></div>
-      </div>
-
-      <div class="order-grid-3">
-        <div class="order-field-wrap">
-          <label class="order-label" for="lstCategorySelect">دسته اصلی (۲۱ دسته)<span class="req-star">*</span></label>
-          <select class="field-input" id="lstCategorySelect" onchange="onSellerCategoryChanged(true)"></select>
-        </div>
-        <div class="order-field-wrap">
-          <label class="order-label" for="lstSubgroupSelect">زیرمجموعه اصلی (الفبایی)<span class="req-star">*</span></label>
-          <select class="field-input" id="lstSubgroupSelect" onchange="onSellerSubgroupChanged()"></select>
-        </div>
-        <div class="order-field-wrap">
-          <label class="order-label" for="lstLeafSelect">زیرمجموعه زیرین (الفبایی)<span class="req-star">*</span></label>
-          <select class="field-input" id="lstLeafSelect"></select>
-        </div>
-      </div>
-
-      <div class="attr-dynamic-grid" id="sellerDynamicAttrsBox"></div>
-
-      <div class="order-grid-2">
-        <div class="order-field-wrap">
-          <label class="order-label" for="lstPrice">قیمت / تعرفه (تومان)<span class="req-star">*</span></label>
-          <input class="field-input" id="lstPrice" type="number" placeholder="مثلاً 450000" />
-        </div>
-        <div class="order-field-wrap">
-          <label class="order-label" for="lstStock">موجودی / ظرفیت<span class="req-star">*</span></label>
-          <input class="field-input" id="lstStock" type="number" value="10" min="1" />
-        </div>
-      </div>
-
-      <div style="background:var(--bg-surface); border:1px dashed var(--border-light); border-radius:8px; padding:10px; margin-bottom:12px;">
-        <label style="display:block; font-size:12px; font-weight:bold; margin-bottom:6px;">🖼️ تصویر کالا یا خدمت (اختیاری):</label>
-        <input type="file" id="lstImgFile" accept="image/*" onchange="handleSellerImageFile(this)" style="font-size:12px; width:100%;" />
-      </div>
-
-      <button type="button" class="add-cart-btn" style="padding:12px; font-size:13px;" onclick="submitSellerListing()">✅ ثبت نهایی و انتشار برای همگان</button>
     </div>
   </div>
 
@@ -1023,23 +892,19 @@
         <button type="button" class="admin-tab-btn" onclick="switchAdminTab('paneSiteImages', this)">🖼️ تمام عکس‌های سایت</button>
         <button type="button" class="admin-tab-btn" onclick="switchAdminTab('paneSections', this)">📝 عناوین، منوها و بخش‌ها</button>
         <button type="button" class="admin-tab-btn" onclick="switchAdminTab('paneSocials', this)">📱 شبکه‌های اجتماعی</button>
+        <a href="/members.html" class="admin-tab-btn" style="background:#15803d; color:#fff; border-color:#15803d; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">🔎 جستجو اعضا</a>
       </div>
 
       <!-- TAB 1: PRODUCTS -->
       <div id="paneProducts" class="admin-pane active">
         <p style="font-size:12px; font-weight:bold; margin-bottom:8px;">افزودن محصول جدید (با انتخاب فایل عکس یا لینک تصویر):</p>
-        <input class="field-input" id="admTitle" placeholder="نام محصول یا خدمت (مثلاً عسل کنار یا قاب گوشی سامسونگ A12)" oninput="updateAdminCategorySuggestions()" />
+        <input class="field-input" id="admTitle" placeholder="نام محصول (مثلاً عسل کنار خالص ۱ کیلویی)" />
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
           <input class="field-input" id="admPrice" type="number" placeholder="قیمت اصلی (تومان)" />
           <input class="field-input" id="admDiscount" type="number" placeholder="قیمت با تخفیف (اختیاری)" />
         </div>
-        <div id="adminCatSuggestChips" class="cat-suggest-chips" style="margin-bottom:8px;"></div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-          <select class="field-input" id="admCat" onchange="syncAdminSubgroups()"></select>
-          <select class="field-input" id="admSubgroup" onchange="syncAdminLeaves()"></select>
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-          <select class="field-input" id="admLeaf"></select>
+          <select class="field-input" id="admCat"></select>
           <input class="field-input" id="admEmoji" placeholder="ایموجی جایگزین (مثلاً 🍯)" value="🌿" />
         </div>
         <div style="background:var(--bg-surface); border:1px dashed var(--border-light); border-radius:8px; padding:10px; margin-bottom:10px;">
@@ -1156,7 +1021,7 @@
 
     const ADMIN_CREDENTIALS = {
       email: "mojtabatashakor32@gmail.com",
-      password: "Mt@137345"
+      password: "Mt@137347"
     };
 
     const TRANSLATIONS = {
@@ -1286,3165 +1151,263 @@
     }
 
     /* ==========================================================================
-       21-CATEGORY HIERARCHICAL TREE (ALPHABETICALLY SORTED SUBGROUPS & LEAVES)
+       CATEGORIES STATE (WITH REAL IMAGE OR ICON SUPPORT)
        ========================================================================== */
     const DEFAULT_CATEGORIES = [
-      {
-            "category_id": "mobile_tablet",
-            "slug": "mobile-tablet-accessories",
-            "level": 1,
-            "sort_order": 1,
-            "entity_type": "product",
-            "name_fa": "موبایل، تبلت و لوازم جانبی",
-            "name_en": "Mobile, Tablet & Accessories",
-            "name_ar": "الهواتف والأجهزة اللوحية",
-            "icon": "📱",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "بازسازی‌شده",
-                  "عمده",
-                  "خرده",
-                  "تخفیف‌دار",
-                  "گارانتی‌دار",
-                  "ارسال رایگان"
-            ],
-            "attributes": [
-                  "برند",
-                  "مدل",
-                  "حافظه",
-                  "RAM",
-                  "رنگ",
-                  "وضعیت",
-                  "سلامت باتری",
-                  "گارانتی",
-                  "اصالت و رجیستری"
-            ],
-            "filters": [
-                  "برند",
-                  "وضعیت",
-                  "رنگ",
-                  "بازه قیمت",
-                  "گارانتی"
-            ],
-            "keywords": [
-                  "موبایل",
-                  "گوشی",
-                  "هوشمند",
-                  "تاشو",
-                  "مقاوم",
-                  "تلفن ثابت",
-                  "بی‌سیم",
-                  "تبلت",
-                  "کتاب‌خوان",
-                  "اندرویدی",
-                  "ipad",
-                  "ویندوزی",
-                  "قاب",
-                  "کاور",
-                  "محافظ صفحه",
-                  "محافظ لنز",
-                  "شارژر",
-                  "کابل",
-                  "پاوربانک",
-                  "پایه",
-                  "هولدر",
-                  "قلم",
-                  "کیبورد",
-                  "سیم‌کارت",
-                  "مودم همراه",
-                  "روتر قابل‌حمل",
-                  "نمایشگر",
-                  "تاچ",
-                  "باتری",
-                  "درگاه شارژ",
-                  "تعمیر",
-                  "سامسونگ",
-                  "a12"
-            ],
-            "subgroups": [
-                  {
-                        "name": "ارتباط همراه",
-                        "items": [
-                              "روتر قابل‌حمل",
-                              "سیم‌کارت و خدمات اپراتوری مجاز",
-                              "مودم همراه و جیبی"
-                        ]
-                  },
-                  {
-                        "name": "تبلت و کتاب‌خوان",
-                        "items": [
-                              "iPad",
-                              "اندرویدی",
-                              "ویندوزی",
-                              "کتاب‌خوان الکترونیکی"
-                        ]
-                  },
-                  {
-                        "name": "قطعات و تعمیر",
-                        "items": [
-                              "ابزار تعمیر",
-                              "باتری",
-                              "برد",
-                              "تاچ",
-                              "درگاه شارژ",
-                              "نمایشگر"
-                        ]
-                  },
-                  {
-                        "name": "لوازم جانبی",
-                        "items": [
-                              "شارژر",
-                              "قاب",
-                              "قلم",
-                              "محافظ صفحه و لنز",
-                              "هولدر",
-                              "پاوربانک",
-                              "پایه",
-                              "کابل",
-                              "کاور",
-                              "کیبورد"
-                        ]
-                  },
-                  {
-                        "name": "موبایل",
-                        "items": [
-                              "تاشو",
-                              "تلفن ثابت و بی‌سیم",
-                              "ساده",
-                              "مقاوم",
-                              "گوشی هوشمند"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "computer_office",
-            "slug": "computer-laptop-office",
-            "level": 1,
-            "sort_order": 2,
-            "entity_type": "product",
-            "name_fa": "کامپیوتر، لپ‌تاپ و تجهیزات اداری",
-            "name_en": "Computers & Office Equipment",
-            "name_ar": "الكمبيوتر واللابتوب",
-            "icon": "💻",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "بازسازی‌شده",
-                  "عمده",
-                  "خرده",
-                  "گارانتی‌دار"
-            ],
-            "attributes": [
-                  "برند",
-                  "پردازنده و نسل",
-                  "RAM",
-                  "GPU",
-                  "ظرفیت",
-                  "اندازه و وضوح نمایشگر",
-                  "سیستم‌عامل",
-                  "کاربری",
-                  "وضعیت",
-                  "گارانتی"
-            ],
-            "filters": [
-                  "برند",
-                  "کاربری",
-                  "وضعیت",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "لپ‌تاپ",
-                  "گیمینگ",
-                  "ورک‌استیشن",
-                  "کامپیوتر",
-                  "کیس",
-                  "مادربرد",
-                  "cpu",
-                  "gpu",
-                  "ram",
-                  "ssd",
-                  "hdd",
-                  "مانیتور",
-                  "صفحه‌کلید",
-                  "ماوس",
-                  "وب‌کم",
-                  "میکروفون",
-                  "هدست",
-                  "هاب",
-                  "داک",
-                  "مبدل",
-                  "مودم",
-                  "روتر",
-                  "سوئیچ",
-                  "nas",
-                  "پرینتر",
-                  "اسکنر",
-                  "ups"
-            ],
-            "subgroups": [
-                  {
-                        "name": "برق پشتیبان",
-                        "items": [
-                              "UPS",
-                              "باتری و آداپتور",
-                              "محافظ"
-                        ]
-                  },
-                  {
-                        "name": "رایانه و قطعات",
-                        "items": [
-                              "CPU",
-                              "GPU",
-                              "RAM",
-                              "SSD/HDD",
-                              "خنک‌کننده",
-                              "مادربرد",
-                              "منبع تغذیه",
-                              "کامپیوتر آماده",
-                              "کیس اسمبل‌شده"
-                        ]
-                  },
-                  {
-                        "name": "شبکه و ذخیره‌سازی",
-                        "items": [
-                              "NAS",
-                              "روتر",
-                              "سوئیچ",
-                              "مودم",
-                              "کابل",
-                              "کارت شبکه"
-                        ]
-                  },
-                  {
-                        "name": "لوازم جانبی",
-                        "items": [
-                              "داک",
-                              "صفحه‌کلید",
-                              "ماوس",
-                              "مبدل",
-                              "میکروفون",
-                              "هاب",
-                              "هدست",
-                              "وب‌کم"
-                        ]
-                  },
-                  {
-                        "name": "لپ‌تاپ",
-                        "items": [
-                              "حرفه‌ای/ورک‌استیشن",
-                              "سبک",
-                              "صنعتی",
-                              "عمومی",
-                              "گیمینگ"
-                        ]
-                  },
-                  {
-                        "name": "نمایشگر",
-                        "items": [
-                              "طراحی",
-                              "مانیتور عمومی",
-                              "پایه و بازو",
-                              "گیمینگ"
-                        ]
-                  },
-                  {
-                        "name": "چاپ و اسکن",
-                        "items": [
-                              "اسکنر",
-                              "تونر",
-                              "فکس",
-                              "لیزری",
-                              "پرینتر جوهرافشان",
-                              "چندکاره",
-                              "کپی"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "audio_video",
-            "slug": "audio-video-electronics",
-            "level": 1,
-            "sort_order": 3,
-            "entity_type": "product",
-            "name_fa": "صوتی، تصویری و تجهیزات الکترونیکی",
-            "name_en": "Audio, Video & Electronics",
-            "name_ar": "الصوتيات والمرئيات",
-            "icon": "📺",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "بازسازی‌شده",
-                  "عمده",
-                  "خرده",
-                  "گارانتی‌دار"
-            ],
-            "attributes": [
-                  "برند",
-                  "مدل",
-                  "فناوری",
-                  "اندازه",
-                  "توان",
-                  "وضوح",
-                  "درگاه",
-                  "سازگاری",
-                  "وضعیت",
-                  "گارانتی"
-            ],
-            "filters": [
-                  "برند",
-                  "وضعیت",
-                  "بازه قیمت",
-                  "گارانتی"
-            ],
-            "keywords": [
-                  "تلویزیون",
-                  "led",
-                  "lcd",
-                  "oled",
-                  "qled",
-                  "پروژکتور",
-                  "اسپیکر",
-                  "ساندبار",
-                  "سینمای خانگی",
-                  "آمپلی‌فایر",
-                  "هدفون",
-                  "هندزفری",
-                  "دوربین",
-                  "لنز",
-                  "گیمبال",
-                  "کنسول",
-                  "واقعیت مجازی",
-                  "ساعت هوشمند",
-                  "مچ‌بند",
-                  "برد",
-                  "ماژول",
-                  "رباتیک",
-                  "دوربین نظارتی"
-            ],
-            "subgroups": [
-                  {
-                        "name": "تلویزیون و تصویر",
-                        "items": [
-                              "LED/LCD",
-                              "OLED/QLED",
-                              "پرده نمایش",
-                              "پروژکتور",
-                              "گیرنده دیجیتال"
-                        ]
-                  },
-                  {
-                        "name": "سرگرمی دیجیتال",
-                        "items": [
-                              "تجهیزات استریم و کپچر",
-                              "دسته",
-                              "واقعیت مجازی",
-                              "کنسول"
-                        ]
-                  },
-                  {
-                        "name": "صوتی",
-                        "items": [
-                              "اسپیکر",
-                              "آمپلی‌فایر",
-                              "ساندبار",
-                              "سینمای خانگی",
-                              "هدفون",
-                              "هندزفری"
-                        ]
-                  },
-                  {
-                        "name": "عکاسی و فیلم‌برداری",
-                        "items": [
-                              "تجهیزات استودیو",
-                              "دوربین",
-                              "سه‌پایه",
-                              "فلاش",
-                              "فیلتر",
-                              "لنز",
-                              "نور",
-                              "کارت حافظه",
-                              "گیمبال"
-                        ]
-                  },
-                  {
-                        "name": "قطعات الکترونیکی",
-                        "items": [
-                              "ابزار اندازه‌گیری",
-                              "برد",
-                              "قطعه",
-                              "ماژول",
-                              "کیت رباتیک"
-                        ]
-                  },
-                  {
-                        "name": "نظارتی و ارتباطی مجاز",
-                        "items": [
-                              "اعلام حریق",
-                              "دوربین نظارتی",
-                              "ضبط‌کننده",
-                              "کنترل دسترسی"
-                        ]
-                  },
-                  {
-                        "name": "هوشمند و پوشیدنی",
-                        "items": [
-                              "حسگر و خانه هوشمند",
-                              "ساعت",
-                              "عینک هوشمند",
-                              "مچ‌بند"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "home_appliances",
-            "slug": "home-appliances-kitchen",
-            "level": 1,
-            "sort_order": 4,
-            "entity_type": "product",
-            "name_fa": "لوازم خانگی و آشپزخانه",
-            "name_en": "Home Appliances & Kitchen",
-            "name_ar": "الأجهزة المنزلية والمطبخ",
-            "icon": "🍳",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "بازسازی‌شده",
-                  "عمده",
-                  "خرده",
-                  "گارانتی‌دار"
-            ],
-            "attributes": [
-                  "برند",
-                  "مدل",
-                  "ظرفیت",
-                  "ابعاد",
-                  "انرژی",
-                  "رنگ",
-                  "نوع نصب",
-                  "گارانتی",
-                  "وضعیت"
-            ],
-            "filters": [
-                  "برند",
-                  "رنگ",
-                  "وضعیت",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "یخچال",
-                  "فریزر",
-                  "لباسشویی",
-                  "ظرفشویی",
-                  "اجاق",
-                  "فر",
-                  "کولر",
-                  "تهویه",
-                  "آبگرمکن",
-                  "پکیج",
-                  "جاروبرقی",
-                  "جاروشارژی",
-                  "اتو",
-                  "بخارگر",
-                  "پنکه",
-                  "بخاری",
-                  "تصفیه هوا",
-                  "تصفیه آب",
-                  "پلوپز",
-                  "سرخ‌کن",
-                  "هواپز",
-                  "مایکروویو",
-                  "غذاساز",
-                  "مخلوط‌کن",
-                  "قهوه‌ساز",
-                  "چای‌ساز",
-                  "قابلمه",
-                  "تابه",
-                  "شوینده"
-            ],
-            "subgroups": [
-                  {
-                        "name": "بزرگ",
-                        "items": [
-                              "آبگرمکن",
-                              "اجاق",
-                              "تهویه",
-                              "ظرفشویی",
-                              "فر",
-                              "فریزر",
-                              "لباسشویی",
-                              "پکیج",
-                              "کولر",
-                              "یخچال"
-                        ]
-                  },
-                  {
-                        "name": "ظروف",
-                        "items": [
-                              "ابزار آشپزی",
-                              "تابه",
-                              "ترازو",
-                              "سرویس غذاخوری",
-                              "ظروف پذیرایی و نگهداری",
-                              "قابلمه",
-                              "چاقو"
-                        ]
-                  },
-                  {
-                        "name": "قطعات",
-                        "items": [
-                              "فیلتر",
-                              "قطعات مصرفی و یدکی",
-                              "لوازم نصب"
-                        ]
-                  },
-                  {
-                        "name": "نظافت",
-                        "items": [
-                              "ابزار نظافت",
-                              "شوینده",
-                              "لوازم شست‌وشو"
-                        ]
-                  },
-                  {
-                        "name": "پخت‌وپز",
-                        "items": [
-                              "آبمیوه‌گیری",
-                              "آرام‌پز",
-                              "خردکن",
-                              "سرخ‌کن",
-                              "غذاساز",
-                              "قهوه‌ساز",
-                              "مایکروویو",
-                              "مخلوط‌کن",
-                              "هواپز",
-                              "پلوپز",
-                              "چای‌ساز"
-                        ]
-                  },
-                  {
-                        "name": "کوچک",
-                        "items": [
-                              "اتو",
-                              "بخارگر",
-                              "بخاری",
-                              "تصفیه هوا و آب",
-                              "جاروبرقی",
-                              "جاروشارژی",
-                              "پنکه"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "furniture_decor",
-            "slug": "furniture-decoration",
-            "level": 1,
-            "sort_order": 5,
-            "entity_type": "product",
-            "name_fa": "مبلمان، دکوراسیون و لوازم منزل",
-            "name_en": "Furniture & Home Decor",
-            "name_ar": "الأثاث والديكور",
-            "icon": "🛋️",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "سفارش ساخت",
-                  "عمده",
-                  "خرده",
-                  "دست‌ساز"
-            ],
-            "attributes": [
-                  "جنس",
-                  "ابعاد",
-                  "سبک",
-                  "رنگ",
-                  "تعداد نفرات",
-                  "محل استفاده",
-                  "مونتاژ و ارسال"
-            ],
-            "filters": [
-                  "جنس",
-                  "رنگ",
-                  "سبک",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "مبلمان",
-                  "مبل",
-                  "راحتی",
-                  "کلاسیک",
-                  "استیل",
-                  "تخت‌خواب‌شو",
-                  "صندلی",
-                  "نیمکت",
-                  "میز",
-                  "اداری",
-                  "تخت",
-                  "سرویس خواب",
-                  "تشک",
-                  "بالش",
-                  "کمد",
-                  "دراور",
-                  "دکور",
-                  "تابلو",
-                  "آینه",
-                  "ساعت",
-                  "گلدان",
-                  "پرده",
-                  "فرش",
-                  "گلیم",
-                  "جاجیم",
-                  "موکت",
-                  "ملحفه",
-                  "روتختی",
-                  "پتو",
-                  "لوستر",
-                  "آباژور",
-                  "باربیکیو"
-            ],
-            "subgroups": [
-                  {
-                        "name": "اتاق خواب",
-                        "items": [
-                              "بالش",
-                              "تخت",
-                              "تشک",
-                              "دراور",
-                              "سرویس خواب",
-                              "میز آرایش",
-                              "کمد"
-                        ]
-                  },
-                  {
-                        "name": "اداری",
-                        "items": [
-                              "صندلی",
-                              "فایل",
-                              "میز",
-                              "کمد و مبلمان فضای کار"
-                        ]
-                  },
-                  {
-                        "name": "دکور",
-                        "items": [
-                              "اکسسوری",
-                              "آینه",
-                              "تابلو",
-                              "ساعت",
-                              "مجسمه",
-                              "پرده",
-                              "گلدان"
-                        ]
-                  },
-                  {
-                        "name": "روشنایی",
-                        "items": [
-                              "آباژور",
-                              "لامپ",
-                              "لوستر",
-                              "چراغ دیواری",
-                              "چراغ سقفی"
-                        ]
-                  },
-                  {
-                        "name": "فرش و کف‌پوش",
-                        "items": [
-                              "جاجیم",
-                              "دستباف",
-                              "قالیچه",
-                              "ماشینی",
-                              "موکت",
-                              "کف‌پوش",
-                              "گلیم"
-                        ]
-                  },
-                  {
-                        "name": "فضای باز",
-                        "items": [
-                              "باربیکیو",
-                              "سایبان",
-                              "مبلمان باغی",
-                              "چتر"
-                        ]
-                  },
-                  {
-                        "name": "مبلمان",
-                        "items": [
-                              "استیل",
-                              "تخت‌خواب‌شو",
-                              "راحتی",
-                              "صندلی",
-                              "میز",
-                              "نیمکت",
-                              "کلاسیک"
-                        ]
-                  },
-                  {
-                        "name": "منسوجات",
-                        "items": [
-                              "حوله",
-                              "روتختی",
-                              "رومیزی",
-                              "ملحفه",
-                              "پتو"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "food_supermarket",
-            "slug": "food-supermarket-natural",
-            "level": 1,
-            "sort_order": 6,
-            "entity_type": "product",
-            "name_fa": "مواد غذایی و محصولات سوپرمارکتی",
-            "name_en": "Food, Natural & Supermarket",
-            "name_ar": "المواد الغذائية والسوبرماركت",
-            "icon": "🍯",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "عمده",
-                  "خرده",
-                  "تولیدکننده مستقیم",
-                  "محلی",
-                  "خانگی",
-                  "تخفیف‌دار",
-                  "آماده ارسال"
-            ],
-            "attributes": [
-                  "تولیدکننده",
-                  "وزن/حجم",
-                  "ترکیبات",
-                  "تاریخ تولید و انقضا",
-                  "نگهداری",
-                  "مجوز بهداشتی",
-                  "محل تولید و بسته‌بندی"
-            ],
-            "filters": [
-                  "محل تولید",
-                  "نوع تولید",
-                  "وزن/حجم",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "عسل",
-                  "آبلیمو",
-                  "رب",
-                  "رب انار",
-                  "شیره",
-                  "ارده",
-                  "کنجد",
-                  "مربا",
-                  "برنج",
-                  "خشکبار",
-                  "آجیل",
-                  "حبوبات",
-                  "غلات",
-                  "میوه",
-                  "سبزی",
-                  "گوشت",
-                  "مرغ",
-                  "ماهی",
-                  "تخم‌مرغ",
-                  "شیر",
-                  "لبنیات",
-                  "کنسرو",
-                  "ماکارونی",
-                  "روغن",
-                  "سس",
-                  "ادویه",
-                  "ترشی",
-                  "شیرینی",
-                  "شکلات",
-                  "خرما",
-                  "نوشیدنی",
-                  "چای",
-                  "دمنوش",
-                  "قهوه",
-                  "رژیمی",
-                  "سوپرمارکتی"
-            ],
-            "subgroups": [
-                  {
-                        "name": "بسته‌بندی",
-                        "items": [
-                              "ادویه",
-                              "آردی",
-                              "ترشی",
-                              "رب",
-                              "روغن",
-                              "سس",
-                              "غذای آماده",
-                              "ماکارونی",
-                              "کنسرو"
-                        ]
-                  },
-                  {
-                        "name": "رژیمی",
-                        "items": [
-                              "بدون گلوتن",
-                              "غذای کودک با مجوز",
-                              "کم‌قند",
-                              "گیاهی و وگان"
-                        ]
-                  },
-                  {
-                        "name": "سوپرمارکتی",
-                        "items": [
-                              "اقلام روزانه و بسته‌های ترکیبی"
-                        ]
-                  },
-                  {
-                        "name": "شیرینی و تنقلات",
-                        "items": [
-                              "بیسکویت",
-                              "خرما",
-                              "شکلات",
-                              "شیرینی",
-                              "چیپس",
-                              "کیک"
-                        ]
-                  },
-                  {
-                        "name": "طبیعی و فرآوری‌شده",
-                        "items": [
-                              "ارده",
-                              "خوراکی خانگی دارای مجوز",
-                              "شیره",
-                              "عسل و فرآورده زنبور",
-                              "مربا",
-                              "کنجد"
-                        ]
-                  },
-                  {
-                        "name": "نوشیدنی",
-                        "items": [
-                              "آب",
-                              "آبمیوه",
-                              "دمنوش",
-                              "قهوه",
-                              "چای",
-                              "کاکائو"
-                        ]
-                  },
-                  {
-                        "name": "پروتئینی و لبنی",
-                        "items": [
-                              "تخم‌مرغ",
-                              "شیر و لبنیات",
-                              "ماهی",
-                              "مرغ",
-                              "گوشت مجاز"
-                        ]
-                  },
-                  {
-                        "name": "کشاورزی خوراکی",
-                        "items": [
-                              "آجیل",
-                              "برنج",
-                              "حبوبات",
-                              "خشکبار",
-                              "سبزی و صیفی",
-                              "غلات",
-                              "میوه"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "agriculture_livestock",
-            "slug": "agriculture-gardening-livestock",
-            "level": 1,
-            "sort_order": 7,
-            "entity_type": "product",
-            "name_fa": "کشاورزی، باغبانی و دامپروری",
-            "name_en": "Agriculture, Gardening & Livestock",
-            "name_ar": "الزراعة والبستنة",
-            "icon": "🌾",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "عمده",
-                  "خرده",
-                  "خدمت",
-                  "تولیدکننده مستقیم",
-                  "محلی"
-            ],
-            "attributes": [
-                  "نوع و رقم",
-                  "منطقه",
-                  "فصل",
-                  "مقدار",
-                  "واحد",
-                  "گواهی نهاده",
-                  "حداقل سفارش و حمل"
-            ],
-            "filters": [
-                  "منطقه",
-                  "نوع و رقم",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "بذر",
-                  "نهال",
-                  "نشاء",
-                  "کود",
-                  "کمپوست",
-                  "خاک",
-                  "تراکتور",
-                  "ادوات",
-                  "سمپاش",
-                  "باغبانی",
-                  "گلخانه",
-                  "آبیاری",
-                  "قطره‌ای",
-                  "پمپ",
-                  "دام",
-                  "طیور",
-                  "خوراک",
-                  "مرغداری",
-                  "دامداری",
-                  "محصولات عمده",
-                  "زراعی",
-                  "باغی",
-                  "آزمایش خاک"
-            ],
-            "subgroups": [
-                  {
-                        "name": "آبیاری",
-                        "items": [
-                              "اتصالات",
-                              "قطره‌ای",
-                              "لوله",
-                              "مخزن و فیلتر",
-                              "پمپ"
-                        ]
-                  },
-                  {
-                        "name": "بذر و نهال",
-                        "items": [
-                              "بذر زراعی",
-                              "سبزی",
-                              "صیفی",
-                              "نشاء و نهال",
-                              "گل"
-                        ]
-                  },
-                  {
-                        "name": "خدمات",
-                        "items": [
-                              "آزمایش خاک",
-                              "برداشت",
-                              "تعمیر ماشین‌آلات",
-                              "مشاوره",
-                              "کاشت"
-                        ]
-                  },
-                  {
-                        "name": "دام و طیور",
-                        "items": [
-                              "اقلام بهداشتی مجاز",
-                              "تجهیزات دامداری و مرغداری",
-                              "خوراک",
-                              "دام",
-                              "طیور"
-                        ]
-                  },
-                  {
-                        "name": "ماشین‌آلات",
-                        "items": [
-                              "ابزار باغبانی",
-                              "ادوات",
-                              "برداشت و فرآوری",
-                              "تراکتور",
-                              "سمپاش",
-                              "گلخانه"
-                        ]
-                  },
-                  {
-                        "name": "محصولات عمده",
-                        "items": [
-                              "باغی",
-                              "زراعی",
-                              "نهاده و محصول عمده",
-                              "گلخانه‌ای"
-                        ]
-                  },
-                  {
-                        "name": "کود و خاک",
-                        "items": [
-                              "آلی",
-                              "خاک و اصلاح‌کننده",
-                              "زیستی",
-                              "شیمیایی مجاز",
-                              "کمپوست"
-                        ]
-                  },
-                  {
-                        "name": "گلخانه",
-                        "items": [
-                              "سازه",
-                              "سرمایش و میز کشت",
-                              "پوشش",
-                              "گرمایش"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "fashion_apparel",
-            "slug": "fashion-clothing-shoes",
-            "level": 1,
-            "sort_order": 8,
-            "entity_type": "product",
-            "name_fa": "پوشاک، کیف، کفش و مد",
-            "name_en": "Fashion, Apparel & Shoes",
-            "name_ar": "الأزياء والملابس والأحذية",
-            "icon": "👕",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "عمده",
-                  "خرده",
-                  "سفارش ساخت",
-                  "دست‌ساز",
-                  "تخفیف‌دار"
-            ],
-            "attributes": [
-                  "سن",
-                  "سایز",
-                  "جدول اندازه",
-                  "جنس",
-                  "رنگ",
-                  "فصل",
-                  "سبک",
-                  "برند",
-                  "وضعیت"
-            ],
-            "filters": [
-                  "سایز",
-                  "رنگ",
-                  "جنس",
-                  "فصل",
-                  "برند",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "پوشاک",
-                  "مانتو",
-                  "زنانه",
-                  "مردانه",
-                  "پیراهن",
-                  "تیشرت",
-                  "شلوار",
-                  "جین",
-                  "کت‌وشلوار",
-                  "کودک",
-                  "نوزادی",
-                  "لباس زیر",
-                  "جوراب",
-                  "کیف",
-                  "کوله",
-                  "چمدان",
-                  "کفش",
-                  "بوت",
-                  "نیم‌بوت",
-                  "صندل",
-                  "دمپایی",
-                  "ساعت",
-                  "کمربند",
-                  "کیف پول",
-                  "شال",
-                  "روسری",
-                  "عینک",
-                  "پارچه",
-                  "چرخ خیاطی",
-                  "لباس کار",
-                  "یونیفرم"
-            ],
-            "subgroups": [
-                  {
-                        "name": "اکسسوری",
-                        "items": [
-                              "روسری",
-                              "زیورآلات مجاز",
-                              "ساعت",
-                              "شال",
-                              "عینک",
-                              "کمربند",
-                              "کیف پول"
-                        ]
-                  },
-                  {
-                        "name": "خاص",
-                        "items": [
-                              "سنتی و محلی",
-                              "لباس کار",
-                              "مراسم",
-                              "یونیفرم"
-                        ]
-                  },
-                  {
-                        "name": "زنانه",
-                        "items": [
-                              "خواب",
-                              "راحتی",
-                              "رسمی",
-                              "روزمره",
-                              "مانتو",
-                              "مجلسی",
-                              "ورزشی"
-                        ]
-                  },
-                  {
-                        "name": "لباس زیر و جوراب",
-                        "items": [
-                              "جوراب",
-                              "لباس زیر"
-                        ]
-                  },
-                  {
-                        "name": "مردانه",
-                        "items": [
-                              "تیشرت",
-                              "جین",
-                              "راحتی",
-                              "شلوار",
-                              "ورزشی",
-                              "پیراهن",
-                              "کت‌وشلوار"
-                        ]
-                  },
-                  {
-                        "name": "پارچه و دوخت",
-                        "items": [
-                              "ملزومات خیاطی",
-                              "نخ",
-                              "پارچه",
-                              "چرخ خیاطی"
-                        ]
-                  },
-                  {
-                        "name": "کفش",
-                        "items": [
-                              "بوت",
-                              "دمپایی",
-                              "رسمی",
-                              "روزمره",
-                              "صندل",
-                              "نیم‌بوت",
-                              "ورزشی"
-                        ]
-                  },
-                  {
-                        "name": "کودک و نوجوان",
-                        "items": [
-                              "نوجوان",
-                              "نوزادی",
-                              "کودک"
-                        ]
-                  },
-                  {
-                        "name": "کیف و چمدان",
-                        "items": [
-                              "اداری",
-                              "دستی",
-                              "دوشی",
-                              "ساک",
-                              "لپ‌تاپ",
-                              "چمدان",
-                              "کوله"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "beauty_personal_care",
-            "slug": "beauty-personal-care",
-            "level": 1,
-            "sort_order": 9,
-            "entity_type": "product",
-            "name_fa": "آرایشی، بهداشتی و مراقبت شخصی",
-            "name_en": "Beauty & Personal Care",
-            "name_ar": "التجميل والعناية الشخصية",
-            "icon": "🧴",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "عمده",
-                  "خرده",
-                  "تخفیف‌دار",
-                  "گارانتی‌دار"
-            ],
-            "attributes": [
-                  "برند",
-                  "نوع پوست/مو طبق سازنده",
-                  "حجم",
-                  "ترکیبات",
-                  "کشور",
-                  "انقضا",
-                  "اصالت و مجوز"
-            ],
-            "filters": [
-                  "برند",
-                  "نوع پوست/مو",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "آرایشی",
-                  "بهداشتی",
-                  "پوست",
-                  "پاک‌کننده",
-                  "شوینده",
-                  "مرطوب‌کننده",
-                  "آبرسان",
-                  "ضدآفتاب",
-                  "کرم‌پودر",
-                  "کانسیلر",
-                  "رژگونه",
-                  "مو",
-                  "شامپو",
-                  "نرم‌کننده",
-                  "ماسک",
-                  "سرم",
-                  "رنگ",
-                  "دئودورانت",
-                  "عطر",
-                  "ادکلن",
-                  "بادی‌اسپلش",
-                  "مانیکور",
-                  "پدیکور"
-            ],
-            "subgroups": [
-                  {
-                        "name": "ابزار زیبایی",
-                        "items": [
-                              "آینه",
-                              "تجهیزات سالن",
-                              "مانیکور",
-                              "پدیکور"
-                        ]
-                  },
-                  {
-                        "name": "آرایش",
-                        "items": [
-                              "برس و ابزار",
-                              "رژگونه",
-                              "لب",
-                              "پودر",
-                              "چشم",
-                              "کانسیلر",
-                              "کرم‌پودر"
-                        ]
-                  },
-                  {
-                        "name": "بهداشت",
-                        "items": [
-                              "اصلاح",
-                              "دئودورانت",
-                              "دهان و دندان",
-                              "شوینده بدن"
-                        ]
-                  },
-                  {
-                        "name": "بهداشت بانوان و آقایان",
-                        "items": [
-                              "بهداشت آقایان",
-                              "بهداشت بانوان"
-                        ]
-                  },
-                  {
-                        "name": "عطر",
-                        "items": [
-                              "ادکلن",
-                              "بادی‌اسپلش و خوشبوکننده مجاز",
-                              "عطر"
-                        ]
-                  },
-                  {
-                        "name": "مو",
-                        "items": [
-                              "ابزار برقی",
-                              "حالت‌دهنده",
-                              "رنگ",
-                              "سرم",
-                              "شامپو",
-                              "ماسک",
-                              "نرم‌کننده"
-                        ]
-                  },
-                  {
-                        "name": "پوست",
-                        "items": [
-                              "آبرسان",
-                              "شوینده",
-                              "ضدآفتاب",
-                              "مرطوب‌کننده",
-                              "پاک‌کننده"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "health_medical",
-            "slug": "health-medical-equipment",
-            "level": 1,
-            "sort_order": 10,
-            "entity_type": "product",
-            "name_fa": "سلامت، پزشکی و تجهیزات درمانی",
-            "name_en": "Health & Medical Equipment",
-            "name_ar": "الصحة والمعدات الطبية",
-            "icon": "🩺",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "اجاره",
-                  "خدمت",
-                  "گارانتی‌دار"
-            ],
-            "attributes": [
-                  "سازنده",
-                  "مدل",
-                  "کاربرد",
-                  "مشخصات",
-                  "استریل",
-                  "انقضا",
-                  "ثبت و مجوز"
-            ],
-            "filters": [
-                  "سازنده",
-                  "کاربرد",
-                  "وضعیت",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "سلامت",
-                  "پزشکی",
-                  "درمانی",
-                  "فشارسنج",
-                  "تب‌سنج",
-                  "دستگاه قند",
-                  "پالس‌اکسی‌متر",
-                  "ویلچر",
-                  "واکر",
-                  "عصا",
-                  "تشک بیمار",
-                  "فیزیوتراپی",
-                  "پانسمان",
-                  "گاز",
-                  "دستکش",
-                  "ماسک",
-                  "کلینیکی",
-                  "آزمایشگاهی",
-                  "دندان‌پزشکی",
-                  "پرستاری",
-                  "سالمند"
-            ],
-            "subgroups": [
-                  {
-                        "name": "توان‌بخشی",
-                        "items": [
-                              "تجهیزات حرکتی",
-                              "تجهیزات مجاز فیزیوتراپی",
-                              "تشک بیمار",
-                              "عصا",
-                              "واکر",
-                              "ویلچر"
-                        ]
-                  },
-                  {
-                        "name": "حرفه‌ای",
-                        "items": [
-                              "آزمایشگاهی",
-                              "تجهیزات کلینیکی",
-                              "تصویربرداری",
-                              "دندان‌پزشکی"
-                        ]
-                  },
-                  {
-                        "name": "خدمات مجاز",
-                        "items": [
-                              "آزمایشگاهی",
-                              "تشخیصی و مشاوره دارای مجوز",
-                              "توان‌بخشی",
-                              "پرستاری"
-                        ]
-                  },
-                  {
-                        "name": "مراقبت بیمار و سالمند",
-                        "items": [
-                              "مراقبت بیمار",
-                              "مراقبت سالمند"
-                        ]
-                  },
-                  {
-                        "name": "مصرفی پزشکی",
-                        "items": [
-                              "اقلام مجاز",
-                              "دستکش",
-                              "ماسک",
-                              "پانسمان",
-                              "گاز"
-                        ]
-                  },
-                  {
-                        "name": "پایش خانگی",
-                        "items": [
-                              "تب‌سنج",
-                              "دستگاه قند و ملزومات",
-                              "فشارسنج",
-                              "پالس‌اکسی‌متر"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "vehicles",
-            "slug": "cars-motorcycles-vehicles",
-            "level": 1,
-            "sort_order": 11,
-            "entity_type": "vehicle",
-            "name_fa": "خودرو، موتورسیکلت و وسایل نقلیه",
-            "name_en": "Cars, Motorcycles & Vehicles",
-            "name_ar": "السيارات والدراجات",
-            "icon": "🚗",
-            "allowed_offer_types": [
-                  "آگهی خودرو",
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "معاوضه",
-                  "اجاره",
-                  "خدمت"
-            ],
-            "attributes": [
-                  "سازنده",
-                  "مدل",
-                  "تیپ",
-                  "سال",
-                  "کارکرد",
-                  "رنگ",
-                  "سوخت",
-                  "گیربکس",
-                  "وضعیت فنی و بدنه",
-                  "شهر",
-                  "قیمت",
-                  "مدارک و کارشناسی"
-            ],
-            "filters": [
-                  "سازنده",
-                  "سال",
-                  "رنگ",
-                  "سوخت",
-                  "گیربکس",
-                  "شهر",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "خودرو",
-                  "موتورسیکلت",
-                  "سواری",
-                  "صفر",
-                  "کارکرده",
-                  "کلاسیک",
-                  "برقی",
-                  "هیبریدی",
-                  "وانت",
-                  "پیکاپ",
-                  "ون",
-                  "مینی‌بوس",
-                  "کامیون",
-                  "کشنده",
-                  "اتوبوس",
-                  "اسکوتر",
-                  "دوچرخه",
-                  "قطعات خودرو",
-                  "لاستیک",
-                  "رینگ",
-                  "صافکاری",
-                  "مکانیکی",
-                  "راه‌سازی"
-            ],
-            "subgroups": [
-                  {
-                        "name": "تجاری و سنگین",
-                        "items": [
-                              "اتوبوس",
-                              "مینی‌بوس",
-                              "وانت",
-                              "ون",
-                              "پیکاپ",
-                              "کامیون",
-                              "کشنده"
-                        ]
-                  },
-                  {
-                        "name": "خدمات",
-                        "items": [
-                              "امداد مجاز",
-                              "برق",
-                              "سرویس",
-                              "صافکاری",
-                              "مکانیکی",
-                              "نقاشی",
-                              "کارشناسی"
-                        ]
-                  },
-                  {
-                        "name": "سبک",
-                        "items": [
-                              "اسکوتر",
-                              "برقی",
-                              "دوچرخه و دوچرخه برقی",
-                              "موتورسیکلت"
-                        ]
-                  },
-                  {
-                        "name": "سواری",
-                        "items": [
-                              "برقی و هیبریدی",
-                              "صفر",
-                              "کارکرده",
-                              "کلاسیک"
-                        ]
-                  },
-                  {
-                        "name": "قطعات",
-                        "items": [
-                              "انتقال قدرت",
-                              "باتری",
-                              "بدنه",
-                              "برق",
-                              "رینگ",
-                              "فیلتر",
-                              "لاستیک",
-                              "موتور"
-                        ]
-                  },
-                  {
-                        "name": "لوازم جانبی",
-                        "items": [
-                              "ابزار نگهداری",
-                              "باربند",
-                              "حسگر",
-                              "دوربین",
-                              "صوتی",
-                              "کابین"
-                        ]
-                  },
-                  {
-                        "name": "ماشین‌آلات حمل‌ونقل و راه‌سازی",
-                        "items": [
-                              "ماشین‌آلات حمل‌ونقل",
-                              "ماشین‌آلات راه‌سازی"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "real_estate",
-            "slug": "real-estate-properties",
-            "level": 1,
-            "sort_order": 12,
-            "entity_type": "property",
-            "name_fa": "املاک و مستغلات",
-            "name_en": "Real Estate & Properties",
-            "name_ar": "العقارات",
-            "icon": "🏠",
-            "allowed_offer_types": [
-                  "آگهی ملک",
-                  "اجاره",
-                  "معاوضه",
-                  "خدمت"
-            ],
-            "attributes": [
-                  "نوع معامله",
-                  "نوع ملک",
-                  "متراژ",
-                  "اتاق",
-                  "سن بنا",
-                  "طبقه",
-                  "آسانسور",
-                  "پارکینگ",
-                  "انباری",
-                  "امکانات",
-                  "موقعیت",
-                  "سند",
-                  "وضعیت حقوقی و قیمت"
-            ],
-            "filters": [
-                  "نوع معامله",
-                  "نوع ملک",
-                  "متراژ",
-                  "تعداد اتاق",
-                  "قیمت"
-            ],
-            "keywords": [
-                  "املاک",
-                  "مستغلات",
-                  "آپارتمان",
-                  "خانه",
-                  "ویلا",
-                  "کلنگی",
-                  "زمین",
-                  "اجاره مسکونی",
-                  "تجاری",
-                  "اداری",
-                  "مغازه",
-                  "دفتر",
-                  "انبار",
-                  "سوله",
-                  "زمین صنعتی",
-                  "زمین کشاورزی",
-                  "باغ",
-                  "دامداری",
-                  "گلخانه",
-                  "پیش‌فروش",
-                  "مشارکت در ساخت"
-            ],
-            "subgroups": [
-                  {
-                        "name": "اجاره تجاری و مشارکت",
-                        "items": [
-                              "اجاره تجاری",
-                              "مشارکت"
-                        ]
-                  },
-                  {
-                        "name": "اجاره مسکونی",
-                        "items": [
-                              "اتاق و هم‌خانه",
-                              "آپارتمان",
-                              "خانه",
-                              "ویلا",
-                              "کوتاه‌مدت مجاز"
-                        ]
-                  },
-                  {
-                        "name": "تجاری و اداری",
-                        "items": [
-                              "انبار",
-                              "دفتر",
-                              "سوله",
-                              "فضای اداری",
-                              "مغازه",
-                              "واحد تجاری"
-                        ]
-                  },
-                  {
-                        "name": "خدمات",
-                        "items": [
-                              "ارزیابی",
-                              "مدیریت ملک",
-                              "مشاور دارای مجوز",
-                              "کارشناسی"
-                        ]
-                  },
-                  {
-                        "name": "خرید مسکونی",
-                        "items": [
-                              "آپارتمان",
-                              "خانه",
-                              "زمین",
-                              "ویلا",
-                              "کلنگی"
-                        ]
-                  },
-                  {
-                        "name": "زمین صنعتی و کشاورزی",
-                        "items": [
-                              "باغ",
-                              "دامداری",
-                              "زمین صنعتی",
-                              "زمین کشاورزی",
-                              "گلخانه"
-                        ]
-                  },
-                  {
-                        "name": "پروژه ساختمانی",
-                        "items": [
-                              "مشارکت در ساخت",
-                              "نوساز",
-                              "پیش‌فروش با مدارک"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "tools_construction",
-            "slug": "tools-construction-facilities",
-            "level": 1,
-            "sort_order": 13,
-            "entity_type": "product",
-            "name_fa": "ابزارآلات، ساختمان و تأسیسات",
-            "name_en": "Tools, Construction & Facilities",
-            "name_ar": "الأدوات والبناء",
-            "icon": "🛠️",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "اجاره",
-                  "عمده",
-                  "خرده",
-                  "گارانتی‌دار"
-            ],
-            "attributes": [
-                  "جنس",
-                  "ابعاد",
-                  "استاندارد",
-                  "برند",
-                  "توان",
-                  "ولتاژ",
-                  "کاربرد",
-                  "واحد",
-                  "حداقل سفارش و گواهی"
-            ],
-            "filters": [
-                  "برند",
-                  "جنس",
-                  "کاربرد",
-                  "وضعیت",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "ابزارآلات",
-                  "ساختمان",
-                  "تأسیسات",
-                  "آچار",
-                  "پیچ‌گوشتی",
-                  "انبر",
-                  "دریل",
-                  "فرز",
-                  "اره",
-                  "جوشکاری",
-                  "کمپرسور",
-                  "سیمان",
-                  "گچ",
-                  "ملات",
-                  "آجر",
-                  "بلوک",
-                  "آهن",
-                  "چوب",
-                  "شیشه",
-                  "لوله",
-                  "اتصالات",
-                  "شیرآلات",
-                  "پمپ",
-                  "کابل",
-                  "کلید و پریز",
-                  "کاشی",
-                  "سرامیک",
-                  "رنگ",
-                  "ایمنی",
-                  "بالابر",
-                  "داربست"
-            ],
-            "subgroups": [
-                  {
-                        "name": "ابزار دستی",
-                        "items": [
-                              "انبر",
-                              "اندازه‌گیری",
-                              "آچار",
-                              "برش و سایش",
-                              "پیچ‌گوشتی"
-                        ]
-                  },
-                  {
-                        "name": "ایمنی",
-                        "items": [
-                              "حفاظت سقوط",
-                              "دستکش",
-                              "عینک",
-                              "لباس و کفش کار",
-                              "کلاه"
-                        ]
-                  },
-                  {
-                        "name": "برقی",
-                        "items": [
-                              "تابلو",
-                              "روشنایی",
-                              "سیم",
-                              "هوشمندسازی",
-                              "پریز",
-                              "کابل",
-                              "کلید"
-                        ]
-                  },
-                  {
-                        "name": "برقی و شارژی",
-                        "items": [
-                              "اره",
-                              "جوشکاری مجاز",
-                              "دریل",
-                              "فرز",
-                              "نجاری",
-                              "پیچ‌بند",
-                              "کمپرسور"
-                        ]
-                  },
-                  {
-                        "name": "تکمیل",
-                        "items": [
-                              "در و پنجره",
-                              "رنگ",
-                              "سرامیک",
-                              "چینی بهداشتی",
-                              "کابینت",
-                              "کاشی",
-                              "یراق"
-                        ]
-                  },
-                  {
-                        "name": "ماشین‌آلات",
-                        "items": [
-                              "بالابر",
-                              "بتن‌سازی",
-                              "برش",
-                              "داربست",
-                              "سوراح‌کاری",
-                              "ویبره"
-                        ]
-                  },
-                  {
-                        "name": "مصالح",
-                        "items": [
-                              "آجر",
-                              "آهن",
-                              "بلوک",
-                              "سیمان",
-                              "شیشه",
-                              "عایق",
-                              "ملات",
-                              "نما",
-                              "چوب",
-                              "گچ"
-                        ]
-                  },
-                  {
-                        "name": "مکانیکی",
-                        "items": [
-                              "اتصالات",
-                              "تهویه",
-                              "سرمایش",
-                              "شیرآلات",
-                              "لوله",
-                              "مخزن",
-                              "پمپ",
-                              "گرمایش"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "sports_travel",
-            "slug": "sports-recreation-travel",
-            "level": 1,
-            "sort_order": 14,
-            "entity_type": "product",
-            "name_fa": "ورزش، تفریح و سفر",
-            "name_en": "Sports, Recreation & Travel",
-            "name_ar": "الرياضة والترفيه والسفر",
-            "icon": "⚽",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "اجاره",
-                  "خدمت",
-                  "خرده",
-                  "عمده"
-            ],
-            "attributes": [
-                  "فعالیت",
-                  "برند",
-                  "سایز",
-                  "جنس",
-                  "سطح مهارت",
-                  "مقصد",
-                  "تاریخ",
-                  "مدت",
-                  "ظرفیت"
-            ],
-            "filters": [
-                  "برند",
-                  "فعالیت",
-                  "سایز",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "ورزش",
-                  "تفریح",
-                  "سفر",
-                  "بدنسازی",
-                  "یوگا",
-                  "پیلاتس",
-                  "دویدن",
-                  "شنا",
-                  "فوتبال",
-                  "فوتسال",
-                  "والیبال",
-                  "بسکتبال",
-                  "کوهنوردی",
-                  "کمپینگ",
-                  "دوچرخه",
-                  "چادر",
-                  "کیسه‌خواب",
-                  "کوله",
-                  "بازی فکری",
-                  "ساز",
-                  "موسیقی",
-                  "تور",
-                  "اقامت",
-                  "گردشگری"
-            ],
-            "subgroups": [
-                  {
-                        "name": "خدمات سفر",
-                        "items": [
-                              "اجاره تجهیزات",
-                              "اقامت",
-                              "تجربه محلی",
-                              "تور و راهنمای مجاز",
-                              "حمل‌ونقل گردشگری"
-                        ]
-                  },
-                  {
-                        "name": "سرگرمی",
-                        "items": [
-                              "بازی فکری",
-                              "ساز",
-                              "لوازم موسیقی",
-                              "کلکسیون"
-                        ]
-                  },
-                  {
-                        "name": "سفر",
-                        "items": [
-                              "روشنایی و جهت‌یابی",
-                              "لوازم سفر",
-                              "پخت‌وپز",
-                              "چادر",
-                              "کوله",
-                              "کیسه‌خواب"
-                        ]
-                  },
-                  {
-                        "name": "فردی و باشگاهی",
-                        "items": [
-                              "بدنسازی",
-                              "دویدن",
-                              "شنا",
-                              "وزنه",
-                              "پیلاتس",
-                              "یوگا"
-                        ]
-                  },
-                  {
-                        "name": "پوشاک و تجهیزات",
-                        "items": [
-                              "تمرین خانگی",
-                              "لباس",
-                              "محافظ",
-                              "کفش"
-                        ]
-                  },
-                  {
-                        "name": "گروهی و فضای باز",
-                        "items": [
-                              "بسکتبال",
-                              "دوچرخه",
-                              "راکتی",
-                              "فوتبال",
-                              "فوتسال",
-                              "والیبال",
-                              "کمپینگ",
-                              "کوهنوردی"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "kids_baby_toys",
-            "slug": "kids-baby-toys",
-            "level": 1,
-            "sort_order": 15,
-            "entity_type": "product",
-            "name_fa": "کودک، نوزاد و اسباب‌بازی",
-            "name_en": "Kids, Baby & Toys",
-            "name_ar": "الأطفال والرضع والألعاب",
-            "icon": "🧸",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "عمده",
-                  "خرده",
-                  "خدمت",
-                  "گارانتی‌دار"
-            ],
-            "attributes": [
-                  "سن",
-                  "حداقل سن",
-                  "جنس",
-                  "ابعاد",
-                  "استاندارد",
-                  "هشدار قطعات کوچک",
-                  "برند",
-                  "وضعیت",
-                  "مجوز"
-            ],
-            "filters": [
-                  "رده سنی",
-                  "برند",
-                  "جنس",
-                  "وضعیت",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "کودک",
-                  "نوزاد",
-                  "اسباب‌بازی",
-                  "کالسکه",
-                  "کریر",
-                  "صندلی خودرو",
-                  "گهواره",
-                  "شیشه‌شیر",
-                  "پوشک",
-                  "نوجوان",
-                  "آموزشی",
-                  "ساختنی",
-                  "عروسک",
-                  "فیگور",
-                  "ماشین",
-                  "کنترلی",
-                  "فکری",
-                  "فلش‌کارت",
-                  "نقاشی",
-                  "مهد و مراقبت"
-            ],
-            "subgroups": [
-                  {
-                        "name": "اسباب‌بازی",
-                        "items": [
-                              "آموزشی",
-                              "ساختنی",
-                              "عروسک",
-                              "فکری",
-                              "فیگور",
-                              "ماشین",
-                              "کنترلی"
-                        ]
-                  },
-                  {
-                        "name": "خدمات",
-                        "items": [
-                              "آموزش و کلاس",
-                              "سرگرمی و مراسم",
-                              "مهد و مراقبت دارای مجوز"
-                        ]
-                  },
-                  {
-                        "name": "رشد و آموزش",
-                        "items": [
-                              "خلاقیت",
-                              "فلش‌کارت",
-                              "نقاشی",
-                              "کتاب",
-                              "کمک‌آموزشی"
-                        ]
-                  },
-                  {
-                        "name": "مبلمان و ایمنی",
-                        "items": [
-                              "تخت",
-                              "صندلی غذاخوری",
-                              "محافظ",
-                              "کمد"
-                        ]
-                  },
-                  {
-                        "name": "نوزاد",
-                        "items": [
-                              "تخت",
-                              "تغذیه",
-                              "شیشه‌شیر",
-                              "صندلی خودرو",
-                              "پوشک",
-                              "کالسکه",
-                              "کریر",
-                              "گهواره"
-                        ]
-                  },
-                  {
-                        "name": "پوشاک",
-                        "items": [
-                              "نوجوان",
-                              "نوزادی",
-                              "کفش و لباس مراسم",
-                              "کودک"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "books_art_stationery",
-            "slug": "books-culture-art-stationery",
-            "level": 1,
-            "sort_order": 16,
-            "entity_type": "product",
-            "name_fa": "کتاب، فرهنگ، هنر و لوازم تحریر",
-            "name_en": "Books, Culture, Art & Stationery",
-            "name_ar": "الكتب والثقافة والقرطاسية",
-            "icon": "📚",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "عمده",
-                  "خرده",
-                  "خدمت",
-                  "دست‌ساز"
-            ],
-            "attributes": [
-                  "نویسنده/هنرمند",
-                  "ناشر",
-                  "زبان",
-                  "سال",
-                  "شابک",
-                  "وضعیت",
-                  "اصالت و مدارک مالکیت"
-            ],
-            "filters": [
-                  "زبان",
-                  "وضعیت",
-                  "نوع اثر",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "کتاب",
-                  "ادبیات",
-                  "علمی",
-                  "آموزشی",
-                  "دانشگاهی",
-                  "نایاب",
-                  "نوشت‌افزار",
-                  "خودکار",
-                  "مداد",
-                  "دفتر",
-                  "کاغذ",
-                  "هنرهای تجسمی",
-                  "نقاشی",
-                  "مجسمه",
-                  "پوستر",
-                  "موسیقی",
-                  "ساز",
-                  "نت",
-                  "کلکسیون",
-                  "تمبر",
-                  "سکه",
-                  "ترجمه",
-                  "ویراستاری"
-            ],
-            "subgroups": [
-                  {
-                        "name": "خدمات",
-                        "items": [
-                              "آموزش هنر و موسیقی",
-                              "ترجمه",
-                              "تولید محتوای فرهنگی",
-                              "ویراستاری"
-                        ]
-                  },
-                  {
-                        "name": "موسیقی",
-                        "items": [
-                              "ساز",
-                              "لوازم",
-                              "محصولات مجاز",
-                              "نت",
-                              "کتاب موسیقی"
-                        ]
-                  },
-                  {
-                        "name": "نوشت‌افزار",
-                        "items": [
-                              "خودکار",
-                              "دفتر",
-                              "طراحی",
-                              "لوازم اداری",
-                              "مداد",
-                              "کاغذ"
-                        ]
-                  },
-                  {
-                        "name": "هنرهای تجسمی",
-                        "items": [
-                              "اثر اصل",
-                              "طراحی",
-                              "مجسمه",
-                              "نقاشی",
-                              "پوستر",
-                              "چاپ هنری"
-                        ]
-                  },
-                  {
-                        "name": "کتاب",
-                        "items": [
-                              "ادبیات",
-                              "آموزشی",
-                              "دانشگاهی",
-                              "دست‌دوم و نایاب",
-                              "زبان",
-                              "علمی",
-                              "کودک"
-                        ]
-                  },
-                  {
-                        "name": "کلکسیون",
-                        "items": [
-                              "اشیای قدیمی با منشأ قانونی",
-                              "تمبر",
-                              "سکه مجاز",
-                              "یادگاری"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "handicrafts_local",
-            "slug": "handicrafts-local-souvenirs",
-            "level": 1,
-            "sort_order": 17,
-            "entity_type": "product",
-            "name_fa": "صنایع دستی و محصولات محلی",
-            "name_en": "Handicrafts & Local Products",
-            "name_ar": "الحرف اليدوية",
-            "icon": "🏺",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "سفارش ساخت",
-                  "عمده",
-                  "خرده",
-                  "تولیدکننده مستقیم",
-                  "محلی",
-                  "خانگی",
-                  "دست‌ساز",
-                  "قابل شخصی‌سازی"
-            ],
-            "attributes": [
-                  "منطقه",
-                  "سازنده",
-                  "روش ساخت",
-                  "مواد اولیه",
-                  "زمان آماده‌سازی",
-                  "شخصی‌سازی و گواهی اصالت"
-            ],
-            "filters": [
-                  "منطقه",
-                  "روش ساخت",
-                  "قابل شخصی‌سازی",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "صنایع دستی",
-                  "محلی",
-                  "قالی",
-                  "قالیچه",
-                  "گلیم",
-                  "جاجیم",
-                  "رودوزی",
-                  "حصیر",
-                  "سفال",
-                  "سرامیک",
-                  "ظروف شیشه‌ای",
-                  "کاشی تزئینی",
-                  "مس",
-                  "برنج",
-                  "فلزکاری",
-                  "منبت",
-                  "معرق",
-                  "خاتم",
-                  "سوغات",
-                  "بسته هدیه",
-                  "تولید خانگی",
-                  "دست‌ساز",
-                  "سفارش ساخت"
-            ],
-            "subgroups": [
-                  {
-                        "name": "بافتنی و نساجی",
-                        "items": [
-                              "جاجیم",
-                              "حصیر",
-                              "رودوزی",
-                              "قالی",
-                              "قالیچه",
-                              "گلیم"
-                        ]
-                  },
-                  {
-                        "name": "تولید خانگی",
-                        "items": [
-                              "خوراکی دارای مجوز",
-                              "دست‌ساز غیرخوراکی",
-                              "محصولات سفارشی"
-                        ]
-                  },
-                  {
-                        "name": "سفارش ساخت",
-                        "items": [
-                              "اثر هنری",
-                              "صنایع دستی",
-                              "هدیه اختصاصی"
-                        ]
-                  },
-                  {
-                        "name": "سفال و شیشه",
-                        "items": [
-                              "سرامیک",
-                              "سفال",
-                              "ظروف شیشه‌ای",
-                              "کاشی تزئینی"
-                        ]
-                  },
-                  {
-                        "name": "سوغات",
-                        "items": [
-                              "بسته هدیه",
-                              "خوراکی",
-                              "محصولات فرهنگی",
-                              "پوشاک و منسوجات محلی"
-                        ]
-                  },
-                  {
-                        "name": "فلز و چوب",
-                        "items": [
-                              "برنج",
-                              "خاتم",
-                              "زیورآلات مجاز",
-                              "فلزکاری",
-                              "مس",
-                              "معرق",
-                              "منبت"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "pets_supplies",
-            "slug": "pets-supplies",
-            "level": 1,
-            "sort_order": 18,
-            "entity_type": "product",
-            "name_fa": "حیوانات خانگی و لوازم نگهداری",
-            "name_en": "Pets & Pet Supplies",
-            "name_ar": "الحيوانات الأليفة ومستلزماتها",
-            "icon": "🦜",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "عمده",
-                  "خرده",
-                  "خدمت",
-                  "واگذاری مسئولانه"
-            ],
-            "attributes": [
-                  "گونه",
-                  "نژاد",
-                  "سن",
-                  "سلامت",
-                  "واکسیناسیون",
-                  "مدارک و شرایط نگهداری"
-            ],
-            "filters": [
-                  "گونه",
-                  "نژاد",
-                  "نوع محصول/خدمت",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "حیوانات خانگی",
-                  "سگ",
-                  "گربه",
-                  "پرندگان",
-                  "آبزیان",
-                  "خزندگان مجاز",
-                  "تشویقی",
-                  "مکمل",
-                  "قفس",
-                  "آشیانه",
-                  "آکواریوم",
-                  "قلاده",
-                  "باکس",
-                  "شامپو",
-                  "برس",
-                  "پیرایش",
-                  "بستر و خاک",
-                  "پرندگان زینتی",
-                  "ماهی",
-                  "جوندگان",
-                  "دامپزشکی",
-                  "پانسیون",
-                  "واگذاری مسئولانه"
-            ],
-            "subgroups": [
-                  {
-                        "name": "بهداشت",
-                        "items": [
-                              "برس",
-                              "بستر و خاک",
-                              "شامپو",
-                              "مراقبت",
-                              "پیرایش"
-                        ]
-                  },
-                  {
-                        "name": "حیوانات",
-                        "items": [
-                              "جوندگان و گونه‌های مجاز",
-                              "سگ",
-                              "ماهی",
-                              "پرندگان زینتی",
-                              "گربه"
-                        ]
-                  },
-                  {
-                        "name": "خدمات",
-                        "items": [
-                              "آموزش",
-                              "دامپزشکی مجاز",
-                              "واگذاری مسئولانه",
-                              "پانسیون",
-                              "پیرایش"
-                        ]
-                  },
-                  {
-                        "name": "غذا",
-                        "items": [
-                              "آبزیان",
-                              "تشویقی و مکمل مجاز",
-                              "خزندگان مجاز",
-                              "سگ و گربه",
-                              "پرندگان"
-                        ]
-                  },
-                  {
-                        "name": "نگهداری",
-                        "items": [
-                              "اسباب‌بازی",
-                              "آشیانه",
-                              "آکواریوم",
-                              "باکس",
-                              "تجهیزات",
-                              "ظرف",
-                              "قفس",
-                              "قلاده"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "services_business",
-            "slug": "services-business",
-            "level": 1,
-            "sort_order": 19,
-            "entity_type": "service",
-            "name_fa": "خدمات و کسب‌وکار",
-            "name_en": "Services & Business",
-            "name_ar": "الخدمات والأعمال",
-            "icon": "🧰",
-            "allowed_offer_types": [
-                  "خدمت",
-                  "اجاره",
-                  "عمده"
-            ],
-            "attributes": [
-                  "محدوده",
-                  "حضوری/آنلاین",
-                  "قیمت پایه",
-                  "زمان پاسخ و انجام",
-                  "مجوز",
-                  "نمونه‌کار",
-                  "ضمانت و لغو"
-            ],
-            "filters": [
-                  "حضوری/آنلاین",
-                  "محدوده",
-                  "حوزه خدمت",
-                  "قیمت پایه"
-            ],
-            "keywords": [
-                  "خدمات",
-                  "کسب‌وکار",
-                  "تعمیر لوازم خانگی",
-                  "تعمیر موبایل",
-                  "تعمیر رایانه",
-                  "تعمیر خودرو",
-                  "برق",
-                  "لوله‌کشی",
-                  "تأسیسات",
-                  "نظافت",
-                  "اسباب‌کشی",
-                  "حمل بار",
-                  "نصب",
-                  "مونتاژ",
-                  "فضای سبز",
-                  "حسابداری",
-                  "مالی",
-                  "حقوقی",
-                  "مهندسی",
-                  "معماری",
-                  "مشاوره",
-                  "طراحی سایت",
-                  "نرم‌افزار",
-                  "گرافیک",
-                  "برندینگ",
-                  "محتوا",
-                  "ترجمه",
-                  "بازاریابی",
-                  "هوش مصنوعی",
-                  "آموزش",
-                  "عکاسی",
-                  "فیلم‌برداری",
-                  "خیاطی",
-                  "پیک",
-                  "باربری",
-                  "عمده‌فروشی",
-                  "پیمانکاری"
-            ],
-            "subgroups": [
-                  {
-                        "name": "آموزش",
-                        "items": [
-                              "آنلاین",
-                              "خصوصی",
-                              "سازمانی",
-                              "مهارت فنی"
-                        ]
-                  },
-                  {
-                        "name": "تجاری",
-                        "items": [
-                              "اجاره تجهیزات",
-                              "تأمین کالا",
-                              "عمده‌فروشی",
-                              "نمایشگاهی",
-                              "پیمانکاری"
-                        ]
-                  },
-                  {
-                        "name": "حرفه‌ای",
-                        "items": [
-                              "حسابداری",
-                              "حقوقی مجاز",
-                              "مالی",
-                              "مشاوره",
-                              "معماری",
-                              "منابع انسانی",
-                              "مهندسی"
-                        ]
-                  },
-                  {
-                        "name": "دیجیتال",
-                        "items": [
-                              "بازاریابی",
-                              "برندینگ",
-                              "ترجمه",
-                              "طراحی سایت",
-                              "محتوا",
-                              "نرم‌افزار",
-                              "هوش مصنوعی",
-                              "گرافیک"
-                        ]
-                  },
-                  {
-                        "name": "شخصی و مراسم",
-                        "items": [
-                              "آرایش",
-                              "تشریفات",
-                              "خیاطی",
-                              "عکاسی",
-                              "فیلم‌برداری"
-                        ]
-                  },
-                  {
-                        "name": "فنی",
-                        "items": [
-                              "برق",
-                              "تعمیر لوازم خانگی",
-                              "خودرو",
-                              "رایانه",
-                              "لوله‌کشی و تأسیسات",
-                              "موبایل"
-                        ]
-                  },
-                  {
-                        "name": "لجستیک",
-                        "items": [
-                              "ارسال",
-                              "انبارداری",
-                              "باربری",
-                              "بسته‌بندی",
-                              "پیک"
-                        ]
-                  },
-                  {
-                        "name": "منزل و محل کار",
-                        "items": [
-                              "اسباب‌کشی",
-                              "حمل بار",
-                              "فضای سبز",
-                              "مونتاژ",
-                              "نصب",
-                              "نظافت"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "jobs_recruitment",
-            "slug": "jobs-recruitment-collaboration",
-            "level": 1,
-            "sort_order": 20,
-            "entity_type": "job",
-            "name_fa": "استخدام، کاریابی و همکاری",
-            "name_en": "Jobs, Recruitment & Collaboration",
-            "name_ar": "التوظيف والتعاون",
-            "icon": "💼",
-            "allowed_offer_types": [
-                  "استخدام",
-                  "همکاری"
-            ],
-            "attributes": [
-                  "عنوان",
-                  "حوزه",
-                  "ارشدیت",
-                  "مهارت",
-                  "سابقه",
-                  "نوع همکاری",
-                  "حقوق",
-                  "شهر/دورکاری",
-                  "ساعت",
-                  "مزایا و تاریخ انقضا"
-            ],
-            "filters": [
-                  "نوع همکاری",
-                  "حوزه",
-                  "شهر/دورکاری",
-                  "ارشدیت"
-            ],
-            "keywords": [
-                  "استخدام",
-                  "کاریابی",
-                  "همکاری",
-                  "تمام‌وقت",
-                  "پاره‌وقت",
-                  "پروژه‌ای",
-                  "قراردادی",
-                  "دورکاری",
-                  "کارآموزی",
-                  "اداری",
-                  "مالی",
-                  "فروش",
-                  "بازاریابی",
-                  "فناوری",
-                  "مهندسی",
-                  "تولید",
-                  "خدمات",
-                  "حمل‌ونقل",
-                  "آموزش",
-                  "سلامت",
-                  "هنر و رسانه",
-                  "رزومه",
-                  "پروفایل مهارت",
-                  "شریک",
-                  "سرمایه‌گذار",
-                  "نمایندگی",
-                  "عاملیت",
-                  "منابع انسانی"
-            ],
-            "subgroups": [
-                  {
-                        "name": "جویندگان کار",
-                        "items": [
-                              "رزومه",
-                              "نمونه‌کار و پورتفولیو",
-                              "پروفایل مهارت"
-                        ]
-                  },
-                  {
-                        "name": "حوزه‌ها",
-                        "items": [
-                              "اداری",
-                              "آموزش",
-                              "بازاریابی",
-                              "تولید",
-                              "حمل‌ونقل",
-                              "خدمات",
-                              "سلامت",
-                              "فروش",
-                              "فناوری",
-                              "مالی",
-                              "مهندسی",
-                              "هنر و رسانه"
-                        ]
-                  },
-                  {
-                        "name": "منابع انسانی",
-                        "items": [
-                              "ارزیابی",
-                              "آزمون مهارت",
-                              "آموزش شغلی",
-                              "کاریابی مجاز"
-                        ]
-                  },
-                  {
-                        "name": "نوع همکاری",
-                        "items": [
-                              "تمام‌وقت",
-                              "دورکاری",
-                              "قراردادی",
-                              "پاره‌وقت",
-                              "پروژه‌ای",
-                              "کارآموزی"
-                        ]
-                  },
-                  {
-                        "name": "همکاری",
-                        "items": [
-                              "سرمایه‌گذار",
-                              "شریک",
-                              "عاملیت",
-                              "نمایندگی",
-                              "پروژه مشترک"
-                        ]
-                  }
-            ]
-      },
-      {
-            "category_id": "special_misc",
-            "slug": "special-industrial-misc",
-            "level": 1,
-            "sort_order": 21,
-            "entity_type": "listing",
-            "name_fa": "کالاها و تجهیزات متفرقه و خاص",
-            "name_en": "Special & Industrial Equipment",
-            "name_ar": "معدات خاصة ومتنوعة",
-            "icon": "⚙️",
-            "allowed_offer_types": [
-                  "فروش نو",
-                  "فروش کارکرده",
-                  "بازسازی‌شده",
-                  "عمده",
-                  "خرده",
-                  "اجاره",
-                  "مزایده"
-            ],
-            "attributes": [
-                  "کاربرد تخصصی",
-                  "مدل / مشخصات فنی",
-                  "وضعیت و گواهی"
-            ],
-            "filters": [
-                  "حوزه",
-                  "وضعیت",
-                  "بازه قیمت"
-            ],
-            "keywords": [
-                  "صنعتی",
-                  "ماشین‌آلات تولید",
-                  "ابزار دقیق",
-                  "کنترل",
-                  "بسته‌بندی",
-                  "فروشگاهی",
-                  "رستورانی",
-                  "قفسه",
-                  "ویترین",
-                  "صندوق",
-                  "آشپزخانه صنعتی",
-                  "کافی‌شاپ",
-                  "آزمایشگاهی",
-                  "آموزشی",
-                  "اندازه‌گیری",
-                  "کالیبراسیون",
-                  "پنل خورشیدی",
-                  "ذخیره‌ساز",
-                  "بازیافت",
-                  "کلکسیونی",
-                  "تجهیزات کمیاب",
-                  "متفرقه"
-            ],
-            "subgroups": [
-                  {
-                        "name": "آزمایشگاهی و آموزشی",
-                        "items": [
-                              "ابزار غیرپزشکی",
-                              "آموزشی",
-                              "اندازه‌گیری و کالیبراسیون"
-                        ]
-                  },
-                  {
-                        "name": "انرژی و محیط‌زیست",
-                        "items": [
-                              "بازیافت",
-                              "ذخیره‌ساز",
-                              "پایش",
-                              "پنل خورشیدی"
-                        ]
-                  },
-                  {
-                        "name": "خاص و کلکسیونی مجاز",
-                        "items": [
-                              "اقلام قانونی",
-                              "تجهیزات کمیاب",
-                              "قطعات قدیمی"
-                        ]
-                  },
-                  {
-                        "name": "سایر کالاهای تأییدشده",
-                        "items": [
-                              "دسته موقت و پیشنهاد دسته جدید برای بررسی مدیر"
-                        ]
-                  },
-                  {
-                        "name": "صنعتی",
-                        "items": [
-                              "ابزار دقیق",
-                              "بسته‌بندی",
-                              "قطعات",
-                              "ماشین‌آلات تولید",
-                              "کنترل"
-                        ]
-                  },
-                  {
-                        "name": "فروشگاهی و رستورانی",
-                        "items": [
-                              "آشپزخانه صنعتی",
-                              "تجهیزات فروش",
-                              "صندوق",
-                              "قفسه",
-                              "ویترین",
-                              "کافی‌شاپ"
-                        ]
-                  }
-            ]
-      }
-];
+      { category_id: 'honey', name_fa: 'عسل و شیره‌ها', name_en: 'Honey & Syrups', name_ar: 'العسل والدبس', icon: '🍯' },
+      { category_id: 'extracts', name_fa: 'آبلیمو و رب انار', name_en: 'Lemon & Molasses', name_ar: 'عصير الليمون ودبس الرمان', icon: '🍋' },
+      { category_id: 'traditional', name_fa: 'محصولات سنتی', name_en: 'Traditional Foods', name_ar: 'الأغذية التقليدية', icon: '🍒' },
+      { category_id: 'agro', name_fa: 'محصولات کشاورزی', name_en: 'Agricultural Goods', name_ar: 'المنتجات الزراعية', icon: '🌾' },
+      { category_id: 'consumer', name_fa: 'کالاهای مصرفی', name_en: 'Consumer Goods', name_ar: 'السلع الاستهلاكية', icon: '🧺' },
+      { category_id: 'oils', name_fa: 'روغن‌های طبیعی', name_en: 'Natural Oils', name_ar: 'الزيوت الطبيعية', icon: '🫒' },
+      { category_id: 'herbal', name_fa: 'عرقیات و دمنوش', name_en: 'Herbal Infusions', name_ar: 'الأعشاب الطبيعية', icon: '🌿' },
+      { category_id: 'nuts', name_fa: 'خشکبار و مغزیجات', name_en: 'Nuts & Dried Fruit', name_ar: 'المكسرات والفواكه المجففة', icon: '🥜' }
+    ];
 
-    let storedCats = JSON.parse(localStorage.getItem('boomchash_categories_v22') || 'null');
-    let CATEGORIES = storedCats && storedCats.length >= 21 ? storedCats : JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+    let CATEGORIES = JSON.parse(localStorage.getItem('boomchash_categories') || 'null') || [...DEFAULT_CATEGORIES];
 
     function saveCategories() {
-      localStorage.setItem('boomchash_categories_v22', JSON.stringify(CATEGORIES));
+      localStorage.setItem('boomchash_categories', JSON.stringify(CATEGORIES));
       syncCategoryDropdowns();
       renderCategories();
       renderBestTabs();
       renderAdminCategories();
     }
 
-    // Initial products: only categories with actual items (e.g. food_supermarket) appear to shoppers initially
-    const DEFAULT_PRODUCTS = [
-      { product_id: 1001, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'food_supermarket', subgroup: 'طبیعی و فرآوری‌شده', leaf: 'عسل و فرآورده زنبور', offer_type: 'تولیدکننده مستقیم', product_name: 'عسل طبیعی چهل‌گیاه کوهستان (۱ کیلوگرم)', description: 'عسل خام و حرارت‌ندیده با ساکارز زیر ۲ درصد و عطر گیاهان دارویی کوهستان.', attrs: { 'تولیدکننده': 'زنبورستان منتخب', 'وزن/حجم': '۱ کیلوگرم', 'محل تولید و بسته‌بندی': 'خراسان جنوبی' }, price: 540000, discount_price: 465000, stock: 30, sold: 22, rating: 4.9, reviews: 48, images: ['🍯'], section: 'saver', status: 'active' },
-      { product_id: 1002, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'food_supermarket', subgroup: 'بسته‌بندی', leaf: 'رب', offer_type: 'فروش نو', product_name: 'آبلیمو طبیعی دست‌گیری شیراز (۱ لیتر)', description: 'آب لیموترش تازه و خالص بدون مواد نگهدارنده و اسانس.', attrs: { 'تولیدکننده': 'کارگاه مجاز', 'وزن/حجم': '۱ لیتر', 'محل تولید و بسته‌بندی': 'فارس (شیراز)' }, price: 195000, discount_price: 165000, stock: 50, sold: 39, rating: 4.8, reviews: 64, images: ['🍋'], section: 'saver', status: 'active' },
-      { product_id: 1003, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'food_supermarket', subgroup: 'بسته‌بندی', leaf: 'رب', offer_type: 'خانگی', product_name: 'رب انار ملس محلی غلیظ (۸۰۰ گرم)', description: 'پخت سنتی از انارهای دانه سیاه باغی، کاملاً بهداشتی و خوش‌طعم.', attrs: { 'تولیدکننده': 'تولید خانگی مجاز', 'وزن/حجم': '۸۰۰ گرم', 'محل تولید و بسته‌بندی': 'اصفهان' }, price: 270000, discount_price: 235000, stock: 40, sold: 31, rating: 4.9, reviews: 52, images: ['🍎'], section: 'saver', status: 'active' },
-      { product_id: 1004, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'food_supermarket', subgroup: 'طبیعی و فرآوری‌شده', leaf: 'شیره', offer_type: 'فروش نو', product_name: 'شیره انگور و خرما ارگانیک (۹۰۰ گرم)', description: 'ترکیب مقوی و انرژی‌بخش بدون شکر افزوده، مناسب صبحانه و ورزشکاران.', attrs: { 'وزن/حجم': '۹۰۰ گرم' }, price: 230000, discount_price: 198000, stock: 35, sold: 24, rating: 4.7, reviews: 29, images: ['🍇'], section: 'saver', status: 'active' },
-      { product_id: 1005, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'food_supermarket', subgroup: 'کشاورزی خوراکی', leaf: 'خشکبار', offer_type: 'فروش نو', product_name: 'زرشک پفکی اعلا قائنات (۵۰۰ گرم)', description: 'زرشک امسالی خوش‌رنگ، سورت‌شده و عاری از هرگونه ناخالصی.', attrs: { 'محل تولید و بسته‌بندی': 'خراسان جنوبی (قائنات)', 'وزن/حجم': '۵۰۰ گرم' }, price: 340000, discount_price: null, stock: 25, sold: 19, rating: 4.9, reviews: 37, images: ['🍒'], section: 'best', status: 'active' },
-      { product_id: 1006, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'food_supermarket', subgroup: 'بسته‌بندی', leaf: 'روغن', offer_type: 'فروش نو', product_name: 'روغن زیتون فرابکر رودبار (۷۵۰ میلی‌لیتر)', description: 'روغن زیتون پرس سرد با عطر طبیعی زیتون تازه و اسیدیته پایین.', attrs: { 'محل تولید و بسته‌بندی': 'گیلان (رودبار)', 'وزن/حجم': '۷۵۰ میلی‌لیتر' }, price: 490000, discount_price: 445000, stock: 20, sold: 14, rating: 4.8, reviews: 21, images: ['🫒'], section: 'best', status: 'active' },
-      { product_id: 1007, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'food_supermarket', subgroup: 'کشاورزی خوراکی', leaf: 'برنج', offer_type: 'فروش نو', product_name: 'برنج طارم هاشمی معطر (۵ کیلوگرم)', description: 'برنج کشت اول شمال با پخت عالی، قدکشیدن مناسب و عطر ماندگار.', attrs: { 'محل تولید و بسته‌بندی': 'مازندران', 'وزن/حجم': '۵ کیلوگرم' }, price: 780000, discount_price: null, stock: 45, sold: 33, rating: 4.9, reviews: 71, images: ['🌾'], section: 'essential', status: 'active' },
-      { product_id: 1008, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'food_supermarket', subgroup: 'کشاورزی خوراکی', leaf: 'آجیل', offer_type: 'فروش نو', product_name: 'مغز گردو سفید تویسرکان (۵۰۰ گرم)', description: 'مغز گردو تازه، پرچرب و دست‌چین‌شده از باغات تویسرکان.', attrs: { 'محل تولید و بسته‌بندی': 'همدان (تویسرکان)', 'وزن/حجم': '۵۰۰ گرم' }, price: 420000, discount_price: 385000, stock: 28, sold: 16, rating: 4.8, reviews: 19, images: ['🥜'], section: 'new', status: 'active' }
-    ];
-
-    let PRODUCTS = JSON.parse(localStorage.getItem('boomchash_products_v22') || 'null') || [...DEFAULT_PRODUCTS];
-
-    function saveProducts() {
-      localStorage.setItem('boomchash_products_v22', JSON.stringify(PRODUCTS));
-    }
-
-    // Only categories with at least 1 active product/service are visible to shoppers
-    function getPopulatedCategories() {
-      const activeCatIds = new Set(
-        PRODUCTS.filter(p => p.status === 'active').map(p => p.category_id)
-      );
-      return CATEGORIES.filter(c => activeCatIds.has(c.category_id));
-    }
-
     function syncCategoryDropdowns() {
-      const populatedCats = getPopulatedCategories();
       const headerSel = document.getElementById('headerCatSelect');
+      const admSel = document.getElementById('admCat');
       if (headerSel) {
         const cur = headerSel.value;
         headerSel.innerHTML = `<option value="all">${TRANSLATIONS[currentLang].allCats}</option>` +
-          populatedCats.map(c => `<option value="${c.category_id}">${c.name_fa}</option>`).join('');
-        headerSel.value = populatedCats.some(c => c.category_id === cur) ? cur : 'all';
+          CATEGORIES.map(c => `<option value="${c.category_id}">${c.name_fa}</option>`).join('');
+        headerSel.value = CATEGORIES.some(c => c.category_id === cur) ? cur : 'all';
       }
-
-      // Admin and Seller creation dropdowns ALWAYS show ALL 21 categories
-      const admSel = document.getElementById('admCat');
       if (admSel) {
         const curAdm = admSel.value;
-        admSel.innerHTML = CATEGORIES.map((c, idx) => `<option value="${c.category_id}">${idx + 1}. ${c.name_fa}</option>`).join('');
+        admSel.innerHTML = CATEGORIES.map(c => `<option value="${c.category_id}">${c.name_fa}</option>`).join('');
         if (CATEGORIES.some(c => c.category_id === curAdm)) admSel.value = curAdm;
-        syncAdminSubgroups();
-      }
-
-      const lstSel = document.getElementById('lstCategorySelect');
-      if (lstSel) {
-        const curLst = lstSel.value;
-        lstSel.innerHTML = CATEGORIES.map((c, idx) => `<option value="${c.category_id}">${idx + 1}. ${c.name_fa}</option>`).join('');
-        if (CATEGORIES.some(c => c.category_id === curLst)) lstSel.value = curLst;
       }
     }
 
-    function suggestCategoriesForText(titleText, descText, offerType) {
-      const combined = `${titleText || ''} ${descText || ''} ${offerType || ''}`.toLowerCase().trim();
-      if (!combined) return [];
+    /* ==========================================================================
+       SECTIONS, TITLES & NAVIGATION FULL MANAGEMENT
+       ========================================================================== */
+    const DEFAULT_SECTIONS_META = [
+      { key: 'hero', domId: 'secHero', label: 'بنر اصلی بالای صفحه (Hero)', titleId: 'txtHeroTitle', title: 'طعم اصیل طبیعت با محصولات بوم چاش', visible: true, removable: false },
+      { key: 'categories', domId: 'categoriesSection', label: 'بخش دسته‌بندی کالاها', titleId: 'secTitle_categories', title: 'خرید بر اساس دسته‌بندی', visible: true, removable: true },
+      { key: 'brands', domId: 'featuredBrandsSection', label: 'بخش مجموعه‌های برگزیده', titleId: 'secTitle_brands', title: 'تولیدکنندگان و مجموعه‌های برگزیده', visible: true, removable: true },
+      { key: 'saver', domId: 'topSaverSection', label: 'بخش پیشنهادهای شگفت‌انگیز', titleId: 'secTitle_saver', title: 'پیشنهادهای شگفت‌انگیز امروز', visible: true, removable: true },
+      { key: 'best', domId: 'bestSellerSection', label: 'بخش پرفروش‌ترین محصولات', titleId: 'secTitle_best', title: 'پرفروش‌ترین محصولات', visible: true, removable: true },
+      { key: 'new', domId: 'newArrivalsSection', label: 'بخش تازه‌رسیده‌ها', titleId: 'secTitle_new', title: 'تازه‌رسیده‌ها', visible: true, removable: true },
+      { key: 'banners', domId: 'tripleBannersSection', label: 'بنرهای تبلیغاتی سه‌تایی', titleId: null, title: 'بنرهای تبلیغاتی میانی', visible: true, removable: true },
+      { key: 'essential', domId: 'essentialSection', label: 'بخش کالاهای اساسی', titleId: 'secTitle_essential', title: 'کالاهای اساسی و مصرفی', visible: true, removable: true },
+      { key: 'blog', domId: 'blogVendorSection', label: 'مجله سلامت و پنل فروشندگان', titleId: 'secTitle_blog', title: 'مجله سلامت و تغذیه بوم چاش', visible: true, removable: true },
+      { key: 'trust', domId: 'trustSection', label: 'نوار تضمین و خدمات مشتریان', titleId: null, title: 'نوار اعتماد مشتریان', visible: true, removable: true },
+      { key: 'footer', domId: 'footerSection', label: 'فوتر پایین صفحه', titleId: 'txtFooterTitle', title: 'درباره بوم چاش (boomchash.ir)', visible: true, removable: true }
+    ];
 
-      const scored = CATEGORIES.map(cat => {
-        let score = 0;
-        const catName = (cat.name_fa || '').toLowerCase();
-        if (combined.includes(catName)) score += 10;
+    let SECTIONS_STATE = JSON.parse(localStorage.getItem('boomchash_sections_v5') || 'null') || JSON.parse(JSON.stringify(DEFAULT_SECTIONS_META));
+    let CUSTOM_SECTIONS = JSON.parse(localStorage.getItem('boomchash_custom_sections') || '[]');
 
-        (cat.keywords || []).forEach(kw => {
-          const k = kw.toLowerCase();
-          if (combined.includes(k)) {
-            score += (titleText || '').toLowerCase().includes(k) ? 6 : 3;
-          }
-        });
+    const DEFAULT_NAV_ITEMS = [
+      { id: 'nav1', label: 'پیشنهادهای امروز', href: '#topSaverSection' },
+      { id: 'nav2', label: 'پرفروش‌ترین‌ها', href: '#bestSellerSection' },
+      { id: 'nav3', label: 'تازه‌رسیده‌ها', href: '#newArrivalsSection' },
+      { id: 'nav4', label: 'کالاهای اساسی', href: '#essentialSection' },
+      { id: 'nav5', label: '🏪 فروشنده شوید (به‌زودی)', href: 'modal:vendorRoadmapModal', isGreen: true }
+    ];
 
-        (cat.subgroups || []).forEach(sg => {
-          const sgName = (sg.name || '').toLowerCase();
-          if (sgName && combined.includes(sgName)) score += 5;
-          (sg.items || []).forEach(leaf => {
-            const lf = leaf.toLowerCase();
-            if (lf && combined.includes(lf)) score += 6;
-          });
-        });
+    let NAV_ITEMS = JSON.parse(localStorage.getItem('boomchash_nav_items') || 'null') || [...DEFAULT_NAV_ITEMS];
 
-        if (offerType === 'استخدام' && cat.category_id === 'jobs_recruitment') score += 8;
-        if (offerType === 'آگهی ملک' && cat.category_id === 'real_estate') score += 8;
-        if (offerType === 'آگهی خودرو' && cat.category_id === 'vehicles') score += 8;
-        if (offerType === 'خدمت' && cat.category_id === 'services_business') score += 5;
+    const DEFAULT_SITE_TEXTS = {
+      brandName: 'بوم چاش',
+      brandSub: 'بازار محصولات طبیعی و مصرفی',
+      phone: '۰۹۳۹۰۴۸۳۱۹۲',
+      domain: 'boomchash.ir',
+      heroTag: '🌿 مستقیم از تولیدکننده و طبیعت',
+      heroTitle: 'طعم اصیل طبیعت با محصولات بوم چاش',
+      heroSub: 'عسل طبیعی، آبلیمو خالص، رب انار محلی، فرآورده‌های سنتی و کالاهای مصرفی با تضمین کیفیت و اصالت در boomchash.ir',
+      sidePromoTitle: '۲۰٪ تخفیف ویژه',
+      sidePromoSub: 'بسته‌های اقتصادی عسل، رب انار و محصولات سنتی بوم چاش',
+      footerTitle: 'درباره بوم چاش (boomchash.ir)',
+      footerAbout: 'بوم چاش پلتفرم تخصصی عرضه محصولات طبیعی، ارگانیک، سنتی و کالاهای مصرفی است که با هدف اتصال مستقیم تولیدکنندگان اصیل به مصرف‌کنندگان طراحی شده است.',
+      copyright: '© ۱۴۰۵ کلیه حقوق برای فروشگاه اینترنتی بوم چاش (boomchash.ir) محفوظ است.'
+    };
 
-        return { cat, score };
-      }).filter(item => item.score > 0);
+    let SITE_TEXTS = { ...DEFAULT_SITE_TEXTS, ...(JSON.parse(localStorage.getItem('boomchash_site_texts_v5') || 'null') || {}) };
 
-      scored.sort((a, b) => b.score - a.score);
-      return scored.slice(0, 3).map(x => x.cat);
-    }
+    function applySiteTextsAndSections() {
+      const brandEl = document.querySelector('[data-i18n="brandName"]');
+      if (brandEl && currentLang === 'fa') brandEl.innerText = SITE_TEXTS.brandName;
+      const subEl = document.getElementById('txtBrandSub');
+      if (subEl && currentLang === 'fa') subEl.innerText = SITE_TEXTS.brandSub;
+      if (document.getElementById('txtSupportPhone')) document.getElementById('txtSupportPhone').innerText = SITE_TEXTS.phone;
+      if (document.getElementById('txtFooterPhone')) document.getElementById('txtFooterPhone').innerText = SITE_TEXTS.phone;
+      if (document.getElementById('txtFooterDomain')) document.getElementById('txtFooterDomain').innerText = SITE_TEXTS.domain;
+      if (document.getElementById('txtHeroTag') && currentLang === 'fa') document.getElementById('txtHeroTag').innerText = SITE_TEXTS.heroTag;
+      if (document.getElementById('txtHeroTitle') && currentLang === 'fa') document.getElementById('txtHeroTitle').innerText = SITE_TEXTS.heroTitle;
+      if (document.getElementById('txtHeroSub') && currentLang === 'fa') document.getElementById('txtHeroSub').innerText = SITE_TEXTS.heroSub;
+      if (document.getElementById('txtSidePromoTitle') && currentLang === 'fa') document.getElementById('txtSidePromoTitle').innerText = SITE_TEXTS.sidePromoTitle;
+      if (document.getElementById('txtSidePromoSub') && currentLang === 'fa') document.getElementById('txtSidePromoSub').innerText = SITE_TEXTS.sidePromoSub;
+      if (document.getElementById('txtFooterTitle')) document.getElementById('txtFooterTitle').innerText = SITE_TEXTS.footerTitle;
+      if (document.getElementById('txtFooterAbout')) document.getElementById('txtFooterAbout').innerText = SITE_TEXTS.footerAbout;
+      if (document.getElementById('txtCopyright')) document.getElementById('txtCopyright').innerText = SITE_TEXTS.copyright;
 
-    function updateSellerCategorySuggestions() {
-      const title = document.getElementById('lstTitle')?.value || '';
-      const desc = document.getElementById('lstDesc')?.value || '';
-      const offerType = document.getElementById('lstOfferType')?.value || '';
-      const hintEl = document.getElementById('sellerCatSuggestHint');
-      const chipsEl = document.getElementById('sellerCatSuggestChips');
-      if (!hintEl || !chipsEl) return;
-
-      const suggestions = suggestCategoriesForText(title, desc, offerType);
-      if (!suggestions.length) {
-        hintEl.innerText = 'با نوشتن عنوان کالا یا خدمت (مثلاً «عسل» یا «قاب گوشی سامسونگ مدل A12»)، دسته‌بندی مرتبط پیشنهاد می‌شود.';
-        chipsEl.innerHTML = '';
-        return;
-      }
-
-      const topCat = suggestions[0];
-      hintEl.innerHTML = `بر اساس عبارت واردشده، دسته <strong>«${topCat.name_fa}»</strong> مرتبط تشخیص داده شد (برای انتخاب کلیک کنید):`;
-      chipsEl.innerHTML = suggestions.map((c, i) => `
-        <button type="button" class="cat-suggest-chip ${i === 0 ? 'selected' : ''}" onclick="applySuggestedSellerCategory('${c.category_id}', this)">
-          ${c.icon} ${c.name_fa}
-        </button>
-      `).join('');
-
-      const lstSel = document.getElementById('lstCategorySelect');
-      if (lstSel && lstSel.dataset.manual !== '1') {
-        lstSel.value = topCat.category_id;
-        onSellerCategoryChanged(false);
-      }
-    }
-
-    function applySuggestedSellerCategory(catId, btnEl) {
-      const lstSel = document.getElementById('lstCategorySelect');
-      if (lstSel) {
-        lstSel.value = catId;
-        lstSel.dataset.manual = '1';
-        onSellerCategoryChanged(false);
-      }
-      document.querySelectorAll('#sellerCatSuggestChips .cat-suggest-chip').forEach(b => b.classList.remove('selected'));
-      if (btnEl) btnEl.classList.add('selected');
-    }
-
-    function onSellerCategoryChanged(isManual = true) {
-      const lstSel = document.getElementById('lstCategorySelect');
-      const sgSel = document.getElementById('lstSubgroupSelect');
-      const attrsBox = document.getElementById('sellerDynamicAttrsBox');
-      if (!lstSel || !sgSel || !attrsBox) return;
-      if (isManual) lstSel.dataset.manual = '1';
-
-      const cat = CATEGORIES.find(c => c.category_id === lstSel.value) || CATEGORIES[0];
-      const subgroups = [...(cat.subgroups || [])].sort((a, b) => a.name.localeCompare(b.name, 'fa'));
-      sgSel.innerHTML = subgroups.map(sg => `<option value="${sg.name}">${sg.name}</option>`).join('');
-      onSellerSubgroupChanged();
-
-      const attrs = cat.attributes || ['برند', 'مدل', 'وضعیت'];
-      attrsBox.innerHTML = `
-        <div style="font-size:11px; font-weight:bold; color:var(--text-primary); margin-bottom:6px;">
-          ویژگی‌های اختصاصی دسته «${cat.name_fa}»:
-        </div>
-        <div class="order-grid-2">
-          ${attrs.map(attr => `
-            <div class="order-field-wrap">
-              <label class="order-label" style="font-size:11px;">${attr}</label>
-              <input class="field-input seller-dyn-attr" data-attr-label="${attr}" placeholder="${attr}" style="margin-bottom:4px; padding:7px 10px; font-size:12px;" />
-            </div>
-          `).join('')}
-        </div>
-      `;
-    }
-
-    function onSellerSubgroupChanged() {
-      const lstSel = document.getElementById('lstCategorySelect');
-      const sgSel = document.getElementById('lstSubgroupSelect');
-      const leafSel = document.getElementById('lstLeafSelect');
-      if (!lstSel || !sgSel || !leafSel) return;
-
-      const cat = CATEGORIES.find(c => c.category_id === lstSel.value) || CATEGORIES[0];
-      const sgObj = (cat.subgroups || []).find(s => s.name === sgSel.value) || (cat.subgroups && cat.subgroups[0]);
-      const leaves = sgObj && Array.isArray(sgObj.items) ? [...sgObj.items].sort((a, b) => a.localeCompare(b, 'fa')) : ['عمومی'];
-      leafSel.innerHTML = leaves.map(lf => `<option value="${lf}">${lf}</option>`).join('');
-    }
-
-    let sellerUploadedImg = '';
-    function handleSellerImageFile(input) {
-      const file = input.files && input.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => { sellerUploadedImg = e.target.result; };
-      reader.readAsDataURL(file);
-    }
-
-    function openSellerListingModal() {
-      syncCategoryDropdowns();
-      const lstSel = document.getElementById('lstCategorySelect');
-      if (lstSel) lstSel.dataset.manual = '0';
-      document.getElementById('lstTitle').value = '';
-      document.getElementById('lstDesc').value = '';
-      document.getElementById('lstPrice').value = '';
-      document.getElementById('lstStock').value = '10';
-      sellerUploadedImg = '';
-      const fileEl = document.getElementById('lstImgFile');
-      if (fileEl) fileEl.value = '';
-      onSellerCategoryChanged(false);
-      updateSellerCategorySuggestions();
-      openModal('sellerListingModal');
-    }
-
-    async function submitSellerListing() {
-      const offer_type = document.getElementById('lstOfferType').value;
-      const vendor_name = document.getElementById('lstProviderName').value.trim() || 'فروشنده / ارائه‌دهنده ثبت‌شده';
-      const product_name = document.getElementById('lstTitle').value.trim();
-      const description = document.getElementById('lstDesc').value.trim();
-      const category_id = document.getElementById('lstCategorySelect').value;
-      const subgroup = document.getElementById('lstSubgroupSelect').value;
-      const leaf = document.getElementById('lstLeafSelect').value;
-      const price = Number(document.getElementById('lstPrice').value);
-      const stock = Math.max(1, Number(document.getElementById('lstStock').value) || 1);
-
-      if (!product_name || !price) {
-        return alert('لطفاً عنوان کالا یا خدمت و قیمت / تعرفه را وارد کنید.');
-      }
-
-      const catObj = CATEGORIES.find(c => c.category_id === category_id) || CATEGORIES[0];
-      const attrs = {};
-      document.querySelectorAll('.seller-dyn-attr').forEach(inp => {
-        const val = inp.value.trim();
-        if (val) attrs[inp.dataset.attrLabel] = val;
+      SECTIONS_STATE.forEach(sec => {
+        const el = document.getElementById(sec.domId);
+        if (!el) return;
+        if (sec.deleted || sec.visible === false) {
+          el.style.display = 'none';
+        } else {
+          el.style.display = '';
+        }
+        if (sec.titleId && sec.title) {
+          const tEl = document.getElementById(sec.titleId);
+          if (tEl) tEl.innerText = sec.title;
+        }
       });
 
-      const newItem = {
-        product_id: Date.now(),
-        vendor_id: 'seller_' + Date.now(),
-        vendor_name,
-        category_id,
-        subgroup,
-        leaf,
-        offer_type,
-        product_name,
-        description: description || `${offer_type} در دسته ${catObj.name_fa} > ${subgroup} > ${leaf}`,
-        attrs,
-        price,
-        discount_price: null,
-        stock,
-        sold: 0,
-        rating: 5.0,
-        reviews: 1,
-        images: [sellerUploadedImg || catObj.icon || '📦'],
-        section: 'new',
-        status: 'active'
-      };
+      renderCustomSections();
+      renderNavMenu();
+    }
 
-      if (sbClient) {
-        try {
-          const { data: inserted } = await sbClient.from('products').insert([{
-            title: product_name,
-            price,
-            image_url: isImageSource(newItem.images[0]) ? newItem.images[0] : '',
-            category: category_id,
-            stock,
-            description: newItem.description
-          }]).select();
-          if (inserted && inserted[0]) {
-            newItem.db_id = inserted[0].id;
-            newItem.product_id = inserted[0].id;
-          }
-        } catch (_) {}
+    function renderCustomSections() {
+      const mount = document.getElementById('customSectionsMount');
+      if (!mount) return;
+      mount.innerHTML = CUSTOM_SECTIONS.filter(cs => cs.visible !== false).map(cs => `
+        <section class="section-block" style="background:var(--bg-surface); border-top:1px solid var(--border-light);">
+          <div class="container">
+            <div class="section-header">
+              <div class="section-title-group">
+                <h3>${cs.title}</h3>
+              </div>
+            </div>
+            <p style="font-size:13px; color:var(--text-secondary); line-height:1.8;">${cs.desc || ''}</p>
+          </div>
+        </section>
+      `).join('');
+    }
+
+    function renderNavMenu() {
+      const nav = document.getElementById('mainNavLinks');
+      if (!nav) return;
+      nav.innerHTML = NAV_ITEMS.map(item => {
+        if (item.href && item.href.startsWith('modal:')) {
+          const modalId = item.href.replace('modal:', '');
+          return `<button type="button" onclick="openModal('${modalId}')" style="${item.isGreen ? 'color:var(--accent-green);' : ''}">${item.label}</button>`;
+        }
+        return `<a href="${item.href || '#'}">${item.label}</a>`;
+      }).join('');
+    }
+
+    /* ==========================================================================
+       DYNAMIC BRANDS, BANNERS, BLOG & TRUST CARDS
+       ========================================================================== */
+    function renderBrandsAndBanners() {
+      const brandsBox = document.getElementById('brandsGridContainer');
+      if (brandsBox) {
+        brandsBox.innerHTML = `
+          <div class="brand-card" onclick="selectCategory('honey')">
+            <div class="brand-banner" style="background:#fef3c7;">${renderMediaThumb(SITE_MEDIA.brand1)}</div>
+            <div class="brand-meta"><small>BOOMCHASH APIARY</small><h4>زنبورستان‌های منتخب بوم چاش — عسل خام و طبیعی</h4></div>
+          </div>
+          <div class="brand-card" onclick="selectCategory('extracts')">
+            <div class="brand-banner" style="background:#fee2e2;">${renderMediaThumb(SITE_MEDIA.brand2)}</div>
+            <div class="brand-meta"><small>TRADITIONAL EXTRACTS</small><h4>رب انار و آبلیمو خالص — پخت سنتی بدون افزودنی</h4></div>
+          </div>
+          <div class="brand-card" onclick="selectCategory('traditional')">
+            <div class="brand-banner" style="background:#e0f2fe;">${renderMediaThumb(SITE_MEDIA.brand3)}</div>
+            <div class="brand-meta"><small>LOCAL HARVEST</small><h4>محصولات سنتی و خشکبار درجه یک ایرانی</h4></div>
+          </div>
+          <div class="brand-card" onclick="selectCategory('consumer')">
+            <div class="brand-banner" style="background:#dcfce7;">${renderMediaThumb(SITE_MEDIA.brand4)}</div>
+            <div class="brand-meta"><small>DAILY ESSENTIALS</small><h4>کالاهای مصرفی و سبد سلامت خانواده</h4></div>
+          </div>
+        `;
       }
 
-      PRODUCTS.unshift(newItem);
-      saveProducts();
-      syncCategoryDropdowns();
-      renderCategories();
-      renderBestTabs();
-      renderAllSections();
-      renderAdminProducts();
-      closeModal('sellerListingModal');
-      alert(`«${product_name}» با موفقیت ثبت شد و دسته‌بندی «${catObj.name_fa}» اکنون برای همه بازدیدکنندگان قابل مشاهده است.`);
-    }
-
-    function updateAdminCategorySuggestions() {
-      const title = document.getElementById('admTitle')?.value || '';
-      const chipsEl = document.getElementById('adminCatSuggestChips');
-      if (!chipsEl) return;
-      const suggestions = suggestCategoriesForText(title, '', '');
-      if (!suggestions.length) {
-        chipsEl.innerHTML = '';
-        return;
+      const bannersBox = document.getElementById('tripleBannersContainer');
+      if (bannersBox) {
+        bannersBox.innerHTML = `
+          <div class="mini-banner" style="background:#fde68a;" onclick="selectCategory('extracts')">
+            <div><h4>آبلیمو طبیعی شیراز</h4><p>آب‌گیری تازه، خالص و بدون تلخی</p></div>
+            <div class="b-emoji">${renderMediaThumb(SITE_MEDIA.banner1)}</div>
+          </div>
+          <div class="mini-banner" style="background:#e2e8f0;" onclick="selectCategory('honey')">
+            <div><h4>عسل کوهستان</h4><p>همراه با برگه آنالیز آزمایشگاهی</p></div>
+            <div class="b-emoji">${renderMediaThumb(SITE_MEDIA.banner2)}</div>
+          </div>
+          <div class="mini-banner" style="background:#fed7aa;" onclick="selectCategory('traditional')">
+            <div><h4>رب انار و فرآورده سنتی</h4><p>پخت خانگی با طعم ملس و ترش</p></div>
+            <div class="b-emoji">${renderMediaThumb(SITE_MEDIA.banner3)}</div>
+          </div>
+        `;
       }
-      chipsEl.innerHTML = `<span style="font-size:11px; color:#1e40af; font-weight:bold;">پیشنهاد دسته:</span>` +
-        suggestions.map(c => `
-          <button type="button" class="cat-suggest-chip" onclick="document.getElementById('admCat').value='${c.category_id}'; syncAdminSubgroups();">
-            ${c.icon} ${c.name_fa}
-          </button>
-        `).join('');
+
+      const blogBox = document.getElementById('blogGridContainer');
+      if (blogBox) {
+        blogBox.innerHTML = `
+          <article class="blog-card">
+            <div class="blog-cover">${renderMediaThumb(SITE_MEDIA.blog1)}</div>
+            <div class="blog-body"><small>راهنمای خرید هوشمند</small><h5>چگونه عسل طبیعی و خام را از عسل صنعتی تشخیص دهیم؟</h5><p>بررسی معیارهای علمی ساکارز، پرولین و ویژگی‌های ظاهری عسل خالص...</p></div>
+          </article>
+          <article class="blog-card">
+            <div class="blog-cover">${renderMediaThumb(SITE_MEDIA.blog2)}</div>
+            <div class="blog-body"><small>نگهداری محصولات ارگانیک</small><h5>روش اصولی نگهداری آبلیمو تازه و رب انار خانگی</h5><p>نکات کلیدی برای حفظ عطر، رنگ و خواص آنتی‌اکسیدانی در طول سال...</p></div>
+          </article>
+        `;
+      }
+
+      const trustBox = document.getElementById('trustGridContainer');
+      if (trustBox) {
+        trustBox.innerHTML = `
+          <div class="trust-item"><div class="trust-icon">🚀</div><div><h5>ارسال سریع به سراسر کشور</h5><p>بسته‌بندی ایمن و تحویل مطمئن درب منزل</p></div></div>
+          <div class="trust-item"><div class="trust-icon">🌿</div><div><h5>تضمین اصالت و سلامت کالا</h5><p>کنترل کیفی دقیق محصولات طبیعی و مصرفی</p></div></div>
+          <div class="trust-item"><div class="trust-icon">🛡️</div><div><h5>پرداخت امن اینترنتی</h5><p>تراکنش مطمئن از طریق درگاه‌های رسمی بانکی</p></div></div>
+          <div class="trust-item"><div class="trust-icon">📞</div><div><h5>پشتیبانی پاسخگو</h5><p>همراهی کامل از انتخاب محصول تا تحویل سفارش</p></div></div>
+        `;
+      }
+
+      const fCol2 = document.getElementById('footerCol2List');
+      if (fCol2) {
+        fCol2.innerHTML = `
+          <li><a href="#topSaverSection">پیشنهادهای شگفت‌انگیز</a></li>
+          <li><a href="#bestSellerSection">پرفروش‌ترین محصولات</a></li>
+          <li><a href="#newArrivalsSection">تازه‌ترین کالاها</a></li>
+          <li><a href="javascript:void(0)" onclick="openModal('vendorRoadmapModal')">همکاری و ثبت غرفه فروشندگان</a></li>
+        `;
+      }
+
+      const fCol3 = document.getElementById('footerCol3List');
+      if (fCol3) {
+        fCol3.innerHTML = `
+          <li><a href="javascript:void(0)" onclick="openModal('cartModal')">پیگیری سبد خرید</a></li>
+          <li><a href="javascript:void(0)" onclick="openModal('accountModal')">حساب کاربری</a></li>
+          <li><a href="javascript:void(0)">شرایط بازگشت کالا</a></li>
+          <li><a href="javascript:void(0)">حریم خصوصی کاربران</a></li>
+        `;
+      }
     }
 
-    function syncAdminSubgroups() {
-      const admSel = document.getElementById('admCat');
-      const sgSel = document.getElementById('admSubgroup');
-      if (!admSel || !sgSel) return;
-      const cat = CATEGORIES.find(c => c.category_id === admSel.value) || CATEGORIES[0];
-      const subgroups = [...(cat.subgroups || [])].sort((a, b) => a.name.localeCompare(b.name, 'fa'));
-      sgSel.innerHTML = subgroups.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
-      syncAdminLeaves();
-    }
+    /* ==========================================================================
+       PRODUCTS DATA & SUPABASE SYNC
+       ========================================================================== */
+    const DEFAULT_PRODUCTS = [
+      { product_id: 1001, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'honey', product_name: 'عسل طبیعی چهل‌گیاه کوهستان (۱ کیلوگرم)', description: 'عسل خام و حرارت‌ندیده با ساکارز زیر ۲ درصد و عطر گیاهان دارویی کوهستان.', price: 540000, discount_price: 465000, stock: 30, sold: 22, rating: 4.9, reviews: 48, images: ['🍯'], section: 'saver', status: 'active' },
+      { product_id: 1002, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'extracts', product_name: 'آبلیمو طبیعی دست‌گیری شیراز (۱ لیتر)', description: 'آب لیموترش تازه و خالص بدون مواد نگهدارنده و اسانس.', price: 195000, discount_price: 165000, stock: 50, sold: 39, rating: 4.8, reviews: 64, images: ['🍋'], section: 'saver', status: 'active' },
+      { product_id: 1003, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'extracts', product_name: 'رب انار ملس محلی غلیظ (۸۰۰ گرم)', description: 'پخت سنتی از انارهای دانه سیاه باغی، کاملاً بهداشتی و خوش‌طعم.', price: 270000, discount_price: 235000, stock: 40, sold: 31, rating: 4.9, reviews: 52, images: ['🍎'], section: 'saver', status: 'active' },
+      { product_id: 1004, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'traditional', product_name: 'شیره انگور و خرما ارگانیک (۹۰۰ گرم)', description: 'ترکیب مقوی و انرژی‌بخش بدون شکر افزوده، مناسب صبحانه و ورزشکاران.', price: 230000, discount_price: 198000, stock: 35, sold: 24, rating: 4.7, reviews: 29, images: ['🍇'], section: 'saver', status: 'active' },
+      { product_id: 1005, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'traditional', product_name: 'زرشک پفکی اعلا قائنات (۵۰۰ گرم)', description: 'زرشک امسالی خوش‌رنگ، سورت‌شده و عاری از هرگونه ناخالصی.', price: 340000, discount_price: null, stock: 25, sold: 19, rating: 4.9, reviews: 37, images: ['🍒'], section: 'best', status: 'active' },
+      { product_id: 1006, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'oils', product_name: 'روغن زیتون فرابکر رودبار (۷۵۰ میلی‌لیتر)', description: 'روغن زیتون پرس سرد با عطر طبیعی زیتون تازه و اسیدیته پایین.', price: 490000, discount_price: 445000, stock: 20, sold: 14, rating: 4.8, reviews: 21, images: ['🫒'], section: 'best', status: 'active' },
+      { product_id: 1007, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'agro', product_name: 'برنج طارم هاشمی معطر (۵ کیلوگرم)', description: 'برنج کشت اول شمال با پخت عالی، قدکشیدن مناسب و عطر ماندگار.', price: 780000, discount_price: null, stock: 45, sold: 33, rating: 4.9, reviews: 71, images: ['🌾'], section: 'essential', status: 'active' },
+      { product_id: 1008, vendor_id: 'admin_boomchash', vendor_name: 'فروشگاه مرکزی بوم چاش', category_id: 'nuts', product_name: 'مغز گردو سفید تویسرکان (۵۰۰ گرم)', description: 'مغز گردو تازه، پرچرب و دست‌چین‌شده از باغات تویسرکان.', price: 420000, discount_price: 385000, stock: 28, sold: 16, rating: 4.8, reviews: 19, images: ['🥜'], section: 'new', status: 'active' }
+    ];
 
-    function syncAdminLeaves() {
-      const admSel = document.getElementById('admCat');
-      const sgSel = document.getElementById('admSubgroup');
-      const leafSel = document.getElementById('admLeaf');
-      if (!admSel || !sgSel || !leafSel) return;
-      const cat = CATEGORIES.find(c => c.category_id === admSel.value) || CATEGORIES[0];
-      const sgObj = (cat.subgroups || []).find(s => s.name === sgSel.value) || (cat.subgroups && cat.subgroups[0]);
-      const leaves = sgObj && Array.isArray(sgObj.items) ? [...sgObj.items].sort((a, b) => a.localeCompare(b, 'fa')) : ['عمومی'];
-      leafSel.innerHTML = leaves.map(lf => `<option value="${lf}">${lf}</option>`).join('');
+    let PRODUCTS = JSON.parse(localStorage.getItem('boomchash_products_v5') || 'null') || [...DEFAULT_PRODUCTS];
+
+    function saveProducts() {
+      localStorage.setItem('boomchash_products_v5', JSON.stringify(PRODUCTS));
     }
 
     async function syncFromSupabase() {
@@ -4463,37 +1426,25 @@
       try {
         const { data: dbProducts } = await sbClient.from('products').select('*').order('id', { ascending: false });
         if (dbProducts && dbProducts.length > 0) {
-          PRODUCTS = dbProducts.map((item, index) => {
-            const matchedCat = CATEGORIES.find(c => c.category_id === item.category) ? item.category : 'food_supermarket';
-            const catObj = CATEGORIES.find(c => c.category_id === matchedCat);
-            const firstSg = catObj && catObj.subgroups && catObj.subgroups[0];
-            return {
-              db_id: item.id,
-              product_id: item.id || (2000 + index),
-              vendor_id: 'admin_boomchash',
-              vendor_name: 'فروشگاه مرکزی بوم چاش',
-              category_id: matchedCat,
-              subgroup: firstSg ? firstSg.name : '',
-              leaf: firstSg && firstSg.items && firstSg.items[0] ? firstSg.items[0] : '',
-              offer_type: 'فروش نو',
-              product_name: item.title || 'محصول بوم چاش',
-              description: item.description || 'محصول طبیعی و باکیفیت عرضه شده در بوم چاش',
-              attrs: {},
-              price: Number(item.price) || 0,
-              discount_price: null,
-              stock: Number(item.stock) || 20,
-              sold: 1,
-              rating: 5.0,
-              reviews: 1,
-              images: [item.image_url || (catObj ? catObj.icon : '🌿')],
-              section: 'saver',
-              status: 'active'
-            };
-          });
+          PRODUCTS = dbProducts.map((item, index) => ({
+            db_id: item.id,
+            product_id: item.id || (2000 + index),
+            vendor_id: 'admin_boomchash',
+            vendor_name: 'فروشگاه مرکزی بوم چاش',
+            category_id: item.category || 'honey',
+            product_name: item.title || 'محصول بوم چاش',
+            description: item.description || 'محصول طبیعی و باکیفیت عرضه شده در بوم چاش',
+            price: Number(item.price) || 0,
+            discount_price: null,
+            stock: Number(item.stock) || 20,
+            sold: 1,
+            rating: 5.0,
+            reviews: 1,
+            images: [item.image_url || '🌿'],
+            section: 'saver',
+            status: 'active'
+          }));
           saveProducts();
-          syncCategoryDropdowns();
-          renderCategories();
-          renderBestTabs();
           renderAllSections();
           renderAdminProducts();
         }
@@ -4521,25 +1472,18 @@
     function renderCategories() {
       const grid = document.getElementById('categoryGrid');
       if (!grid) return;
-      const populatedCats = getPopulatedCategories();
-      grid.innerHTML = populatedCats.map(cat => {
+      grid.innerHTML = CATEGORIES.map(cat => {
         const label = currentLang === 'en' ? cat.name_en : (currentLang === 'ar' ? cat.name_ar : cat.name_fa);
-        const count = PRODUCTS.filter(p => p.status === 'active' && p.category_id === cat.category_id).length;
         const isActive = activeCategory === cat.category_id ? 'active' : '';
-        return `<div class="cat-card ${isActive}" onclick="selectCategory('${cat.category_id}')">
-          <span class="cat-icon">${renderMediaThumb(cat.icon)}</span>
-          <span class="cat-name">${label}</span>
-          <span class="cat-sub-badge">${toPersianDigits(count)} مورد فعال</span>
-        </div>`;
+        return `<div class="cat-card ${isActive}" onclick="selectCategory('${cat.category_id}')"><span class="cat-icon">${renderMediaThumb(cat.icon)}</span><span class="cat-name">${label}</span></div>`;
       }).join('');
     }
 
     function renderBestTabs() {
       const tabs = document.getElementById('bestTabs');
       if (!tabs) return;
-      const populatedCats = getPopulatedCategories();
       tabs.innerHTML = `<button class="filter-tab ${bestFilter === 'all' ? 'active' : ''}" onclick="setSectionFilter('best', 'all', this)">همه</button>` +
-        populatedCats.slice(0, 6).map(c => `<button class="filter-tab ${bestFilter === c.category_id ? 'active' : ''}" onclick="setSectionFilter('best', '${c.category_id}', this)">${c.name_fa}</button>`).join('');
+        CATEGORIES.slice(0, 5).map(c => `<button class="filter-tab ${bestFilter === c.category_id ? 'active' : ''}" onclick="setSectionFilter('best', '${c.category_id}', this)">${c.name_fa}</button>`).join('');
     }
 
     function createProductCardHTML(p) {
@@ -4680,9 +1624,7 @@
         <div style="text-align:center; font-size:80px; background:var(--bg-surface); border-radius:10px; padding:16px; margin-bottom:14px; height:200px; display:flex; align-items:center; justify-content:center; overflow:hidden;">${renderMediaThumb(p.images[0])}</div>
         <span style="font-size:11px; color:var(--text-muted);">عرضه‌کننده: ${p.vendor_name}</span>
         <h4 style="font-size:17px; margin:6px 0 10px;">${p.product_name}</h4>
-        <p style="font-size:13px; color:var(--text-secondary); margin-bottom:10px; line-height:1.7;">${p.description}</p>
-        ${p.subgroup ? `<div style="font-size:11px; color:#0369a1; margin-bottom:6px;">📂 زیرمجموعه: <strong>${p.subgroup}</strong>${p.leaf ? ` › <strong>${p.leaf}</strong>` : ''} ${p.offer_type ? `| نوع عرضه: <strong>${p.offer_type}</strong>` : ''}</div>` : ''}
-        ${p.attrs && Object.keys(p.attrs).length ? `<div style="background:var(--bg-surface); padding:8px 10px; border-radius:6px; font-size:11px; margin-bottom:12px;">${Object.entries(p.attrs).map(([k, v]) => `<div><strong>${k}:</strong> ${v}</div>`).join('')}</div>` : ''}
+        <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px; line-height:1.7;">${p.description}</p>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
           <span style="font-size:18px; font-weight:bold; color:var(--accent-green);">${formatMoney(finalPrice)}</span>
           <span style="font-size:12px; color:var(--text-muted);">موجودی انبار: ${toPersianDigits(p.stock)} عدد</span>
@@ -4724,29 +1666,6 @@
         }
       } else if (id === 'cartModal') {
         refreshUserAccountUI();
-      } else if (id === 'vendorRoadmapModal') {
-        const dirEl = document.getElementById('all21CategoriesDirectory');
-        if (dirEl) {
-          const activeIds = new Set(PRODUCTS.filter(p => p.status === 'active').map(p => p.category_id));
-          dirEl.innerHTML = CATEGORIES.map((c, i) => {
-            const isLive = activeIds.has(c.category_id);
-            const badge = isLive
-              ? `<span style="background:#dcfce7; color:#166534; padding:2px 7px; border-radius:4px; font-size:10px; font-weight:bold;">فعال در ویترین</span>`
-              : `<span style="background:#f1f5f9; color:#64748b; padding:2px 7px; border-radius:4px; font-size:10px;">مخفی (در انتظار ثبت اولین مورد)</span>`;
-            const sgHtml = (c.subgroups || []).map(sg =>
-              `<div style="margin-top:4px; padding-right:10px;">
-                <strong>• ${{sg.name}}:</strong> <span style="color:#475569;">${{(sg.items || []).join('، ')}}</span>
-              </div>`
-            ).join('');
-            return `<div style="padding:8px 0; border-bottom:1px solid #e2e8f0;">
-              <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                <strong>${{i + 1}}. ${{c.icon}} ${{c.name_fa}}</strong>
-                ${{badge}}
-              </div>
-              ${{sgHtml}}
-            </div>`;
-          }).join('');
-        }
       }
       document.getElementById(id).classList.add('open');
     }
@@ -5276,9 +2195,6 @@
       if (sbClient && p.db_id) {
         try { await sbClient.from('products').update({ title: p.product_name, price: p.price }).eq('id', p.db_id); } catch (e) {}
       }
-      syncCategoryDropdowns();
-      renderCategories();
-      renderBestTabs();
       renderAdminProducts();
       renderAllSections();
     }
@@ -5330,22 +2246,16 @@
         } catch (e) {}
       }
 
-      newProd.subgroup = document.getElementById('admSubgroup')?.value || '';
-      newProd.leaf = document.getElementById('admLeaf')?.value || '';
       PRODUCTS.unshift(newProd);
       saveProducts();
-      syncCategoryDropdowns();
-      renderCategories();
-      renderBestTabs();
       document.getElementById('admTitle').value = '';
       document.getElementById('admPrice').value = '';
       document.getElementById('admDiscount').value = '';
       document.getElementById('admDesc').value = '';
-      if (document.getElementById('adminCatSuggestChips')) document.getElementById('adminCatSuggestChips').innerHTML = '';
       clearProductImage();
       renderAdminProducts();
       renderAllSections();
-      alert('محصول جدید اضافه شد و دسته‌بندی آن برای همه مشتریان فعال گردید!');
+      alert('محصول جدید به ویترین فروشگاه اضافه شد!');
     }
 
     /* --- 2. Categories with Real Image Upload --- */
